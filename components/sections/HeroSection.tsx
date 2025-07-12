@@ -14,7 +14,7 @@ const instrumentSerif = Instrument_Serif({
 
 const HeroSection = () => {
   return (
-    <div className='bg-[#F5F5F5] w-full h-[462px] p-[40px] rounded-[16px] flex flex-col justify-between'>
+    <div className='bg-[#F5F5F5] w-full max-w-7xl mx-auto h-[462px] p-[40px] rounded-[16px] flex flex-col justify-between'>
       {/* Top Row */}
       <div className='flex flex-row justify-between items-start w-full'>
         {/* Top Left */}

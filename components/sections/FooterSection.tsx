@@ -15,7 +15,7 @@ const instrumentSerif = Instrument_Serif({
 
 const Footer = () => {
   return (
-    <footer className="bg-[#F5F5F5] w-full h-[462px] p-[40px] rounded-[16px] flex flex-col justify-between">
+    <footer className="bg-[#F5F5F5] max-w-7xl mx-auto w-full h-[462px] p-[40px] rounded-[16px] flex flex-col justify-between">
       <div className="flex flex-row justify-between items-start w-full">
         {/* Left Side */}
         <div className="flex flex-col justify-between items-start w-3/5">

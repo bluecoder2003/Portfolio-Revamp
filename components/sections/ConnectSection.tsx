@@ -1,4 +1,8 @@
-import { Mail, Twitter } from "lucide-react";
+import { Mail, Github } from "lucide-react";
+import { RiBehanceFill } from "react-icons/ri";
+import { RiTwitterXFill } from "react-icons/ri";
+import { FaDribbble } from "react-icons/fa";
+import { FaLinkedinIn } from "react-icons/fa6";
 
 const contacts = [
   [
@@ -6,30 +10,30 @@ const contacts = [
       icon: <Mail className="w-7 h-7" />, label: "Email", value: "dasneelakshi01@gmail.com", href: "mailto:dasneelakshi01@gmail.com"
     },
     {
-      icon: <Twitter className="w-7 h-7" />, label: "LinkedIn", value: "@bluecoder2003", href: "https://linkedin.com/in/bluecoder2003"
+      icon: <FaLinkedinIn className="w-7 h-7" />, label: "LinkedIn", value: "@bluecoder2003", href: "https://linkedin.com/in/bluecoder2003"
     },
   ],
   [
     {
-      icon: <Twitter className="w-7 h-7" />, label: "Twitter", value: "@bluecoder2003", href: "https://twitter.com/bluecoder2003"
+      icon: <RiTwitterXFill className="w-7 h-7" />, label: "Twitter", value: "@bluecoder2003", href: "https://twitter.com/bluecoder2003"
     },
     {
-      icon: <Twitter className="w-7 h-7" />, label: "Dribbble", value: "@bluecoder2003", href: "https://dribbble.com/bluecoder2003"
+      icon: <FaDribbble className="w-7 h-7" />, label: "Dribbble", value: "@bluecoder2003", href: "https://dribbble.com/bluecoder2003"
     },
   ],
   [
     {
-      icon: <Twitter className="w-7 h-7" />, label: "Github", value: "@bluecoder2003", href: "https://github.com/bluecoder2003"
+      icon: <Github className="w-7 h-7" />, label: "Github", value: "@bluecoder2003", href: "https://github.com/bluecoder2003"
     },
     {
-      icon: <Twitter className="w-7 h-7" />, label: "Behance", value: "@bluecoder2003", href: "https://behance.net/bluecoder2003"
+      icon: <RiBehanceFill className="w-7 h-7" />, label: "Behance", value: "@bluecoder2003", href: "https://behance.net/bluecoder2003"
     },
   ],
 ];
 
 const ConnectSection = () => {
   return (
-    <div className="bg-[#F5F5F5] w-full h-fit p-[40px] rounded-[16px] flex flex-col justify-between gap-[20px]">
+    <div className="bg-[#F5F5F5] w-full max-w-7xl mx-auto h-fit p-[40px] rounded-[16px] flex flex-col justify-between gap-[20px]">
       <div className="text-[28px] font-normal text-black">Connect Maybe?</div>
       <div className="grid grid-cols-3 gap-x-16">
         {contacts.map((col, colIdx) => (

@@ -41,7 +41,7 @@ const circlePositions = ["13%", "40%", "68%", "95%"];
 
 export default function PersonSections() {
   return (
-    <section className="bg-[#F5F5F5] w-full rounded-[20px] p-10 flex flex-col gap-8">
+    <section className="bg-[#F5F5F5] w-full max-w-7xl mx-auto rounded-[20px] p-10 flex flex-col gap-8">
       {/* Header */}
       <div className="text-[28px] md:text-[32px] font-normal text-black mb-2">Behind The Pixels</div>
       <div className="flex flex-col justify-between items-center w-full max-w-5xl mx-auto">
