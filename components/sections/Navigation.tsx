@@ -1,6 +1,6 @@
 export const navigationItems = [
-    { label: "The Playground", href: "#" },
-    { label: "The Projects", href: "#" },
-    { label: "The Person", href: "#" },
-    { label: "Connect Maybe?", href: "#" },
+    { label: "The Playground", href: "#playground" },
+    { label: "The Projects", href: "#projects" },
+    { label: "The Person", href: "#person" },
+    { label: "Connect Maybe?", href: "#connect" },
   ];

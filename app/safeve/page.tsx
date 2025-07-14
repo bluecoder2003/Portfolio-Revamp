@@ -49,7 +49,7 @@ const page = () => {
                 Safeve
               </span>
               <span className="text-2xl font-normal text-black">
-                Enhancing women's safety through anonymous reporting mechanisms
+                Enhancing women&apos;s safety through anonymous reporting mechanisms
               </span>
             </div>
             {/* 3-Column Grid */}

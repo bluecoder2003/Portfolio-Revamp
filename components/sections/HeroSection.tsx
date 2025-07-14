@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { navigationItems } from './Navigation'
-import Image from 'next/image'
 import { CornerRightDown } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 import { Instrument_Serif } from "next/font/google";
+import { RiDoubleQuotesL } from 'react-icons/ri'
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -12,7 +13,37 @@ const instrumentSerif = Instrument_Serif({
   style: "italic",
 });
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  onNavigate?: (section: string) => void;
+  currentSection?: string;
+}
+
+const HeroSection = ({ onNavigate, currentSection = 'playground' }: HeroSectionProps) => {
+  const handleNavigation = (href: string) => {
+    if (onNavigate) {
+      // Map href to section type
+      const sectionMap: { [key: string]: string } = {
+        '#playground': 'playground',
+        '#projects': 'projects', 
+        '#person': 'person',
+        '#connect': 'connect'
+      }
+      const section = sectionMap[href] || 'playground'
+      onNavigate(section)
+    }
+  }
+
+  // Map section to display title
+  const getSectionTitle = (section: string) => {
+    const titleMap: { [key: string]: string } = {
+      'playground': 'The Playground',
+      'projects': 'The Projects',
+      'person': 'The Person', 
+      'connect': 'Connect Maybe?'
+    }
+    return titleMap[section] || 'The Playground'
+  }
+
   return (
     <div className='bg-[#F5F5F5] w-full max-w-7xl mx-auto h-[462px] p-[40px] rounded-[16px] flex flex-col justify-between'>
       {/* Top Row */}
@@ -29,10 +60,20 @@ const HeroSection = () => {
         {/* Top Right Navigation */}
         <div className='grid grid-cols-2 gap-4'>
           {navigationItems.map((item) => (
-            <Link key={item.label} href={item.href} className='flex items-center text-black text-lg gap-2 font-normal'>
-              <Image src="/quote.svg" alt={item.label} width={24} height={24} />
+            <motion.button 
+              key={item.label} 
+              onClick={() => handleNavigation(item.href)}
+              className='flex items-center text-black text-lg gap-2 font-normal hover:text-[#093FB4] transition-colors group'
+              // whileHover={{ scale: .98 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.div
+                className="group-hover:rotate-[-35deg] transition-transform duration-300 ease-in-out bg-black rounded-full p-1 text-white hover:text-[#093FB4] group-hover:bg-[#093FB4]"
+              >
+               <RiDoubleQuotesL size={18} className="group-hover:text-white"/>
+              </motion.div>
               {item.label}
-            </Link>
+            </motion.button>
           ))}
         </div>
       </div>
@@ -49,10 +90,15 @@ const HeroSection = () => {
         </div>
         {/* Bottom Right */}
         <div className='mb-2'>
-          <Link href='#' className='text-[#093FB4] text-lg font-normal flex items-center gap-2'>
-            The Projects
-            <CornerRightDown className='w-5 h-5 mt-1' />
-          </Link>
+          <button 
+            className='text-[#093FB4] text-lg font-normal flex items-center gap-2 transition-colors group'
+          >
+            {getSectionTitle(currentSection)}
+            <div
+            >
+              <CornerRightDown className='w-5 h-5 mt-1' />
+            </div>
+          </button>
         </div>
       </div>
     </div>

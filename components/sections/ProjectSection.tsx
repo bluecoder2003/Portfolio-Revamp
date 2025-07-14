@@ -17,7 +17,7 @@ const mockProjects = [
     date: "02/2025",
     imageSrc: "/s1.svg",
     imagePosition: "!bottom-20 !left-0 ",
-    className: "hover:text-white col-span-4",
+    className: "hover:bg-purple-700 hover:text-white col-span-4",
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ const mockProjects = [
 
 export default function ProjectSection() {
   return (
-    <section className="w-full max-w-7xl mx-auto h-auto bg-[#F5F5F5] rounded-[16px] flex flex-col justify-between p-[40px]">
+    <section className="w-full max-w-7xl mx-auto h-auto rounded-[16px] flex flex-col justify-between">
       <div className="grid grid-cols-12 gap-4">
         {mockProjects.map((project) => (
           <ProjectComponent
