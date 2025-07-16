@@ -15,7 +15,7 @@ const instrumentSerif = Instrument_Serif({
 
 const page = () => {
   return (
-    <div className="h-fit flex items-center justify-center flex-col p-[80px] gap-[10px] bg-[#E6E6E6]">
+    <div className="h-fit flex items-center justify-center flex-col p-4 lg:p-[80px] gap-[10px] bg-[#E6E6E6]">
       <AnimatedSection delay={0.1}>
         <div className="bg-[#F5F5F5] w-full max-w-7xl mx-auto h-fit p-[40px] rounded-[16px] flex flex-col justify-between">
           {/* Top Row: Back Button */}
