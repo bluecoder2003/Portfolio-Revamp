@@ -140,7 +140,7 @@ const NavigationProvider = () => {
   }
 
   return (
-    <div className="h-fit flex items-center justify-center flex-col p-[80px] gap-[10px] bg-[#E6E6E6]">
+    <div className="h-fit flex items-center justify-center flex-col p-4 lg:p-[80px] gap-[10px] bg-[#E6E6E6]">
       {renderSections()}
     </div>
   )

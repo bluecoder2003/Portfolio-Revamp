@@ -33,9 +33,9 @@ const contacts = [
 
 const ConnectSection = () => {
   return (
-    <div className="bg-[#F5F5F5] w-full max-w-7xl mx-auto h-fit p-[40px] rounded-[16px] flex flex-col justify-between gap-[20px]">
+    <div className="bg-[#F5F5F5] w-full max-w-7xl mx-auto h-fit p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between gap-[20px]">
       <div className="text-[28px] font-normal text-black">Connect Maybe?</div>
-      <div className="grid grid-cols-3 gap-x-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {contacts.map((col, colIdx) => (
           <div key={colIdx} className="flex flex-col gap-6">
             {col.map((item, rowIdx) => (

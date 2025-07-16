@@ -45,9 +45,9 @@ const HeroSection = ({ onNavigate, currentSection = 'playground' }: HeroSectionP
   }
 
   return (
-    <div className='bg-[#F5F5F5] w-full max-w-7xl mx-auto h-[462px] p-[40px] rounded-[16px] flex flex-col justify-between'>
+    <div className='bg-[#F5F5F5] w-full max-w-7xl mx-auto h-[800px] lg:h-[462px] p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between'>
       {/* Top Row */}
-      <div className='flex flex-row justify-between items-start w-full'>
+      <div className='flex flex-col lg:flex-row gap-8 lg:gap-0 justify-between items-start w-full'>
         {/* Top Left */}
         <div>
           <span className='text-lg font-normal text-black'>
@@ -58,7 +58,7 @@ const HeroSection = ({ onNavigate, currentSection = 'playground' }: HeroSectionP
           </span>
         </div>
         {/* Top Right Navigation */}
-        <div className='grid grid-cols-2 gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4'>
           {navigationItems.map((item) => (
             <motion.button 
               key={item.label} 
@@ -83,22 +83,22 @@ const HeroSection = ({ onNavigate, currentSection = 'playground' }: HeroSectionP
         <div>
           <div className='text-xl font-normal text-black mb-2'>Hellooo, I&apos;m Neelakshi Das</div>
           <div
-            className={`text-[56px] font-normal text-[#093FB4] leading-none ${instrumentSerif.className}`}
+            className={`text-[48px] md:text-[56px] font-normal text-[#093FB4] leading-none ${instrumentSerif.className}`}
           >
             Designer Engineer
           </div>
         </div>
         {/* Bottom Right */}
         <div className='mb-2'>
-          <button 
-            className='text-[#093FB4] text-lg font-normal flex items-center gap-2 transition-colors group'
+          <div
+            className='text-[#093FB4] text-lg font-normal items-center gap-2 transition-colors hidden md:flex '
           >
             {getSectionTitle(currentSection)}
             <div
             >
               <CornerRightDown className='w-5 h-5 mt-1' />
             </div>
-          </button>
+          </div>
         </div>
       </div>
     </div>
