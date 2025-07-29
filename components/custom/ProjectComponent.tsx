@@ -27,17 +27,17 @@ const ProjectComponent = ({
   // projectDate,
   hoverTextColor,
   hoverArrowColor,
-  onMouseEnter,
-  onMouseLeave,
+  // onMouseEnter,
+  // onMouseLeave,
 }: ProjectComponentProps & { hovered?: boolean }) => {
   return (
     <motion.div
       className={cn(
-        "relative flex flex-col h-[454.5px] flex-1 rounded-[20px] bg-[#F5F5F5] cursor-pointer group",
+        "relative flex flex-col h-[454.5px] flex-1 rounded-[20px] bg-white cursor-pointer group",
         className
       )}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      // onMouseEnter={onMouseEnter}
+      // onMouseLeave={onMouseLeave}
       animate={{ boxShadow: "0 0px 0px rgba(0,0,0,0)" }}
       transition={{
         type: "spring",
@@ -62,7 +62,7 @@ const ProjectComponent = ({
         </div>
         {/* <h3 className="font-normal text-base">{projectDate || "03/2025"}</h3> */}
         <div className="cursor-pointer" onClick={() => {}}>
-          <div className="flex items-center justify-center bg-[#F5F5F5] border-4 border-[#E6E6E6] rounded-full p-2">
+          <div className="flex items-center justify-center bg-white border-4 border-[#E6E6E6] rounded-full p-2">
             <ArrowUpRight className={cn(
               "text-[#7C7C7C] w-10 h-10 transition-colors duration-300",
               `hover:${hoverArrowColor}`

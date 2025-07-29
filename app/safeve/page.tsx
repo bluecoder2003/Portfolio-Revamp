@@ -17,7 +17,7 @@ const page = () => {
   return (
     <div className="h-fit flex items-center justify-center flex-col p-4 lg:p-[80px] gap-[10px] bg-[#E6E6E6]">
       <AnimatedSection delay={0.1}>
-        <div className="bg-[#F5F5F5] w-full max-w-7xl mx-auto h-fit p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between">
+        <div className="bg-white w-full max-w-7xl mx-auto h-fit p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between">
           {/* Top Row: Back Button */}
           <div className="flex flex-row items-start justify-between w-full">
             <Link
@@ -150,7 +150,7 @@ const page = () => {
 
       {/* Next Project Section */}
       <AnimatedSection delay={0.3}>
-        <div className="bg-[#F5F5F5] max-w-7xl mx-auto w-full h-[300px] md:h-[462px] p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between">
+        <div className="bg-white max-w-7xl mx-auto w-full h-[300px] md:h-[462px] p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between">
           <div className="flex flex-row justify-between items-center lg:items-start w-full">
             <span className="text-3xl md:text-4xl lg:text-[64px] font-normal text-black">
               Next Project
