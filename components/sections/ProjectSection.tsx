@@ -5,46 +5,46 @@ import ProjectComponent from "../custom/ProjectComponent";
 const mockProjects = [
   {
     id: 1,
-    title: "Gamify",
-    description: "Gamify is a platform that allows you to create and manage your own games.",
+    title: "DESIGN : Hiyn",
+    description: "Hiyn empowers designers to rise through a dynamic creative hierarchy",
     date: "03/2025",
-    imageSrc: "/FlintDashboard.webp",
-    imagePosition: "!bottom-0 !left-20",
-    className: "hover:bg-purple-700 hover:text-white col-span-1 lg:col-span-7 h-[600px]",
+    imageSrc: "/hiyn.png",
+    imagePosition: "!bottom-0 !right-0 !w-[300px] !h-[300px]",
+    className: "hover:bg-[#6C1200] hover:text-white col-span-1 lg:col-span-6 h-[454px]",
     hoverTextColor: "text-white",
-    hoverArrowColor: "text-purple-700",
+    hoverArrowColor: "text-black",
   },
   {
     id: 2,
-    title: "Flint Dashboard",
-    description: "Flint Dashboard is a platform that allows you to create and manage your own games.",
+    title: "DES & DEV : Flint",
+    description: "It's a platform that allows you to create and manage tasks.",
     date: "02/2025",
-    imageSrc: "/s1.svg",
-    imagePosition: "!bottom-20 !left-0 ",
-    className: "hover:bg-purple-700 hover:text-white col-span-1 lg:col-span-5 h-[600px]",
+    imageSrc: "/flint.png",
+    imagePosition: "!bottom-0 !right-0 !w-[500px] !h-[300px]",
+    className: "hover:bg-[#2D037E] hover:text-white col-span-1 lg:col-span-6 h-[454px]",
     hoverTextColor: "text-white",
     hoverArrowColor: "text-purple-700",
   },
   {
     id: 3,
-    title: "Vexio Platform",
-    description: "Vexio Platform is a platform that allows you to create and manage your own games.",
+    title: "DESIGN : Safeve",
+    description: "Report anonymously. Break the silence, not your privacy.",
     date: "01/2025",
-    imageSrc: "/vexio.svg",
-    imagePosition: "!bottom-0 !left-0",
-    className: "hover:bg-blue-700 hover:text-white col-span-1 lg:col-span-5 h-[600px]",
+    imageSrc: "/safeve.png",
+    imagePosition: "!bottom-0 !right-0 !w-[500px] !h-[300px] lg:h-[400px]",
+    className: "hover:bg-[#DD3418] hover:text-white col-span-1 lg:col-span-8 h-[454px]",
     hoverTextColor: "text-white",
     hoverArrowColor: "text-purple-700",
   },
   {
     id: 4,
-    title: "VNG Solutions",
-    description: "VNG Solutions is a platform that allows you to create and manage your own games.",
+    title: "DESIGN : Vion",
+    description: "Tool that helps you listen to ai generated audiobooks",
     date: "12/2024",
-    imageSrc: "/vng.svg",
+    // imageSrc: "/vng.svg",
     imagePosition: "!bottom-0 !right-0",
-    className: "hover:bg-green-700 hover:text-white col-span-1 lg:col-span-7 h-[600px]",
-    hoverTextColor: "text-white",
+    className: "col-span-1 lg:col-span-4 h-[454px]",
+    // hoverTextColor: "text-white",
     hoverArrowColor: "text-purple-700",
   },
 ];
@@ -56,7 +56,7 @@ export default function ProjectSection() {
       {hoveredId !== null && (
         <div className="fixed inset-0 bg-[#E6E6E6]/70 z-30 transition-all duration-300 pointer-events-none rounded-2xl" />
       )}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-[10px] overflow-hidden relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-[10px] overflow-hidden relative">
         {mockProjects.map((project) => (
           <ProjectComponent
             key={project.id}

@@ -4,6 +4,14 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { Instrument_Serif } from "next/font/google";  
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-instrument-serif",
+  style: "italic",
+});
 
 type ProjectComponentProps = {
   className?: string;
@@ -70,13 +78,19 @@ const ProjectComponent = ({
           </div>
         </div>
       </div>
-      <Image
-        src={imageSrc || "/FlintDashboard.webp"}
-        alt="flint dashboard"
-        width={384}
-        height={216}
-        className={cn("absolute bottom-0", imagePosition)}
-      />
+      {imageSrc ? (
+        <Image
+          src={imageSrc}
+          alt="flint dashboard"
+          width={384}
+          height={216}
+          className={cn("absolute bottom-0", imagePosition)}
+        />
+      ) : (
+        <div className="absolute -bottom-10 left-10 flex items-center justify-center h-[216px]">
+          <p className={`${instrumentSerif.className} text-[40px] font-normal text-black`}>Coming Soon...</p>
+        </div>
+      )}
     </motion.div>
   );
 };

@@ -49,11 +49,13 @@ const HeroSection = ({
   };
 
   return (
-    <div className="bg-white w-full max-w-7xl mx-auto h-[800px] lg:h-fit rounded-[16px] flex flex-col justify-between">
+    <div className="relative bg-white w-full max-w-7xl mx-auto h-[600px] md:h-fit rounded-[16px] flex flex-col justify-between overflow-hidden">
       {/* Top Row */}
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-0 justify-between items-start w-full px-4 md:px-[40px] pt-4 md:pt-[40px]">
+      <div className="absolute top-0 left-0 z-20 h-full flex flex-col lg:flex-row gap-8 lg:gap-0 justify-between items-start w-full px-4 md:px-[40px] pt-4 md:pt-[40px] pointer-events-none">
+        <div className="bg-gradient-to-b from-white to-transparent h-[300px] w-full absolute top-0 left-0 -z-10" />
+        <div className="bg-gradient-to-t from-white to-transparent h-[300px] w-full absolute bottom-0 left-0 -z-10" />
         {/* Top Left */}
-        <div>
+        <div className="pointer-events-auto flex flex-col md:flex-row justify-between items-start w-full gap-8">
           <span className="text-lg font-normal text-black">
             Designer & Developer{" "}
             <span className="text-[#093FB4] underline">
@@ -64,9 +66,7 @@ const HeroSection = ({
               <Link href="https://vexio.in">@vexio.in</Link>
             </span>
           </span>
-        </div>
-        {/* Top Right Navigation */}
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4 w-full md:w-fit">
+          <div className="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
           {navigationItems.map((item) => (
             <motion.button
               key={item.label}
@@ -82,8 +82,30 @@ const HeroSection = ({
             </motion.button>
           ))}
         </div>
+        </div>
+        {/* Top Right Navigation */}
+        {/* <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
+          {navigationItems.map((item) => (
+            <motion.button
+              key={item.label}
+              onClick={() => handleNavigation(item.href)}
+              className="flex items-center text-black text-lg gap-2 font-normal hover:text-[#093FB4] transition-colors group"
+              // whileHover={{ scale: .98 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.div className="group-hover:rotate-[-35deg] transition-transform duration-300 ease-in-out bg-black rounded-full p-1 text-white hover:text-[#093FB4] group-hover:bg-[#093FB4]">
+                <RiDoubleQuotesL size={18} className="group-hover:text-white" />
+              </motion.div>
+              {item.label}
+            </motion.button>
+          ))}
+        </div> */}
       </div>
-      <div className="relative w-full overflow-hidden hidden lg:block">
+      <div className="w-full overflow-hidden z-10">
+        <Rive currentSection={currentSection} />
+      </div>
+
+      {/* <div className="relative w-full overflow-hidden hidden lg:block">
         <svg
           className="absolute w-0 h-0"
           viewBox="0 0 1440 428"
@@ -112,7 +134,6 @@ const HeroSection = ({
         >
           <Rive />
           <Rive />
-          {/* <Rive /> */}
         </div>
       </div>
 
@@ -134,11 +155,10 @@ const HeroSection = ({
         className="w-full py-6 flex-row flex md:hidden"
       >
         <Rive />
-      </div>
-      {/* Bottom Row */}
-      <div className="flex flex-row justify-between items-end w-full px-4 md:px-[40px] pb-4 md:pb-[40px]">
-        {/* Bottom Left */}
-        <div>
+      </div> */}
+      <div className="bg-gradient-to-t from-white to-transparent h-full w-full absolute bottom-0 left-0 z-0" />
+      <div className="absolute bottom-0 left-0 z-20 flex flex-row justify-between items-end w-full px-4 md:px-[40px] pb-4 md:pb-[40px]">
+        <div className="pointer-events-auto">
           <div className="text-xl font-normal text-black mb-2">
             Hellooo, I&apos;m Neelakshi Das
           </div>
@@ -148,8 +168,8 @@ const HeroSection = ({
             Design Engineer
           </div>
         </div>
-        {/* Bottom Right */}
-        <div className="mb-2">
+
+        <div className="mb-2 pointer-events-auto">
           <div className="text-[#093FB4] text-lg font-normal items-center gap-2 transition-colors hidden md:flex ">
             {getSectionTitle(currentSection)}
             <div>
