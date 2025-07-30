@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 type SectionType = 'playground' | 'projects' | 'person' | 'connect'
 
 const NavigationProvider = () => {
-  const [activeSection, setActiveSection] = useState<SectionType>('playground')
+  const [activeSection, setActiveSection] = useState<SectionType>('projects')
 
   const handleNavigate = (section: string) => {
     setActiveSection(section as SectionType)
@@ -31,7 +31,7 @@ const NavigationProvider = () => {
       y: 0,
       scale: 1,
       transition: {
-        duration: 0.5
+        duration: 0.1
       }
     },
     exit: { 
@@ -39,7 +39,7 @@ const NavigationProvider = () => {
       y: -20,
       scale: 0.95,
       transition: {
-        duration: 0.3
+        duration: 0.15
       }
     }
   }
@@ -54,7 +54,7 @@ const NavigationProvider = () => {
             animate="animate"
             exit="exit"
             variants={sectionVariants}
-            className="flex flex-col gap-[10px]"
+            className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto"
           >
             <AnimatedSection delay={0.1}>
               <HeroSection onNavigate={handleNavigate} currentSection="playground" />
@@ -76,7 +76,7 @@ const NavigationProvider = () => {
             animate="animate"
             exit="exit"
             variants={sectionVariants}
-            className="flex flex-col gap-[10px]"
+            className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto"
           >
             <AnimatedSection delay={0.1}>
               <HeroSection onNavigate={handleNavigate} currentSection="projects" />
@@ -98,7 +98,7 @@ const NavigationProvider = () => {
             animate="animate"
             exit="exit"
             variants={sectionVariants}
-            className="flex flex-col gap-[10px]"
+            className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto"
           >
             <AnimatedSection delay={0.1}>
               <HeroSection onNavigate={handleNavigate} currentSection="person" />
@@ -120,7 +120,7 @@ const NavigationProvider = () => {
             animate="animate"
             exit="exit"
             variants={sectionVariants}
-            className="flex flex-col gap-[10px]"
+            className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto"
           >
             <AnimatedSection delay={0.1}>
               <HeroSection onNavigate={handleNavigate} currentSection="connect" />

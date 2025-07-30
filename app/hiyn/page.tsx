@@ -36,7 +36,7 @@ const page = () => {
               <span
                 className={`text-4xl md:text-5xl lg:text-[56px] font-normal text-black leading-none ${instrumentSerif.className}`}
               >
-                Safeve
+                Hiyn
               </span>
               <span className="text-xl lg:text-2xl font-normal text-black w-full">
                 Enhancing women&apos;s safety through anonymous reporting mechanisms
@@ -46,8 +46,8 @@ const page = () => {
               href="#"
               className="items-center gap-2 sm:gap-3 lg:gap-4 bg-black text-white text-lg sm:text-lg lg:text-xl font-normal px-2 sm:px-3 lg:px-6 py-1.5 sm:py-2 lg:py-3 rounded-sm lg:rounded-xl shadow-md flex whitespace-nowrap hover:scale-105 transition-transform"
             >
-              Know More
-              <div className="flex flex-row items-center gap-1 sm:gap-2 bg-[#DD3418] rounded-full p-0.5 sm:p-1">
+              Visit Site
+              <div className="flex flex-row items-center gap-1 sm:gap-2 bg-[#4253D5] rounded-full p-0.5 sm:p-1">
                 <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
               </div>
             </Link>
@@ -99,50 +99,50 @@ const page = () => {
 
       <AnimatedSection delay={0.2}>
         <div className="w-full max-w-7xl mx-auto h-fit flex flex-col justify-between gap-[10px]">
-          <Image
-            src="/s1.svg"
-            alt="Safeve"
-            width={1000}
-            height={1000}
-            className="w-full h-full object-cover"
-          />
-          <Image
-            src="/s2.svg"
-            alt="Safeve"
-            width={1000}
-            height={1000}
-            className="w-full h-full object-cover"
-          />
+        <Image
+              src="/h1.svg"
+              alt="Flint"
+              width={1000}
+              height={1000}
+              className="w-full h-full object-cover rounded-3xl"
+            />
           <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
             <Image
-              src="/s3.svg"
-              alt="Safeve"
+              src="/h2.svg"
+              alt="Flint"
               width={1000}
               height={1000}
               className="w-full h-full object-cover"
             />
             <Image
-              src="/s4.svg"
-              alt="Safeve"
+              src="/h3.svg"
+              alt="Flint"
               width={1000}
               height={1000}
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
-            <Image
-              src="/s5.svg"
-              alt="Safeve"
+          <Image
+              src="/h4.svg"
+              alt="Flint"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-3xl"
+            />
+          <div className="flex flex-col lg:flex-row justify-between items-center w-full h-full gap-[10px]">
+            <Image
+              src="/h5.svg"
+              alt="Flint"
+              width={1000}
+              height={1000}
+              className="w-full h-full lg:h-[700px] object-cover rounded-3xl"
             />
             <Image
-              src="/s6.svg"
-              alt="Safeve"
+              src="/h6.svg"
+              alt="Flint"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover"
+              className="w-full h-full lg:h-[700px] object-cover rounded-3xl"
             />
           </div>
         </div>
