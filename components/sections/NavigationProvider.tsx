@@ -9,6 +9,8 @@ import PlaygroundSection from './PlaygroundSection'
 import FooterSection from './FooterSection'
 import AnimatedSection from '../ui/animated-section'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ModalProvider } from '../context/ModalContext'
+import ModalWrapper from '../custom/ModalWrapper'
 
 type SectionType = 'playground' | 'projects' | 'person' | 'connect'
 
@@ -140,9 +142,12 @@ const NavigationProvider = () => {
   }
 
   return (
-    <div className="h-fit flex items-center justify-center flex-col p-4 lg:p-[80px] gap-[10px] bg-[#E6E6E6]">
-      {renderSections()}
-    </div>
+    <ModalProvider>
+      <div className="h-fit flex items-center justify-center flex-col p-4 lg:p-[80px] gap-[10px] bg-[#E6E6E6]">
+        {renderSections()}
+      </div>
+      <ModalWrapper />
+    </ModalProvider>
   )
 }
 

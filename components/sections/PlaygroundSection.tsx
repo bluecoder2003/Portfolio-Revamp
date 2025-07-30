@@ -1,75 +1,90 @@
-import React, { useState } from "react";
-import ProjectComponent from "../custom/ProjectComponent";
+import React from "react";
+import PlaygroundComponent from "../custom/PlaygroundComponent";
+import { useModal } from "../context/ModalContext";
 
 const mockProjects = [
   {
     id: 1,
     title: "DEVELOPMENT",
-    description: "I'm a developer who loves to build things with code.",
+    description: "A credit card masking concept",
     date: "03/2025",
-    imageSrc: "/FlintDashboard.webp",
-    imagePosition: "!bottom-0 !left-1/3",
-    className: "hover:bg-blue-600 hover:text-white col-span-1 lg:col-span-7 h-[454px]",
-    hoverTextColor: "text-white",
-    hoverArrowColor: "text-red-500",
+    videoSrc: "/credit-card.mov",
+    mediaType: "video" as const,
+    className: "col-span-1 lg:col-span-7 h-[500px]",
+    // showMaximizeButton: true,
   },
   {
     id: 2,
-    title: "Flint Dashboard",
-    description: "Flint Dashboard is a platform that allows you to create and manage your own games.",
+    title: "DESIGN",
+    description: "A holographic logo design",
     date: "02/2025",
-    imageSrc: "/s1.svg",
-    imagePosition: "!bottom-20 !left-0 ",
-    className: "hover:bg-green-600 hover:text-white col-span-1 lg:col-span-5 h-[454px]",
-    hoverTextColor: "text-white",
-    hoverArrowColor: "text-red-500",
+    imageSrc: "/luce-dark.png",
+    mediaType: "image" as const,
+    className: "col-span-1 lg:col-span-5 h-[500px]",
+    showMaximizeButton: true,
   },
   {
     id: 3,
-    title: "Vexio Platform",
-    description: "Vexio Platform is a platform that allows you to create and manage your own games.",
+    title: "DESIGN",
+    description: "Pause before you reel: Because you deserve a guilty conscience 🤡",
+    text: "What if every tap on the Reels button came with a sarcastic, guilt-inducing reality check? <br/> Say hello to brutally honest pop-ups that make you laugh, cringe, and maybe—just maybe—stop scrolling.",
     date: "01/2025",
-    imageSrc: "/vexio.svg",
-    imagePosition: "!bottom-0 !left-0",
-    className: "hover:bg-purple-600 hover:text-white col-span-1 lg:col-span-5 h-[454px]",
-    hoverTextColor: "text-white",
-    hoverArrowColor: "text-red-500",
+    className: "col-span-1 lg:col-span-6 h-[546px]",
   },
   {
     id: 4,
-    title: "VNG Solutions",
-    description: "VNG Solutions is a platform that allows you to create and manage your own games.",
-    date: "12/2024",
-    imageSrc: "/vng.svg",
-    imagePosition: "!bottom-0 !right-0",
-    className: "hover:bg-orange-600 hover:text-white col-span-1 lg:col-span-7 h-[454px]",
-    hoverTextColor: "text-white",
-    hoverArrowColor: "text-red-500",
+    imageSrc: "/funny.gif",
+    mediaType: "image" as const,
+    className: "col-span-1 lg:col-span-6 h-[546px]",
+  },
+  {
+    id: 5,
+    title: "DEVELOPMENT",
+    description: "A college website",
+    date: "03/2025",
+    videoSrc: "/aot.mov",
+    mediaType: "video" as const,
+    className: "col-span-1 lg:col-span-5 h-[500px]",
+    showRedirectButton: true,
+  },
+  {
+    id: 6,
+    title: "DEVELOPMENT",
+    description: "Just a potterhead (built in Nextjs)",
+    date: "02/2025",
+    videoSrc: "/potter.mov",
+    mediaType: "video" as const,
+    className: "col-span-1 lg:col-span-7 h-[500px]",
   },
 ];
 
 export default function PlaygroundSection() {
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const { openModal } = useModal();
+
+  const handleMaximizeClick = (projectId: number) => {
+    if (projectId === 2) {
+      openModal();
+    }
+  };
+
   return (
     <section className="w-full max-w-7xl mx-auto h-auto rounded-[16px] flex flex-col justify-between relative">
-      {hoveredId !== null && (
-        <div className="fixed inset-0 bg-[#E6E6E6]/70 z-30 transition-all duration-300 pointer-events-none rounded-2xl" />
-      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-[10px] overflow-hidden relative">
         {mockProjects.map((project) => (
-          <ProjectComponent
+          <PlaygroundComponent
             key={project.id}
-            className={project.className + (hoveredId === project.id ? " z-40" : " z-10")}
-            imagePosition={project.imagePosition}
+            className={project.className}
             imageSrc={project.imageSrc}
+            videoSrc={project.videoSrc}
+            mediaType={project.mediaType}
             projectTitle={project.title}
             projectDescription={project.description}
+            projectText={project.text}
             projectDate={project.date}
-            hoverTextColor={project.hoverTextColor}
-            hoverArrowColor={project.hoverArrowColor}
-            onMouseEnter={() => setHoveredId(project.id)}
-            onMouseLeave={() => setHoveredId(null)}
-            hovered={hoveredId === project.id}
+            showMaximizeButton={project.showMaximizeButton}
+            showRedirectButton={project.showRedirectButton}
+            onMaximizeClick={() => handleMaximizeClick(project.id)}
           />
         ))}
       </div>

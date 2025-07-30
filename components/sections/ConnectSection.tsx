@@ -10,7 +10,7 @@ const contacts = [
       icon: <Mail className="w-7 h-7" />, label: "Email", value: "dasneelakshi01@gmail.com", href: "mailto:dasneelakshi01@gmail.com"
     },
     {
-      icon: <FaLinkedinIn className="w-7 h-7" />, label: "LinkedIn", value: "@bluecoder2003", href: "https://linkedin.com/in/bluecoder2003"
+      icon: <FaLinkedinIn className="w-7 h-7" />, label: "LinkedIn", value: "@neelakshi", href: "https://www.linkedin.com/in/neelakshi-das-b0ba68244/"
     },
   ],
   [
@@ -26,7 +26,7 @@ const contacts = [
       icon: <Github className="w-7 h-7" />, label: "Github", value: "@bluecoder2003", href: "https://github.com/bluecoder2003"
     },
     {
-      icon: <RiBehanceFill className="w-7 h-7" />, label: "Behance", value: "@bluecoder2003", href: "https://behance.net/bluecoder2003"
+      icon: <RiBehanceFill className="w-7 h-7" />, label: "Behance", value: "@neelakshi", href: "https://www.behance.net/neelakshi"
     },
   ],
 ];

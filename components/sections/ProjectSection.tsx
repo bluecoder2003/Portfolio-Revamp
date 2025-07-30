@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import ProjectComponent from "../custom/ProjectComponent";
 
 // Mock data for projects
@@ -13,6 +14,7 @@ const mockProjects = [
     className: "hover:bg-[#6C1200] hover:text-white col-span-1 lg:col-span-6 h-[454px]",
     hoverTextColor: "text-white",
     hoverArrowColor: "text-black",
+    route: "/hiyn",
   },
   {
     id: 2,
@@ -24,6 +26,7 @@ const mockProjects = [
     className: "hover:bg-[#2D037E] hover:text-white col-span-1 lg:col-span-6 h-[454px]",
     hoverTextColor: "text-white",
     hoverArrowColor: "text-purple-700",
+    route: "/flint",
   },
   {
     id: 3,
@@ -35,6 +38,7 @@ const mockProjects = [
     className: "hover:bg-[#DD3418] hover:text-white col-span-1 lg:col-span-8 h-[454px]",
     hoverTextColor: "text-white",
     hoverArrowColor: "text-purple-700",
+    route: "/safeve",
   },
   {
     id: 4,
@@ -51,6 +55,12 @@ const mockProjects = [
 
 export default function ProjectSection() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const router = useRouter();
+
+  const handleProjectClick = (route: string) => {
+    router.push(route);
+  };
+
   return (
     <section className="w-full max-w-7xl mx-auto h-auto rounded-[16px] flex flex-col justify-between relative">
       {hoveredId !== null && (
@@ -68,8 +78,10 @@ export default function ProjectSection() {
             projectDate={project.date}
             hoverTextColor={project.hoverTextColor}
             hoverArrowColor={project.hoverArrowColor}
+            route={project.route}
             onMouseEnter={() => setHoveredId(project.id)}
             onMouseLeave={() => setHoveredId(null)}
+            onClick={() => project.route && handleProjectClick(project.route)}
           />
         ))}
       </div>

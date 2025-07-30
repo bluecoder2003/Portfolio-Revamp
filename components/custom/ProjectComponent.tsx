@@ -22,8 +22,10 @@ type ProjectComponentProps = {
   projectDate?: string;
   hoverTextColor?: string;
   hoverArrowColor?: string;
+  route?: string;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+  onClick?: () => void;
 };
 
 const ProjectComponent = ({
@@ -37,6 +39,7 @@ const ProjectComponent = ({
   hoverArrowColor,
   // onMouseEnter,
   // onMouseLeave,
+  onClick,
 }: ProjectComponentProps & { hovered?: boolean }) => {
   return (
     <motion.div
@@ -46,6 +49,7 @@ const ProjectComponent = ({
       )}
       // onMouseEnter={onMouseEnter}
       // onMouseLeave={onMouseLeave}
+      onClick={onClick}
       animate={{ boxShadow: "0 0px 0px rgba(0,0,0,0)" }}
       transition={{
         type: "spring",
