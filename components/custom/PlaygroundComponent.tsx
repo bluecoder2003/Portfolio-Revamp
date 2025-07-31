@@ -17,6 +17,7 @@ type PlaygroundComponentProps = {
   projectText?: string;
   showMaximizeButton?: boolean;
   showRedirectButton?: boolean;
+  redirectLink?: string;
   onMaximizeClick?: () => void;
 };
 
@@ -31,6 +32,7 @@ const PlaygroundComponent = ({
   projectText,
   showMaximizeButton = false,
   showRedirectButton = false,
+  redirectLink,
   onMaximizeClick,
 }: PlaygroundComponentProps & { hovered?: boolean }) => {
   const hasTextContent = projectTitle || projectDescription || projectDate;
@@ -116,7 +118,7 @@ const PlaygroundComponent = ({
           )}
           {showRedirectButton && (
             <div className="absolute md:bottom-4 md:right-4 right-2 bottom-2 z-10">
-              <button className="p-2 lg:p-4 rounded-full bg-[#222222] hover:bg-[#333333] transition-colors" onClick={() => window.open(imageSrc, '_blank')}>
+              <button className="p-2 lg:p-4 rounded-full bg-[#222222] hover:bg-[#333333] transition-colors" onClick={() => window.open(redirectLink, '_blank')}>
                 <ArrowUpRight className="w-6 h-6 lg:w-8 lg:h-8 text-[#FFF2E9]" strokeWidth={1} />
               </button>
             </div>

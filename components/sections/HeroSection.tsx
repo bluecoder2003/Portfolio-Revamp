@@ -66,7 +66,7 @@ const HeroSection = ({
               <Link href="https://vexio.in">@vexio.in</Link>
             </span>
           </span>
-          <div className="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
           {navigationItems.map((item) => (
             <motion.button
               key={item.label}

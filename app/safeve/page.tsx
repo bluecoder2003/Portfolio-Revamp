@@ -1,9 +1,11 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { RiHeartFill } from "react-icons/ri";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import AnimatedSection from "@/components/ui/animated-section";
 
 const instrumentSerif = Instrument_Serif({
@@ -13,7 +15,13 @@ const instrumentSerif = Instrument_Serif({
   style: "italic",
 });
 
-const page = () => {
+const Page = () => {
+  const router = useRouter();
+
+  const handleNextProjectClick = () => {
+    router.push("/hiyn");
+  };
+
   return (
     <div className="h-fit flex items-center justify-center flex-col p-4 lg:p-[80px] gap-[10px] bg-[#E6E6E6]">
       <AnimatedSection delay={0.1}>
@@ -38,17 +46,17 @@ const page = () => {
               >
                 Safeve
               </span>
-              <span className="text-xl lg:text-2xl font-normal text-black w-full">
+              <span className="text-lg lg:text-xl font-normal text-gray-700 w-full">
                 Enhancing women&apos;s safety through anonymous reporting mechanisms
               </span>
             </div>
             <Link
-              href="#"
-              className="items-center gap-2 sm:gap-3 lg:gap-4 bg-black text-white text-lg sm:text-lg lg:text-xl font-normal px-2 sm:px-3 lg:px-6 py-1.5 sm:py-2 lg:py-3 rounded-sm lg:rounded-xl shadow-md flex whitespace-nowrap hover:scale-105 transition-transform"
+              href="https://www.behance.net/gallery/223013105/Safeve"
+              className="items-center gap-2 sm:gap-3 lg:gap-4 bg-black text-white text-base font-normal px-4 py-2 rounded-md shadow-md flex whitespace-nowrap"
             >
               Know More
               <div className="flex flex-row items-center gap-1 sm:gap-2 bg-[#DD3418] rounded-full p-0.5 sm:p-1">
-                <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
+                <ArrowUpRight className="w-4 h-4 text-white" />
               </div>
             </Link>
             </div>
@@ -56,10 +64,10 @@ const page = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-3 lg:mt-6">
               {/* Project Overview */}
               <div className="border border-dashed border-zinc-300 rounded-2xl p-4 lg:p-6 h-full flex flex-col">
-                <div className="text-xl lg:text-2xl font-normal text-black mb-4">
+                <div className="text-lg lg:text-xl font-normal text-gray-700 mb-4">
                   Project Overview
                 </div>
-                <div className="text-base lg:text-lg font-normal text-black">
+                <div className="text-base font-normal text-black">
                   Despite laws like the POSH Act, women&apos;s safety remains a
                   serious concern. Fear of backlash and stigma often silence
                   victims of workplace and institutional harassment—especially
@@ -69,24 +77,24 @@ const page = () => {
               </div>
               {/* Problem Statement */}
               <div className="border border-dashed border-zinc-300 rounded-2xl p-4 lg:p-6 h-full flex flex-col">
-                <div className="text-xl lg:text-2xl font-normal text-black mb-4">
+                <div className="text-lg lg:text-xl font-normal text-gray-700 mb-4">
                   Problem Statement
                 </div>
-                <div className="text-base lg:text-lg font-normal text-black">
+                <div className="text-base font-normal text-black">
                   User Problem: Fear and stigma stop women from reporting
                   harassment.
                 </div>
-                <div className="text-base lg:text-lg font-normal text-black mt-2">
+                <div className="text-base font-normal text-black mt-2">
                   Institutional Problem: Without reports, organisations miss
                   patterns and risk a toxic culture.
                 </div>
               </div>
               {/* Proposed Solution */}
               <div className="border border-dashed border-zinc-300 rounded-2xl p-4 lg:p-6 h-full flex flex-col">
-                <div className="text-xl lg:text-2xl font-normal text-black mb-4">
+                <div className="text-lg lg:text-xl font-normal text-gray-700 mb-4">
                   Proposed Solution
                 </div>
-                <div className="text-base lg:text-lg font-normal text-black">
+                <div className="text-base font-normal text-black">
                   A secure, anonymous reporting system that empowers victims,
                   helps organizations spot patterns, and fosters a culture of
                   trust and accountability.
@@ -156,7 +164,10 @@ const page = () => {
               Next Project
             </span>
             <div className="flex items-center justify-center">
-              <div className="bg-black rounded-full w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center">
+              <div 
+                className="bg-black rounded-full w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center cursor-pointer hover:bg-gray-800 transition-colors duration-300"
+                onClick={handleNextProjectClick}
+              >
                 <ArrowUpRight className="text-white w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10" />
               </div>
             </div>
@@ -177,4 +188,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

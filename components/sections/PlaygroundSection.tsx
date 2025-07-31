@@ -46,6 +46,7 @@ const mockProjects = [
     mediaType: "video" as const,
     className: "col-span-1 lg:col-span-5 h-[500px]",
     showRedirectButton: true,
+    redirectLink: "https://monoid-prod.vercel.app/",
   },
   {
     id: 6,
@@ -84,6 +85,7 @@ export default function PlaygroundSection() {
             projectDate={project.date}
             showMaximizeButton={project.showMaximizeButton}
             showRedirectButton={project.showRedirectButton}
+            redirectLink={project.redirectLink}
             onMaximizeClick={() => handleMaximizeClick(project.id)}
           />
         ))}
