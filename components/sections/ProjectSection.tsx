@@ -64,13 +64,13 @@ export default function ProjectSection() {
   return (
     <section className="w-full max-w-7xl mx-auto h-auto rounded-[16px] flex flex-col justify-between relative">
       {hoveredId !== null && (
-        <div className="fixed inset-0 bg-[#E6E6E6]/70 z-30 transition-all duration-300 pointer-events-none rounded-2xl" />
+        <div className="fixed inset-0 bg-[#E6E6E6]/70 z-30 transition-all duration-400 ease-out pointer-events-none rounded-2xl" />
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-[10px] overflow-hidden relative">
         {mockProjects.map((project) => (
           <ProjectComponent
             key={project.id}
-            className={project.className + (hoveredId === project.id ? " shadow-2xl transition-all duration-300 z-40" : " z-10")}
+            className={project.className + (hoveredId === project.id ? " shadow-2xl transition-all duration-400 ease-out z-40" : " z-10")}
             imagePosition={project.imagePosition}
             imageSrc={project.imageSrc}
             projectTitle={project.title}

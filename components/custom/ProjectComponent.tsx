@@ -44,7 +44,7 @@ const ProjectComponent = ({
   return (
     <motion.div
       className={cn(
-        "relative flex flex-col h-[454.5px] flex-1 rounded-[20px] bg-white cursor-pointer group",
+        "relative flex flex-col h-[454.5px] flex-1 rounded-[20px] bg-white cursor-pointer group transition-all duration-300 ease-out",
         className
       )}
       // onMouseEnter={onMouseEnter}
@@ -62,10 +62,10 @@ const ProjectComponent = ({
     >
       <div className="flex justify-between items-start gap-4 pt-4 md:pt-8 px-4 md:px-8">
         <div className="flex flex-col gap-2">
-          <h3 className="font-normal transition-colors duration-300 text-xl">{projectTitle || "Gamify"}</h3>
+          <h3 className="font-normal transition-all duration-300 ease-out text-xl">{projectTitle || "Gamify"}</h3>
           {/* {projectDescription && ( */}
             <p className={cn(
-              "font-normal text-lg transition-colors duration-300 text-[#7C7C7C]",
+              "font-normal text-lg transition-all duration-300 ease-out text-[#7C7C7C]",
               hoverTextColor && `group-hover:${hoverTextColor}`
             )}>
               {projectDescription}
@@ -74,9 +74,9 @@ const ProjectComponent = ({
         </div>
         {/* <h3 className="font-normal text-base">{projectDate || "03/2025"}</h3> */}
         <div className="cursor-pointer" onClick={() => {}}>
-          <div className="flex items-center justify-center bg-white border-4 border-[#E6E6E6] rounded-full p-2">
+          <div className="flex items-center justify-center bg-white border-4 border-[#E6E6E6] rounded-full p-2 transition-all duration-300 ease-out">
             <ArrowUpRight className={cn(
-              "text-[#7C7C7C] w-10 h-10 transition-colors duration-300",
+              "text-[#7C7C7C] w-10 h-10 transition-all duration-300 ease-out",
               `hover:${hoverArrowColor}`
             )} />
           </div>
