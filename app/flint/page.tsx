@@ -90,30 +90,32 @@ const Page = () => {
         <div className="w-full max-w-7xl mx-auto h-fit flex flex-col justify-between gap-[10px]">
           <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
             <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f1.png"
+              src="/f1.webp"
               alt="Flint"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-3xl"
             />
             <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f2.svg"
+              // src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f2.svg"
+              src="/f2.webp"
               alt="Flint"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover"
+              className="w-full h-full lg:w-[464px] lg:h-[669px] object-cover rounded-3xl"
             />
           </div>
           <div className="flex flex-col lg:flex-row justify-between items-center w-full h-full gap-[10px]">
             <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f3.svg"
+              // src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f3.svg"
+              src="/f3.webp"
               alt="Flint"
               width={1000}
               height={1000}
               className="w-full h-full lg:h-[500px] object-cover rounded-3xl"
             />
            <video
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/card.mov"
+              src="/card.webm"
               width={1000}
               height={1000}
               autoPlay
@@ -124,14 +126,15 @@ const Page = () => {
             />
           </div>
           <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f4.svg"
+              // src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f4.svg"
+              src="/f4.webp"
               alt="Flint"
               width={1000}
               height={1000}
               className="w-full h-full object-cover rounded-3xl"
             />
           <video
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/kanban.mov"
+              src="/kanban.webm"
               width={1000}
               height={1000}
               autoPlay

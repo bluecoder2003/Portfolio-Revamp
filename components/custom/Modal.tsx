@@ -25,7 +25,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             className="bg-[#FFF2E9] rounded-[20px] max-w-5xl w-full max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
           >
             <div className="p-4 md:p-8">
               <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6">
@@ -39,7 +39,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
               <div className="mb-8 hidden md:block">
                 <Image
-                  src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/luce-web.png"
+                  src="/luce-web.webp"
                   alt="Holographic Logo"
                   width={1000}
                   height={1000}
@@ -47,7 +47,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               </div>
               <div className="mb-8 md:hidden flex flex-col justify-center items-center">
                 <Image
-                  src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/luce-mobile.png"
+                  src="/luce-mobile.webp"
                   alt="Holographic Logo"
                   width={800}
                   height={800}
