@@ -8,9 +8,17 @@ export const metadata: Metadata = {
   authors: [{ name: "Neelakshi Das" }],
   robots: "index, follow",
   openGraph: {
-    title: "Portfolio | Neelakshi Das",
+    title: "Crafting Stories",
     description: "Neelakshi Das's Portfolio",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Neelakshi Das Portfolio Preview",
+      },
+    ],
   },
 };
 
