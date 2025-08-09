@@ -33,7 +33,7 @@ const mockProjects = [
     title: "DESIGN : Safeve",
     description: "Report anonymously. Break the silence, not your privacy.",
     date: "01/2025",
-    imageSrc: "/safeve.png",
+    imageSrc: "/safeve.webp",
     imagePosition: "!bottom-0 !right-0 !w-[500px] !h-[300px] lg:h-[400px]",
     className: "hover:bg-[#DD3418] hover:text-white col-span-1 lg:col-span-8 h-[454px]",
     hoverTextColor: "text-white",
