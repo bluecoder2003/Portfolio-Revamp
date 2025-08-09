@@ -46,6 +46,11 @@ const ModalWrapper = dynamic(() => import("../custom/ModalWrapper"), {
   ssr: false,
 });
 
+// Import ViewportLoader for additional optimization
+const ViewportLoader = dynamic(() => import("../ui/viewport-loader"), {
+  ssr: false,
+});
+
 type SectionType = "playground" | "projects" | "person" | "connect";
 
 // Lightweight animation variants - much simpler than before
@@ -88,9 +93,9 @@ const NavigationProvider = () => {
             animate="visible"
             transition={{ delay: 0.1 }}
           >
-            {/* <ViewportLoader> */}
-            <PlaygroundSection />
-            {/* </ViewportLoader> */}
+            <ViewportLoader>
+              <PlaygroundSection />
+            </ViewportLoader>
           </motion.div>
           <motion.div
             variants={lightVariants}
@@ -120,9 +125,9 @@ const NavigationProvider = () => {
             animate="visible"
             transition={{ delay: 0.1 }}
           >
-            {/* <ViewportLoader> */}
-            <ProjectSection />
-            {/* </ViewportLoader> */}
+            <ViewportLoader>
+              <ProjectSection />
+            </ViewportLoader>
           </motion.div>
           <motion.div
             variants={lightVariants}
@@ -149,9 +154,9 @@ const NavigationProvider = () => {
             animate="visible"
             transition={{ delay: 0.1 }}
           >
-            {/* <ViewportLoader> */}
-            <PersonSection />
-            {/* </ViewportLoader> */}
+            <ViewportLoader>
+              <PersonSection />
+            </ViewportLoader>
           </motion.div>
           <motion.div
             variants={lightVariants}
@@ -178,9 +183,9 @@ const NavigationProvider = () => {
             animate="visible"
             transition={{ delay: 0.1 }}
           >
-            {/* <ViewportLoader> */}
-            <ConnectSection />
-            {/* </ViewportLoader> */}
+            <ViewportLoader>
+              <ConnectSection />
+            </ViewportLoader>
           </motion.div>
           <motion.div
             variants={lightVariants}

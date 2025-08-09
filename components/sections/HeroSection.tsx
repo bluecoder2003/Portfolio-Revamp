@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 import dynamic from "next/dynamic";
 
 import { Instrument_Serif } from "next/font/google";
-import { RiDoubleQuotesL } from "react-icons/ri";
+import { QuoteIcon } from "../ui/icons";
 
 // Lazy load Rive component to reduce initial bundle size
 const Rive = dynamic(() => import("../custom/Rive"), {
@@ -85,10 +85,7 @@ const HeroSection = ({
                 transition={{ duration: 0.2 }}
               >
                 <motion.div className="group-hover:rotate-[-35deg] transition-transform duration-300 ease-in-out bg-black rounded-full p-1 text-white hover:text-[#093FB4] group-hover:bg-[#093FB4]">
-                  <RiDoubleQuotesL
-                    size={18}
-                    className="group-hover:text-white"
-                  />
+                  <QuoteIcon size={18} className="group-hover:text-white" />
                 </motion.div>
                 {item.label}
               </motion.button>
@@ -106,7 +103,7 @@ const HeroSection = ({
               transition={{ duration: 0.2 }}
             >
               <motion.div className="group-hover:rotate-[-35deg] transition-transform duration-300 ease-in-out bg-black rounded-full p-1 text-white hover:text-[#093FB4] group-hover:bg-[#093FB4]">
-                <RiDoubleQuotesL size={18} className="group-hover:text-white" />
+                <QuoteIcon size={18} className="group-hover:text-white" />
               </motion.div>
               {item.label}
             </motion.button>

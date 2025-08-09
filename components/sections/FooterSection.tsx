@@ -1,9 +1,9 @@
 // components/Footer.tsx
 import Link from "next/link";
 import { navigationItems } from "./Navigation";
-// import { FaHeart } from "react-icons/fa";
+
 import { motion } from "motion/react";
-import { RiDoubleQuotesL } from "react-icons/ri";
+import { QuoteIcon } from "../ui/icons";
 import { useState, useEffect } from "react";
 
 import { Instrument_Serif } from "next/font/google";
@@ -75,10 +75,7 @@ const Footer = ({ onNavigate }: FooterProps) => {
               transition={{ duration: 0.2 }}
             >
               <motion.div className="group-hover:rotate-[-35deg] transition-transform duration-300 ease-in-out bg-white rounded-full p-1 text-[#093FB4] hover:text-[#093FB4] group-hover:bg-white">
-                <RiDoubleQuotesL
-                  size={18}
-                  className="group-hover:text-[#093FB4]"
-                />
+                <QuoteIcon size={18} className="group-hover:text-[#093FB4]" />
               </motion.div>
               {item.label}
             </motion.button>

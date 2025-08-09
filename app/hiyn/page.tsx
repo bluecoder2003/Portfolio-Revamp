@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { RiHeartFill } from "react-icons/ri";
+import { HeartIcon } from "../../components/ui/icons";
 import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -40,25 +40,26 @@ const Page = () => {
           <div className="flex flex-col gap-4 mt-2">
             {/* Heading and Subtitle */}
             <div className="flex flex-col md:flex-row justify-between items-start w-full gap-3">
-            <div className="flex flex-col gap-2">
-              <span
-                className={`text-4xl md:text-5xl lg:text-[56px] font-normal text-black leading-none ${instrumentSerif.className}`}
-              >
-                Hiyn
-              </span>
-              <span className="text-lg lg:text-xl font-normal text-gray-700 w-full">
-              A platform for UI/UX designers to learn, collaborate, and get hired
-              </span>
-            </div>
-            <Link
-              href="https://www.figma.com/design/LwuOEOI3vfOWRzAmS7EVQx/hiyn?node-id=545-528&t=QpCChzpieddcQgjb-1"
-              className="items-center gap-2 sm:gap-3 lg:gap-4 bg-black text-white text-base font-normal px-4 py-2 rounded-md shadow-md flex whitespace-nowrap"
-            >
-              View Figma
-              <div className="flex flex-row items-center gap-1 sm:gap-2 bg-[#AD1F04] rounded-full p-0.5 sm:p-1">
-                <ArrowUpRight className="w-4 h-4 text-white" />
+              <div className="flex flex-col gap-2">
+                <span
+                  className={`text-4xl md:text-5xl lg:text-[56px] font-normal text-black leading-none ${instrumentSerif.className}`}
+                >
+                  Hiyn
+                </span>
+                <span className="text-lg lg:text-xl font-normal text-gray-700 w-full">
+                  A platform for UI/UX designers to learn, collaborate, and get
+                  hired
+                </span>
               </div>
-            </Link>
+              <Link
+                href="https://www.figma.com/design/LwuOEOI3vfOWRzAmS7EVQx/hiyn?node-id=545-528&t=QpCChzpieddcQgjb-1"
+                className="items-center gap-2 sm:gap-3 lg:gap-4 bg-black text-white text-base font-normal px-4 py-2 rounded-md shadow-md flex whitespace-nowrap"
+              >
+                View Figma
+                <div className="flex flex-row items-center gap-1 sm:gap-2 bg-[#AD1F04] rounded-full p-0.5 sm:p-1">
+                  <ArrowUpRight className="w-4 h-4 text-white" />
+                </div>
+              </Link>
             </div>
             {/* 3-Column Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 lg:gap-6 mt-3 lg:mt-6">
@@ -68,19 +69,25 @@ const Page = () => {
                   Project Overview
                 </div>
                 <div className="text-base font-normal text-black">
-                A digital platform for UI/UX designers that merges learning, collaboration, and recruitment—helping learners grow and showcase their skills while enabling companies to discover top design talent.
+                  A digital platform for UI/UX designers that merges learning,
+                  collaboration, and recruitment—helping learners grow and
+                  showcase their skills while enabling companies to discover top
+                  design talent.
                 </div>
               </div>
-        
+
               {/* Proposed Solution */}
               <div className="border border-dashed border-zinc-300 rounded-2xl p-4 lg:p-6 h-full flex flex-col">
                 <div className="text-lg lg:text-xl font-normal text-gray-700 mb-4">
                   Proposed Solution
                 </div>
                 <div className="text-base font-normal text-black">
-                Develop an all-in-one platform where UI/UX designers can learn through curated modules, build real-world projects, collaborate with peers, and maintain a public portfolio. <br/>
-
-Recruiters can explore these portfolios and track skill progression to identify and hire top talent efficiently.
+                  Develop an all-in-one platform where UI/UX designers can learn
+                  through curated modules, build real-world projects,
+                  collaborate with peers, and maintain a public portfolio.{" "}
+                  <br />
+                  Recruiters can explore these portfolios and track skill
+                  progression to identify and hire top talent efficiently.
                 </div>
               </div>
             </div>
@@ -90,13 +97,13 @@ Recruiters can explore these portfolios and track skill progression to identify 
 
       <AnimatedSection delay={0.2}>
         <div className="w-full max-w-7xl mx-auto h-fit flex flex-col justify-between gap-[10px]">
-        <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h1.svg"
-              alt="Flint"
-              width={1000}
-              height={1000}
-              className="w-full h-full object-cover rounded-3xl"
-            />
+          <Image
+            src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h1.svg"
+            alt="Flint"
+            width={1000}
+            height={1000}
+            className="w-full h-full object-cover rounded-3xl"
+          />
           <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
             <Image
               src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h2.svg"
@@ -114,12 +121,12 @@ Recruiters can explore these portfolios and track skill progression to identify 
             />
           </div>
           <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h4.svg"
-              alt="Flint"
-              width={1000}
-              height={1000}
-              className="w-full h-full object-cover rounded-3xl"
-            />
+            src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h4.svg"
+            alt="Flint"
+            width={1000}
+            height={1000}
+            className="w-full h-full object-cover rounded-3xl"
+          />
           <div className="flex flex-col lg:flex-row justify-between items-center w-full h-full gap-[10px]">
             <Image
               src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h5.svg"
@@ -147,7 +154,7 @@ Recruiters can explore these portfolios and track skill progression to identify 
               Next Project
             </span>
             <div className="flex items-center justify-center">
-              <div 
+              <div
                 className="bg-black rounded-full w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center cursor-pointer hover:bg-gray-800 transition-colors duration-300"
                 onClick={handleNextProjectClick}
               >
@@ -161,7 +168,7 @@ Recruiters can explore these portfolios and track skill progression to identify 
             <span className="flex items-center gap-2">
               Made with{" "}
               <span className="text-black text-xl">
-                <RiHeartFill />
+                <HeartIcon size={20} />
               </span>
             </span>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { RiHeartFill } from "react-icons/ri";
+import { HeartIcon } from "../../components/ui/icons";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
@@ -40,25 +40,26 @@ const Page = () => {
           <div className="flex flex-col gap-4 mt-2">
             {/* Heading and Subtitle */}
             <div className="flex flex-col md:flex-row justify-between items-start w-full gap-3">
-            <div className="flex flex-col gap-2">
-              <span
-                className={`text-4xl md:text-5xl lg:text-[56px] font-normal text-black leading-none ${instrumentSerif.className}`}
-              >
-                Safeve
-              </span>
-              <span className="text-lg lg:text-xl font-normal text-gray-700 w-full">
-                Enhancing women&apos;s safety through anonymous reporting mechanisms
-              </span>
-            </div>
-            <Link
-              href="https://www.behance.net/gallery/223013105/Safeve"
-              className="items-center gap-2 sm:gap-3 lg:gap-4 bg-black text-white text-base font-normal px-4 py-2 rounded-md shadow-md flex whitespace-nowrap"
-            >
-              Know More
-              <div className="flex flex-row items-center gap-1 sm:gap-2 bg-[#DD3418] rounded-full p-0.5 sm:p-1">
-                <ArrowUpRight className="w-4 h-4 text-white" />
+              <div className="flex flex-col gap-2">
+                <span
+                  className={`text-4xl md:text-5xl lg:text-[56px] font-normal text-black leading-none ${instrumentSerif.className}`}
+                >
+                  Safeve
+                </span>
+                <span className="text-lg lg:text-xl font-normal text-gray-700 w-full">
+                  Enhancing women&apos;s safety through anonymous reporting
+                  mechanisms
+                </span>
               </div>
-            </Link>
+              <Link
+                href="https://www.behance.net/gallery/223013105/Safeve"
+                className="items-center gap-2 sm:gap-3 lg:gap-4 bg-black text-white text-base font-normal px-4 py-2 rounded-md shadow-md flex whitespace-nowrap"
+              >
+                Know More
+                <div className="flex flex-row items-center gap-1 sm:gap-2 bg-[#DD3418] rounded-full p-0.5 sm:p-1">
+                  <ArrowUpRight className="w-4 h-4 text-white" />
+                </div>
+              </Link>
             </div>
             {/* 3-Column Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mt-3 lg:mt-6">
@@ -164,7 +165,7 @@ const Page = () => {
               Next Project
             </span>
             <div className="flex items-center justify-center">
-              <div 
+              <div
                 className="bg-black rounded-full w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center cursor-pointer hover:bg-gray-800 transition-colors duration-300"
                 onClick={handleNextProjectClick}
               >
@@ -178,7 +179,7 @@ const Page = () => {
             <span className="flex items-center gap-2">
               Made with{" "}
               <span className="text-black text-xl">
-                <RiHeartFill />
+                <HeartIcon size={20} />
               </span>
             </span>
           </div>
