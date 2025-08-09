@@ -52,12 +52,12 @@ const PlaygroundComponent = ({
         )}>
           <div className="flex flex-col gap-2 w-full">
             <div className="flex justify-between items-center w-full">
-            <h3 className="font-normal transition-colors duration-300 text-base text-[#3d3d3d]">{projectTitle}</h3>
-              <h3 className="font-normal text-base text-[#3d3d3d]">{projectDate}</h3>
+            <h3 className="font-normal transition-colors duration-300 text-sm md:text-base text-[#3d3d3d]">{projectTitle}</h3>
+              <h3 className="font-normal text-sm md:text-base text-[#3d3d3d]">{projectDate}</h3>
             </div>
     
               <p className={cn(
-                "font-normal text-xl transition-colors duration-300 text-black",
+                "font-normal text-lg md:text-xl transition-colors duration-300 text-black",
               )}>
                 {projectDescription}
               </p>
