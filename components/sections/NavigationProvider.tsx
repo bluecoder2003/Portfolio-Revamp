@@ -1,216 +1,212 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import HeroSection from './HeroSection'
-import ProjectSection from './ProjectSection'
-import PersonSection from './PersonSections'
-import ConnectSection from './ConnectSection'
-import PlaygroundSection from './PlaygroundSection'
-import FooterSection from './FooterSection'
-import { motion, AnimatePresence, Variants } from 'framer-motion'
-import { ModalProvider } from '../context/ModalContext'
-import ModalWrapper from '../custom/ModalWrapper'
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import HeroSection from "./HeroSection";
+import { ModalProvider } from "../context/ModalContext";
 
-type SectionType = 'playground' | 'projects' | 'person' | 'connect'
+// Import from the new motion/react package for better performance
+import { motion, Variants, LazyMotion } from "motion/react";
 
-// Container animation variant (for staggering children)
-const containerVariants: Variants = {
-  hidden: { 
-    opacity: 0 
-  },
+// Import only the motion features we actually use
+const loadFeatures = () => import("motion/react").then((res) => res.domMax);
+
+// Lazy load non-critical sections to improve initial bundle size
+const ProjectSection = dynamic(() => import("./ProjectSection"), {
+  loading: () => (
+    <div className="w-full h-64 bg-gray-100 animate-pulse rounded-2xl" />
+  ),
+});
+
+const PersonSection = dynamic(() => import("./PersonSections"), {
+  loading: () => (
+    <div className="w-full h-64 bg-gray-100 animate-pulse rounded-2xl" />
+  ),
+});
+
+const ConnectSection = dynamic(() => import("./ConnectSection"), {
+  loading: () => (
+    <div className="w-full h-64 bg-gray-100 animate-pulse rounded-2xl" />
+  ),
+});
+
+const PlaygroundSection = dynamic(() => import("./PlaygroundSection"), {
+  loading: () => (
+    <div className="w-full h-64 bg-gray-100 animate-pulse rounded-2xl" />
+  ),
+});
+
+const FooterSection = dynamic(() => import("./FooterSection"), {
+  loading: () => (
+    <div className="w-full h-16 bg-gray-50 animate-pulse rounded-2xl" />
+  ),
+});
+
+const ModalWrapper = dynamic(() => import("../custom/ModalWrapper"), {
+  ssr: false,
+});
+
+type SectionType = "playground" | "projects" | "person" | "connect";
+
+// Lightweight animation variants - much simpler than before
+const lightVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.05, // Reduced from 0.1 to 0.05 for faster staggering
-      delayChildren: 0.1     // Reduced from 0.2 to 0.1 for quicker start
-    }
-  }
-}
-
-// Individual card animation variant
-const cardVariants: Variants = {
-  hidden: { 
-    opacity: 0, 
-    y: 40,           // Reduced from 60 to 40 for subtler movement
-    scale: 0.98      // Increased from 0.95 to 0.98 for less dramatic scale
-  },
-  visible: { 
-    opacity: 1, 
     y: 0,
-    scale: 1,
     transition: {
-      duration: 0.6,  // Reduced from 0.8 to 0.6 for faster animation
-      ease: [0.25, 0.46, 0.45, 0.94], // Smoother easing curve
-      type: "spring",
-      stiffness: 120,  // Increased stiffness for snappier feel
-      damping: 20      // Increased damping for less bounce
-    }
-  }
-}
+      duration: 0.2,
+      ease: [0.4, 0, 0.2, 1], // easeOut equivalent in cubic-bezier
+    },
+  },
+};
 
 const NavigationProvider = () => {
-  const [activeSection, setActiveSection] = useState<SectionType>('projects')
+  const [activeSection, setActiveSection] = useState<SectionType>("projects");
 
   const handleNavigate = (section: string) => {
-    setActiveSection(section as SectionType)
-  }
-
-  // Animation variants for section transitions
-  const sectionVariants = {
-    initial: { 
-      opacity: 0, 
-      y: 15,          // Reduced from 20 to 15 for subtler movement
-      scale: 0.98     // Increased from 0.95 to 0.98 for less dramatic scale
-    },
-    animate: { 
-      opacity: 1, 
-      y: 0,
-      scale: 1,
-      transition: {
-        duration: 0.4  // Reduced from 0.1 to 0.4 for smoother transition
-      }
-    },
-    exit: { 
-      opacity: 0, 
-      y: -15,         // Reduced from -20 to -15 for subtler movement
-      scale: 0.98,    // Increased from 0.95 to 0.98
-      transition: {
-        duration: 0.3  // Reduced from 0.15 to 0.3 for faster exit
-      }
-    }
-  }
+    setActiveSection(section as SectionType);
+  };
 
   const renderSections = () => {
     const sections = {
       playground: (
-        <AnimatePresence mode="wait">
+        <div className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto">
           <motion.div
-            key="playground"
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={sectionVariants}
-            className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto"
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-col gap-[10px] w-full"
-            >
-              <motion.div variants={cardVariants}>
-                <HeroSection onNavigate={handleNavigate} currentSection="playground" />
-              </motion.div>
-              <motion.div variants={cardVariants}>
-                <PlaygroundSection />
-              </motion.div>
-              <motion.div variants={cardVariants}>
-                <FooterSection onNavigate={handleNavigate} />
-              </motion.div>
-            </motion.div>
+            <HeroSection
+              onNavigate={handleNavigate}
+              currentSection="playground"
+            />
           </motion.div>
-        </AnimatePresence>
+          <motion.div
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.1 }}
+          >
+            {/* <ViewportLoader> */}
+            <PlaygroundSection />
+            {/* </ViewportLoader> */}
+          </motion.div>
+          <motion.div
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.2 }}
+          >
+            <FooterSection onNavigate={handleNavigate} />
+          </motion.div>
+        </div>
       ),
       projects: (
-        <AnimatePresence mode="wait">
+        <div className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto">
           <motion.div
-            key="projects"
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={sectionVariants}
-            className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto"
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-col gap-[10px] w-full"
-            >
-              <motion.div variants={cardVariants}>
-                <HeroSection onNavigate={handleNavigate} currentSection="projects" />
-              </motion.div>
-              <motion.div variants={cardVariants}>
-                <ProjectSection />
-              </motion.div>
-              <motion.div variants={cardVariants}>
-                <FooterSection onNavigate={handleNavigate} />
-              </motion.div>
-            </motion.div>
+            <HeroSection
+              onNavigate={handleNavigate}
+              currentSection="projects"
+            />
           </motion.div>
-        </AnimatePresence>
+          <motion.div
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.1 }}
+          >
+            {/* <ViewportLoader> */}
+            <ProjectSection />
+            {/* </ViewportLoader> */}
+          </motion.div>
+          <motion.div
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.2 }}
+          >
+            <FooterSection onNavigate={handleNavigate} />
+          </motion.div>
+        </div>
       ),
       person: (
-        <AnimatePresence mode="wait">
+        <div className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto">
           <motion.div
-            key="person"
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={sectionVariants}
-            className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto"
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-col gap-[10px] w-full"
-            >
-              <motion.div variants={cardVariants}>
-                <HeroSection onNavigate={handleNavigate} currentSection="person" />
-              </motion.div>
-              <motion.div variants={cardVariants}>
-                <PersonSection />
-              </motion.div>
-              <motion.div variants={cardVariants}>
-                <FooterSection onNavigate={handleNavigate} />
-              </motion.div>
-            </motion.div>
+            <HeroSection onNavigate={handleNavigate} currentSection="person" />
           </motion.div>
-        </AnimatePresence>
+          <motion.div
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.1 }}
+          >
+            {/* <ViewportLoader> */}
+            <PersonSection />
+            {/* </ViewportLoader> */}
+          </motion.div>
+          <motion.div
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.2 }}
+          >
+            <FooterSection onNavigate={handleNavigate} />
+          </motion.div>
+        </div>
       ),
       connect: (
-        <AnimatePresence mode="wait">
+        <div className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto">
           <motion.div
-            key="connect"
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={sectionVariants}
-            className="flex flex-col gap-[10px] w-full max-w-7xl mx-auto"
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
           >
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-col gap-[10px] w-full"
-            >
-              <motion.div variants={cardVariants}>
-                <HeroSection onNavigate={handleNavigate} currentSection="connect" />
-              </motion.div>
-              <motion.div variants={cardVariants}>
-                <ConnectSection />
-              </motion.div>
-              <motion.div variants={cardVariants}>
-                <FooterSection onNavigate={handleNavigate} />
-              </motion.div>
-            </motion.div>
+            <HeroSection onNavigate={handleNavigate} currentSection="connect" />
           </motion.div>
-        </AnimatePresence>
+          <motion.div
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.1 }}
+          >
+            {/* <ViewportLoader> */}
+            <ConnectSection />
+            {/* </ViewportLoader> */}
+          </motion.div>
+          <motion.div
+            variants={lightVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ delay: 0.2 }}
+          >
+            <FooterSection onNavigate={handleNavigate} />
+          </motion.div>
+        </div>
       ),
-    }
+    };
 
-    return sections[activeSection]
-  }
+    return sections[activeSection];
+  };
 
   return (
-    <ModalProvider>
-      <div className="h-fit flex items-center justify-center flex-col p-4 lg:p-[80px] gap-[10px] bg-[#E6E6E6]">
-        {renderSections()}
-      </div>
-      <ModalWrapper />
-    </ModalProvider>
-  )
-}
+    <LazyMotion features={loadFeatures}>
+      <ModalProvider>
+        <div className="h-fit flex items-center justify-center flex-col p-4 lg:p-[80px] gap-[10px] bg-[#E6E6E6]">
+          {renderSections()}
+        </div>
+        <ModalWrapper />
+      </ModalProvider>
+    </LazyMotion>
+  );
+};
 
-export default NavigationProvider 
+export default NavigationProvider;

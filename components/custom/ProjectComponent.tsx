@@ -3,14 +3,15 @@ import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
-import { Instrument_Serif } from "next/font/google";  
+import { motion } from "motion/react";
+import { Instrument_Serif } from "next/font/google";
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-instrument-serif",
   style: "italic",
+  display: "swap",
 });
 
 type ProjectComponentProps = {
@@ -62,23 +63,29 @@ const ProjectComponent = ({
     >
       <div className="flex justify-between items-start gap-4 pt-4 md:pt-8 px-4 md:px-8">
         <div className="flex flex-col gap-2">
-          <h3 className="font-normal transition-all duration-300 ease-out text-xl">{projectTitle || "Gamify"}</h3>
+          <h3 className="font-normal transition-all duration-300 ease-out text-xl">
+            {projectTitle || "Gamify"}
+          </h3>
           {/* {projectDescription && ( */}
-            <p className={cn(
+          <p
+            className={cn(
               "font-normal text-base md:text-lg transition-all duration-300 ease-out text-[#7C7C7C] leading-tight",
               hoverTextColor && `group-hover:${hoverTextColor}`
-            )}>
-              {projectDescription}
-            </p>
+            )}
+          >
+            {projectDescription}
+          </p>
           {/* )} */}
         </div>
         {/* <h3 className="font-normal text-base">{projectDate || "03/2025"}</h3> */}
         <div className="cursor-pointer" onClick={() => {}}>
           <div className="flex items-center justify-center bg-white border-4 border-[#E6E6E6] rounded-full p-2 transition-all duration-300 ease-out">
-            <ArrowUpRight className={cn(
-              "text-[#7C7C7C] w-10 h-10 transition-all duration-300 ease-out",
-              `hover:${hoverArrowColor}`
-            )} />
+            <ArrowUpRight
+              className={cn(
+                "text-[#7C7C7C] w-10 h-10 transition-all duration-300 ease-out",
+                `hover:${hoverArrowColor}`
+              )}
+            />
           </div>
         </div>
       </div>
@@ -92,7 +99,11 @@ const ProjectComponent = ({
         />
       ) : (
         <div className="absolute -bottom-10 left-10 flex items-center justify-center h-[216px]">
-          <p className={`${instrumentSerif.className} text-[40px] font-normal text-black`}>Coming Soon...</p>
+          <p
+            className={`${instrumentSerif.className} text-[40px] font-normal text-black`}
+          >
+            Coming Soon...
+          </p>
         </div>
       )}
     </motion.div>

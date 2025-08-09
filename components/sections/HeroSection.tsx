@@ -1,17 +1,26 @@
 import Link from "next/link";
 import { navigationItems } from "./Navigation";
 import { CornerRightDown } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
+import dynamic from "next/dynamic";
 
 import { Instrument_Serif } from "next/font/google";
 import { RiDoubleQuotesL } from "react-icons/ri";
-import Rive from "../custom/Rive";
+
+// Lazy load Rive component to reduce initial bundle size
+const Rive = dynamic(() => import("../custom/Rive"), {
+  loading: () => (
+    <div className="w-full h-full bg-gradient-to-r from-blue-100 to-purple-100 animate-pulse rounded-lg" />
+  ),
+  ssr: false, // Disable SSR for Rive since it uses WebAssembly
+});
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-instrument-serif",
   style: "italic",
+  display: "swap", // Optimize font loading
 });
 
 interface HeroSectionProps {
@@ -67,21 +76,24 @@ const HeroSection = ({
             </span>
           </span>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
-          {navigationItems.map((item) => (
-            <motion.button
-              key={item.label}
-              onClick={() => handleNavigation(item.href)}
-              className="flex items-center text-black text-lg gap-2 font-normal hover:text-[#093FB4] transition-colors group"
-              // whileHover={{ scale: .98 }}
-              transition={{ duration: 0.2 }}
-            >
-              <motion.div className="group-hover:rotate-[-35deg] transition-transform duration-300 ease-in-out bg-black rounded-full p-1 text-white hover:text-[#093FB4] group-hover:bg-[#093FB4]">
-                <RiDoubleQuotesL size={18} className="group-hover:text-white" />
-              </motion.div>
-              {item.label}
-            </motion.button>
-          ))}
-        </div>
+            {navigationItems.map((item) => (
+              <motion.button
+                key={item.label}
+                onClick={() => handleNavigation(item.href)}
+                className="flex items-center text-black text-lg gap-2 font-normal hover:text-[#093FB4] transition-colors group"
+                // whileHover={{ scale: .98 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div className="group-hover:rotate-[-35deg] transition-transform duration-300 ease-in-out bg-black rounded-full p-1 text-white hover:text-[#093FB4] group-hover:bg-[#093FB4]">
+                  <RiDoubleQuotesL
+                    size={18}
+                    className="group-hover:text-white"
+                  />
+                </motion.div>
+                {item.label}
+              </motion.button>
+            ))}
+          </div>
         </div>
         {/* Top Right Navigation */}
         {/* <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
@@ -162,9 +174,7 @@ const HeroSection = ({
           <div className="text-xl font-normal text-black mb-2">
             Hellooo, I&apos;m Neelakshi Das
           </div>
-          <div
-            className={`text-[48px] md:text-[56px] font-normal text-[#093FB4] leading-none ${instrumentSerif.className}`}
-          >
+          <div className={`lcp-text ${instrumentSerif.className}`}>
             Design Engineer
           </div>
         </div>

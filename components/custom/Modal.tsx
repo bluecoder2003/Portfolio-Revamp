@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Minimize2 } from "lucide-react";
 import Image from "next/image";
 
@@ -57,23 +57,33 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   <ul className="space-y-3">
                     <li className="flex items-center gap-3 justify-start">
                       <div className="w-3 h-3 bg-[#A4A145]/20 border border-dotted border-[#A4A145] rounded-full flex-shrink-0"></div>
-                      <span className="text-base text-[#1E2F2D]">Luce — Italian for &quot;light&quot;</span>
+                      <span className="text-base text-[#1E2F2D]">
+                        Luce — Italian for &quot;light&quot;
+                      </span>
                     </li>
                     <li className="flex items-center gap-3 justify-start">
                       <div className="w-3 h-3 bg-[#9D63E0]/20 border border-dotted border-[#9D63E0] rounded-full flex-shrink-0"></div>
-                      <span className="text-base text-[#1E2F2D]">Grapes evoke vineyards and home</span>
+                      <span className="text-base text-[#1E2F2D]">
+                        Grapes evoke vineyards and home
+                      </span>
                     </li>
                     <li className="flex items-center gap-3 justify-start">
                       <div className="w-3 h-3 bg-[#F893F9]/20 border border-dotted border-[#F893F9] rounded-full flex-shrink-0"></div>
-                      <span className="text-base text-[#1E2F2D]">Wine glass means connection and warmth</span>
+                      <span className="text-base text-[#1E2F2D]">
+                        Wine glass means connection and warmth
+                      </span>
                     </li>
                     <li className="flex items-center gap-3 justify-start">
                       <div className="w-3 h-3 bg-[#7F3129]/20 border border-dotted border-[#7F3129] rounded-full flex-shrink-0"></div>
-                      <span className="text-base text-[#1E2F2D]">Tabletop suggests tradition and elegance</span>
+                      <span className="text-base text-[#1E2F2D]">
+                        Tabletop suggests tradition and elegance
+                      </span>
                     </li>
                     <li className="flex items-center gap-3 justify-start">
                       <div className="w-3 h-3 bg-[#1E2F2D]/20 border border-dotted border-[#1E2F2D] rounded-full flex-shrink-0"></div>
-                      <span className="text-base text-[#1E2F2D]">Holographic light adds magic and play</span>
+                      <span className="text-base text-[#1E2F2D]">
+                        Holographic light adds magic and play
+                      </span>
                     </li>
                   </ul>
                 </div>
