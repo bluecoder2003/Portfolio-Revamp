@@ -11,25 +11,25 @@ const instrumentSerif = Instrument_Serif({
 
 const timeline = [
   {
-    logo: "/vng.svg",
+    logo: "https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/vng.svg",
     role: "Designer Intern",
     date: "Dec 2023 - Nov 2024",
     duration: "1 yr",
   },
   {
-    logo: "/nlti.svg",
+    logo: "https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/nlti.svg",
     role: "Designer Intern",
     date: "Mar 2024 - Jun 2024",
     duration: "4 mos",
   },
   {
-    logo: "/vexio.svg",
+    logo: "https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/vexio.svg",
     role: "Designer & Developer Intern",
     date: "Jul 2024 - Apr 2025",
     duration: "1 yr 6 mos",
   },
   {
-    logo: "/cosx.svg",
+    logo: "https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/cosx.svg",
     role: "Designer & Developer Intern",
     date: "Jun 2025 - Present",
     duration: "2 mos",
@@ -49,7 +49,7 @@ export default function PersonSections() {
       <div className={`text-[#093FB4] text-2xl font-normal ${instrumentSerif.className} mb-4`}>Peek into my life</div>
       <div className="flex flex-col md:flex-row justify-between items-center gap-8">
         {/* Polaroid Grid */}
-        <Image src="/about-one.svg" alt="polaroid" width={100} height={100} className="object-cover w-full h-full" />
+        <Image src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/about-one.svg" alt="polaroid" width={100} height={100} className="object-cover w-full h-full" />
         {/* Bio Text */}
           <div className="text-black text-lg font-normal">
             Born in Kolkata, the City of Joy — where every lane hums with art, culture, and color — I grew up surrounded by stories and creativity. That early chaos and charm shaped how I see and express.
@@ -64,12 +64,12 @@ export default function PersonSections() {
       {/* Middle Row */}
       <div className={`text-[#093FB4] text-2xl block md:hidden font-normal ${instrumentSerif.className} mb-4`}>Places I&apos;ve worked before</div>
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-        <Image src="/about-two.svg" alt="polaroid" width={100} height={100} className="object-cover w-full h-full block md:hidden" />
+        <Image src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/about-two.svg" alt="polaroid" width={100} height={100} className="object-cover w-full h-full block md:hidden" />
           <div className="text-black text-lg font-normal">
             Creativity has always been my constant — from handmade cards to intuitive UI. I fell for design through its visual charm, but it&apos;s the research and problem-solving that keep me grounded.<br />
             I&apos;m a curious soul with a love for mountains, travel, and the occasional deep-dive into random rabbit holes. Design lets me blend craft with clarity — and I wouldn&apos;t have it any other way.
           </div>
-        <Image src="/about-two.svg" alt="polaroid" width={100} height={100} className="object-cover w-full h-full hidden md:block" />
+        <Image src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/about-two.svg" alt="polaroid" width={100} height={100} className="object-cover w-full h-full hidden md:block" />
       </div>
       {/* Timeline Header */}
       <div className={`text-[#093FB4] text-2xl hidden md:block font-normal ${instrumentSerif.className} mb-4`}>Places I&apos;ve worked before</div>

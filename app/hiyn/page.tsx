@@ -91,7 +91,7 @@ Recruiters can explore these portfolios and track skill progression to identify 
       <AnimatedSection delay={0.2}>
         <div className="w-full max-w-7xl mx-auto h-fit flex flex-col justify-between gap-[10px]">
         <Image
-              src="/h1.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h1.svg"
               alt="Flint"
               width={1000}
               height={1000}
@@ -99,14 +99,14 @@ Recruiters can explore these portfolios and track skill progression to identify 
             />
           <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
             <Image
-              src="/h2.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h2.svg"
               alt="Flint"
               width={1000}
               height={1000}
               className="w-full h-full object-cover"
             />
             <Image
-              src="/h3.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h3.svg"
               alt="Flint"
               width={1000}
               height={1000}
@@ -114,7 +114,7 @@ Recruiters can explore these portfolios and track skill progression to identify 
             />
           </div>
           <Image
-              src="/h4.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h4.svg"
               alt="Flint"
               width={1000}
               height={1000}
@@ -122,14 +122,14 @@ Recruiters can explore these portfolios and track skill progression to identify 
             />
           <div className="flex flex-col lg:flex-row justify-between items-center w-full h-full gap-[10px]">
             <Image
-              src="/h5.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h5.svg"
               alt="Flint"
               width={1000}
               height={1000}
               className="w-full lg:w-1/2 h-full lg:h-[670px] object-cover rounded-3xl"
             />
             <Image
-              src="/h6.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h6.svg"
               alt="Flint"
               width={1000}
               height={1000}

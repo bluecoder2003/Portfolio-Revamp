@@ -4,6 +4,14 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Portfolio | Neelakshi Das",
   description: "Neelakshi Das's Portfolio",
+  keywords: "portfolio, designer, developer, UI/UX, frontend",
+  authors: [{ name: "Neelakshi Das" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Portfolio | Neelakshi Das",
+    description: "Neelakshi Das's Portfolio",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -13,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
