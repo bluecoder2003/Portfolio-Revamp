@@ -32,7 +32,7 @@ const timeline = [
     logo: "https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/cosx.svg",
     role: "Designer & Developer Intern",
     date: "Jun 2025 - Present",
-    duration: "2 mos",
+    duration: "3 mos",
   },
 ];
 
@@ -62,7 +62,7 @@ export default function PersonSections() {
       <div className="w-full h-[1px] my-6 bg-[repeating-linear-gradient(to_right,_#BFBFAF_0_12px,_transparent_12px_24px)]" />
 
       {/* Middle Row */}
-      <div className={`text-[#093FB4] text-2xl block md:hidden font-normal ${instrumentSerif.className} mb-4`}>Places I&apos;ve worked before</div>
+      {/* <div className={`text-[#093FB4] text-2xl block md:hidden font-normal ${instrumentSerif.className} mb-4`}>Places I&apos;ve worked before</div> */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
         <Image src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/about-two.svg" alt="polaroid" width={100} height={100} className="object-cover w-full h-full block md:hidden" />
           <div className="text-black text-lg font-normal">
@@ -73,6 +73,7 @@ export default function PersonSections() {
       </div>
       {/* Timeline Header */}
       <div className={`text-[#093FB4] text-2xl hidden md:block font-normal ${instrumentSerif.className} mb-4`}>Places I&apos;ve worked before</div>
+      <div className={`text-[#093FB4] text-2xl block md:hidden font-normal ${instrumentSerif.className} my-8`}>Places I&apos;ve worked before</div> 
       {/* Timeline */}
       <div className="relative flex flex-col items-center w-full">
         {/* Dashed Line */}
@@ -95,7 +96,7 @@ export default function PersonSections() {
         ))}
 
         {/* Timeline Items */}
-        <div className="flex flex-row justify-between w-full gap-4 md:gap-24 z-10 pt-4">
+        <div className="flex flex-row justify-between w-full gap-4 md:gap-14 lg:gap-24 z-10 pt-4">
           {timeline.map((item, i) => (
             <div key={i} className="flex flex-col items-center w-1/4">
               <div className="flex flex-col items-center mb-2">

@@ -42,7 +42,7 @@ const ConnectSection = () => {
               <a
                 key={rowIdx}
                 href={item.href}
-                className="flex items-center gap-4 group"
+                className="flex items-center gap-4 group hover:text-[#093FB4] transition-all duration-300 ease-in-out"
                 target="_blank"
                 rel="noopener noreferrer"
               >

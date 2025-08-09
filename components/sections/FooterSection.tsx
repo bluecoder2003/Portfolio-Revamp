@@ -4,6 +4,7 @@ import { navigationItems } from './Navigation';
 // import { FaHeart } from "react-icons/fa";
 import { motion } from 'framer-motion';
 import { RiDoubleQuotesL } from "react-icons/ri";
+import { useState, useEffect } from 'react';
 
 import { Instrument_Serif } from "next/font/google";
 
@@ -19,6 +20,18 @@ interface FooterProps {
 }
 
 const Footer = ({ onNavigate }: FooterProps) => {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkIsDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    
+    checkIsDesktop();
+    window.addEventListener('resize', checkIsDesktop);
+    
+    return () => window.removeEventListener('resize', checkIsDesktop);
+  }, []);
   const handleNavigation = (href: string) => {
     if (onNavigate) {
       // Map href to section type
@@ -67,11 +80,17 @@ const Footer = ({ onNavigate }: FooterProps) => {
           ))}
         </div>
       </div>
-      <div className="absolute -bottom-7 md:-bottom-16 lg:-bottom-24 left-0 z-10 flex items-center justify-center pointer-events-none">
-        <span className="text-[#072A8A] text-[60px] md:text-[120px] lg:text-[200px] font-bold tracking-wider opacity-30 select-none">
+      <motion.div 
+        className="absolute -bottom-7 md:-bottom-16 lg:-bottom-24 left-0 z-10 flex items-center justify-center pointer-events-none"
+        initial={{ y: isDesktop ? 100 : 0, opacity: isDesktop ? 0 : 0.3 }}
+        whileInView={{ y: 0, opacity: 0.3 }}
+        viewport={{ amount: 0.3 }}
+        transition={{ duration: isDesktop ? 0.8 : 0, ease: "easeOut" }}
+      >
+        <span className="text-[#072A8A] text-[60px] md:text-[120px] lg:text-[200px] font-bold tracking-wider select-none">
           BLUECODER
         </span>
-      </div>
+      </motion.div>
 
       {/* Divider */}
       {/* <div className="mt-12 border-t pt-4 flex flex-row justify-between items-center text-base text-black">
