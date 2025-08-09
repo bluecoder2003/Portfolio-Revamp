@@ -108,14 +108,14 @@ const Page = () => {
       <AnimatedSection delay={0.2}>
         <div className="w-full max-w-7xl mx-auto h-fit flex flex-col justify-between gap-[10px]">
           <Image
-            src="/s1.svg"
+            src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/s1.svg"
             alt="Safeve"
             width={1000}
             height={1000}
             className="w-full h-full object-cover"
           />
           <Image
-            src="/s2.svg"
+            src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/s2.svg"
             alt="Safeve"
             width={1000}
             height={1000}
@@ -123,14 +123,14 @@ const Page = () => {
           />
           <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
             <Image
-              src="/s3.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/s3.svg"
               alt="Safeve"
               width={1000}
               height={1000}
               className="w-full h-full object-cover"
             />
             <Image
-              src="/s4.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/s4.svg"
               alt="Safeve"
               width={1000}
               height={1000}
@@ -139,14 +139,14 @@ const Page = () => {
           </div>
           <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
             <Image
-              src="/s5.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/s5.svg"
               alt="Safeve"
               width={1000}
               height={1000}
               className="w-full h-full object-cover"
             />
             <Image
-              src="/s6.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/s6.svg"
               alt="Safeve"
               width={1000}
               height={1000}

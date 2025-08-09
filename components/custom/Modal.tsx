@@ -39,7 +39,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
               <div className="mb-8 hidden md:block">
                 <Image
-                  src="/luce-web.png"
+                  src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/luce-web.png"
                   alt="Holographic Logo"
                   width={1000}
                   height={1000}
@@ -47,7 +47,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
               </div>
               <div className="mb-8 md:hidden flex flex-col justify-center items-center">
                 <Image
-                  src="/luce-mobile.png"
+                  src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/luce-mobile.png"
                   alt="Holographic Logo"
                   width={800}
                   height={800}

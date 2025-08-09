@@ -90,14 +90,14 @@ const Page = () => {
         <div className="w-full max-w-7xl mx-auto h-fit flex flex-col justify-between gap-[10px]">
           <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
             <Image
-              src="/f1.png"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f1.png"
               alt="Flint"
               width={1000}
               height={1000}
               className="w-full h-full object-cover"
             />
             <Image
-              src="/f2.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f2.svg"
               alt="Flint"
               width={1000}
               height={1000}
@@ -106,14 +106,14 @@ const Page = () => {
           </div>
           <div className="flex flex-col lg:flex-row justify-between items-center w-full h-full gap-[10px]">
             <Image
-              src="/f3.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f3.svg"
               alt="Flint"
               width={1000}
               height={1000}
               className="w-full h-full lg:h-[500px] object-cover rounded-3xl"
             />
            <video
-              src="/card.mov"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/card.mov"
               width={1000}
               height={1000}
               autoPlay
@@ -124,14 +124,14 @@ const Page = () => {
             />
           </div>
           <Image
-              src="/f4.svg"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f4.svg"
               alt="Flint"
               width={1000}
               height={1000}
               className="w-full h-full object-cover rounded-3xl"
             />
           <video
-              src="/kanban.mov"
+              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/kanban.mov"
               width={1000}
               height={1000}
               autoPlay
