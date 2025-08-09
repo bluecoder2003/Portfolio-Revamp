@@ -6,7 +6,7 @@ const mockProjects = [
   {
     id: 1,
     title: "DEVELOPMENT",
-    description: "A credit card masking concept",
+    description: "A credit card masking concept (built in Nextjs)",
     date: "03/2025",
     videoSrc: "https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/credit-card.mov",
     mediaType: "video" as const,

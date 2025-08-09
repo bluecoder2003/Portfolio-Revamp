@@ -65,7 +65,7 @@ const ProjectComponent = ({
           <h3 className="font-normal transition-all duration-300 ease-out text-xl">{projectTitle || "Gamify"}</h3>
           {/* {projectDescription && ( */}
             <p className={cn(
-              "font-normal text-lg transition-all duration-300 ease-out text-[#7C7C7C]",
+              "font-normal text-base md:text-lg transition-all duration-300 ease-out text-[#7C7C7C] leading-tight",
               hoverTextColor && `group-hover:${hoverTextColor}`
             )}>
               {projectDescription}
