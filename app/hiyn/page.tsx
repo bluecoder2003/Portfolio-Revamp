@@ -91,7 +91,7 @@ Recruiters can explore these portfolios and track skill progression to identify 
       <AnimatedSection delay={0.2}>
         <div className="w-full max-w-7xl mx-auto h-fit flex flex-col justify-between gap-[10px]">
         <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h1.svg"
+              src="/h1.webp"
               alt="Flint"
               width={1000}
               height={1000}
@@ -99,22 +99,22 @@ Recruiters can explore these portfolios and track skill progression to identify 
             />
           <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
             <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h2.svg"
+              src="/h2.webp"
               alt="Flint"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover"
+              className="w-full h-full lg:w-[635px] lg:h-[669px] object-cover rounded-3xl"
             />
             <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h3.svg"
+              src="/h3.webp"
               alt="Flint"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover rounded-3xl"
             />
           </div>
           <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h4.svg"
+              src="/h4.webp"
               alt="Flint"
               width={1000}
               height={1000}
@@ -122,14 +122,14 @@ Recruiters can explore these portfolios and track skill progression to identify 
             />
           <div className="flex flex-col lg:flex-row justify-between items-center w-full h-full gap-[10px]">
             <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h5.svg"
+              src="/h5.webp"
               alt="Flint"
               width={1000}
               height={1000}
               className="w-full lg:w-1/2 h-full lg:h-[670px] object-cover rounded-3xl"
             />
             <Image
-              src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/h6.svg"
+              src="/h6.webp"
               alt="Flint"
               width={1000}
               height={1000}

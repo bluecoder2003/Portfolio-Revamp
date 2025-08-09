@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import HeroSection from './HeroSection'
 import ProjectSection from './ProjectSection'
 import PersonSection from './PersonSections'
@@ -50,9 +50,37 @@ const cardVariants: Variants = {
 
 const NavigationProvider = () => {
   const [activeSection, setActiveSection] = useState<SectionType>('projects')
+  
+  // Create refs for each main section component
+  const playgroundRef = useRef<HTMLDivElement>(null)
+  const projectsRef = useRef<HTMLDivElement>(null)
+  const personRef = useRef<HTMLDivElement>(null)
+  const connectRef = useRef<HTMLDivElement>(null)
 
   const handleNavigate = (section: string) => {
-    setActiveSection(section as SectionType)
+    const newSection = section as SectionType
+    
+    // If clicking on the same section, scroll to the section component
+    if (newSection === activeSection) {
+      const refs = {
+        playground: playgroundRef,
+        projects: projectsRef,
+        person: personRef,
+        connect: connectRef
+      }
+      
+      const targetRef = refs[newSection]
+      if (targetRef?.current) {
+        targetRef.current.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest'
+        })
+      }
+    } else {
+      // Otherwise, just change the section
+      setActiveSection(newSection)
+    }
   }
 
   // Animation variants for section transitions
@@ -101,7 +129,7 @@ const NavigationProvider = () => {
               <motion.div variants={cardVariants}>
                 <HeroSection onNavigate={handleNavigate} currentSection="playground" />
               </motion.div>
-              <motion.div variants={cardVariants}>
+              <motion.div variants={cardVariants} ref={playgroundRef}>
                 <PlaygroundSection />
               </motion.div>
               <motion.div variants={cardVariants}>
@@ -130,7 +158,7 @@ const NavigationProvider = () => {
               <motion.div variants={cardVariants}>
                 <HeroSection onNavigate={handleNavigate} currentSection="projects" />
               </motion.div>
-              <motion.div variants={cardVariants}>
+              <motion.div variants={cardVariants} ref={projectsRef}>
                 <ProjectSection />
               </motion.div>
               <motion.div variants={cardVariants}>
@@ -159,7 +187,7 @@ const NavigationProvider = () => {
               <motion.div variants={cardVariants}>
                 <HeroSection onNavigate={handleNavigate} currentSection="person" />
               </motion.div>
-              <motion.div variants={cardVariants}>
+              <motion.div variants={cardVariants} ref={personRef}>
                 <PersonSection />
               </motion.div>
               <motion.div variants={cardVariants}>
@@ -188,7 +216,7 @@ const NavigationProvider = () => {
               <motion.div variants={cardVariants}>
                 <HeroSection onNavigate={handleNavigate} currentSection="connect" />
               </motion.div>
-              <motion.div variants={cardVariants}>
+              <motion.div variants={cardVariants} ref={connectRef}>
                 <ConnectSection />
               </motion.div>
               <motion.div variants={cardVariants}>
