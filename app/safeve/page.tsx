@@ -1,11 +1,9 @@
-"use client";
 import React from "react";
 import Link from "next/link";
 import { RiHeartFill } from "react-icons/ri";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import AnimatedSection from "@/components/ui/animated-section";
 
 const instrumentSerif = Instrument_Serif({
@@ -16,12 +14,6 @@ const instrumentSerif = Instrument_Serif({
 });
 
 const Page = () => {
-  const router = useRouter();
-
-  const handleNextProjectClick = () => {
-    router.push("/hiyn");
-  };
-
   return (
     <div className="h-fit flex items-center justify-center flex-col p-4 lg:p-[80px] gap-[10px] bg-[#E6E6E6]">
       <AnimatedSection delay={0.1}>
@@ -164,12 +156,12 @@ const Page = () => {
               Next Project
             </span>
             <div className="flex items-center justify-center">
-              <div 
+              <Link 
+                href="/hiyn"
                 className="bg-black rounded-full w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center cursor-pointer hover:bg-gray-800 transition-colors duration-300"
-                onClick={handleNextProjectClick}
               >
                 <ArrowUpRight className="text-white w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10" />
-              </div>
+              </Link>
             </div>
           </div>
           <div className="flex-1" />
