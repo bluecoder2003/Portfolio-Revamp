@@ -104,14 +104,14 @@ const Page = () => {
             alt="Safeve"
             width={1000}
             height={1000}
-            className="w-full h-full object-cover"
+            className="w-full h-auto object-cover rounded-3xl"
           />
           <Image
             src="/s2.webp"
             alt="Safeve"
             width={1000}
             height={1000}
-            className="w-full h-full object-cover"
+            className="w-full h-auto object-cover rounded-3xl"
           />
           <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
             <Image
@@ -119,17 +119,17 @@ const Page = () => {
               alt="Safeve"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover"
+              className="w-full lg:w-1/2 h-auto object-cover rounded-3xl"
             />
             <Image
               src="/s4.webp"
               alt="Safeve"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover"
+              className="w-full lg:w-1/2 h-auto object-cover rounded-3xl"
             />
           </div>
-          <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
+          <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px] overflow-hidden rounded-3xl">
             <Image
               src="/s5.webp"
               alt="Safeve"

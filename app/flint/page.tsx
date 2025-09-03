@@ -80,7 +80,7 @@ const Page = () => {
 
       <AnimatedSection delay={0.2}>
         <div className="w-full max-w-7xl mx-auto h-fit flex flex-col justify-between gap-[10px]">
-          <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
+          <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px] overflow-hidden rounded-3xl">
             <Image
               src="/f1.webp"
               alt="Flint"
@@ -97,7 +97,7 @@ const Page = () => {
               className="w-full h-full lg:w-[464px] lg:h-[669px] object-cover rounded-3xl"
             />
           </div>
-          <div className="flex flex-col lg:flex-row justify-between items-center w-full h-full gap-[10px]">
+          <div className="flex flex-col lg:flex-row justify-between items-center w-full h-full gap-[10px] overflow-hidden rounded-3xl">
             <Image
               // src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f3.svg"
               src="/f3.webp"

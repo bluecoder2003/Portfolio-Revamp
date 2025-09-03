@@ -89,7 +89,7 @@ Recruiters can explore these portfolios and track skill progression to identify 
               height={1000}
               className="w-full h-full object-cover rounded-3xl"
             />
-          <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
+          <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px] overflow-hidden rounded-3xl">
             <Image
               src="/h2.webp"
               alt="Flint"
