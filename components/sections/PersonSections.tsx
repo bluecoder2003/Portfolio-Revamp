@@ -1,7 +1,10 @@
 import Image from "next/image";
+import { useState } from "react";
 
 import { Instrument_Serif } from "next/font/google";
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import Folder from "../custom/Folder";
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -10,36 +13,54 @@ const instrumentSerif = Instrument_Serif({
   style: "italic",
 });
 
-const timeline = [
-  {
-    logo: "/vng.webp",
-    role: "Designer Intern",
-    date: "Dec 2023 - Nov 2024",
-    duration: "1 yr",
-  },
-  {
-    logo: "/nlti.webp",
-    role: "Designer Intern",
-    date: "Mar 2024 - Jun 2024",
-    duration: "4 mos",
-  },
-  {
-    logo: "/vexio.webp",
-    role: "Designer & Developer Intern",
-    date: "Jul 2024 - Apr 2025",
-    duration: "1 yr 6 mos",
-  },
-  {
-    logo: "/cosx.webp",
-    role: "Designer & Developer Intern",
-    date: "Jun 2025 - Present",
-    duration: "3 mos",
-  },
-];
-
-// Example: adjust these values to match your desired positions
-
 export default function PersonSections() {
+  const [openFolder, setOpenFolder] = useState<string>("cosx"); // Default to CosX open
+  const [selectedCompany, setSelectedCompany] = useState("cosx"); // Default to CosX
+
+  const handleFolderClick = (company: string) => {
+    setSelectedCompany(company);
+    setOpenFolder(company);
+  };
+
+  const companyData = {
+    vng: {
+      name: "VNG Medical",
+      role: "Designer Intern",
+      period: "Dec 2023 - Nov 2024",
+      description: [
+        <>Designed marketing visuals and communication graphics to strengthen brand identity.</>,
+        <>Built and refined the app&apos;s UI with a focus on accessibility and consistency.</>,
+      ],
+    },
+    nlti: {
+      name: "National Law Training Institute",
+      role: "Designer Intern",
+      period: "Mar 2024 - Jun 2024",
+      description: [
+        <>Designed brand and learning materials for training modules and digital assets.</>,
+        <>Built and launched the institute&apos;s website with a clean, responsive design.</>,
+      ],
+    },
+    vexio: {
+      name: "Vexio",
+      role: "UI/UX Designer & Developer Intern",
+      period: "Jul 2024 - Apr 2025",
+      description: [
+        <>Created high-fidelity Figma prototypes and design systems to streamline design-to-development workflows.</>,
+        <>Developed responsive, accessible interfaces with Next.js, TypeScript, and Tailwind, enhancing overall usability.</>,
+      ],
+    },
+      cosx: {
+        name: "CosX",
+        role: "UI/UX Designer & Developer Intern",
+        period: "Jun 2025 - Present",
+        description: [
+          <>Worked on the WordPress → Next.js migration for <a href="https://signzy.com" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Signzy <ArrowUpRight className="w-4 h-4 inline" /></a>, improving design consistency and performance.</>,
+          <>Designed and built websites for <a href="https://www.natural-capital.partners/" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Natural Capital Partners <ArrowUpRight className="w-4 h-4 inline" /></a>, <a href="https://www.cosx.ai/" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">CosX Website <ArrowUpRight className="w-4 h-4 inline" /></a>,  <a href="https://kareverse.com" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Kareverse <ArrowUpRight className="w-4 h-4 inline" /></a>, and <a href="https://akhandjyoti.com" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Akhand Jyoti <ArrowUpRight className="w-4 h-4 inline" /></a>, and currently leading the CosxLive redesign.</>,
+        ],
+      },
+  };
+
   return (
     <section className="bg-white w-full max-w-7xl mx-auto h-fit p-4 md:p-[40px] rounded-[16px] flex flex-col gap-8 ">
       {/* Header */}
@@ -124,7 +145,15 @@ export default function PersonSections() {
               was surreal — both humbling and electrifying — and reminded me why
               I love creating
             </div>
-            <button onClick={() => window.open("https://x.com/figma/status/1968007805203517458", "_blank")} className="bg-black text-white text-sm font-normal px-3 py-1 rounded-full shadow-md w-fit flex whitespace-nowrap justify-center items-center gap-1">
+            <button
+              onClick={() =>
+                window.open(
+                  "https://x.com/figma/status/1968007805203517458",
+                  "_blank"
+                )
+              }
+              className="bg-black text-white text-sm font-normal px-3 py-1 rounded-full shadow-md w-fit flex whitespace-nowrap justify-center items-center gap-1"
+            >
               Link
               <ArrowUpRight className="w-4 h-4 text-white" />
             </button>
@@ -133,7 +162,7 @@ export default function PersonSections() {
         <div className="w-full h-[1px] my-6 bg-[repeating-linear-gradient(to_right,_#BFBFAF_0_12px,_transparent_12px_24px)]" />
         {/* Timeline Header */}
         <div
-          className={`text-[#093FB4] text-2xl hidden md:block font-normal ${instrumentSerif.className} my-4`}
+          className={`text-[#093FB4] text-2xl hidden md:block font-normal ${instrumentSerif.className} mt-4 lg:mb-16 mb-8`}
         >
           Places I&apos;ve worked before
         </div>
@@ -144,11 +173,156 @@ export default function PersonSections() {
         </div>
         {/* Timeline */}
         <div className="relative flex flex-col items-center w-full">
-          {/* Dashed Line */}
-          <div className="absolute w-full h-[1px] top-4 bg-[repeating-linear-gradient(to_right,_#BFBFAF_0_12px,_transparent_12px_24px)] z-0" />
+          {/* Animated Folder Component */}
+          <div className=" grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 hidden md:grid">
+            <div onClick={() => handleFolderClick("vng")}>
+              <Folder
+                isOpen={openFolder === "vng"}
+                onClick={() => {}} // Empty function since click is handled by parent div
+                logo="/vnglogo.png"
+                logoAlt="VNG Logo"
+              />
+            </div>
+            <div onClick={() => handleFolderClick("nlti")}>
+              <Folder
+                isOpen={openFolder === "nlti"}
+                onClick={() => {}} // Empty function since click is handled by parent div
+                logo="/nltilogo.png"
+                logoAlt="NLTI Logo"
+              />
+            </div>
+            <div onClick={() => handleFolderClick("vexio")}>
+              <Folder
+                isOpen={openFolder === "vexio"}
+                onClick={() => {}} // Empty function since click is handled by parent div
+                logo="/vexiologo.png"
+                logoAlt="Vexio Logo"
+              />
+            </div>
+            <div onClick={() => handleFolderClick("cosx")}>
+              <Folder
+                isOpen={openFolder === "cosx"}
+                onClick={() => {}} // Empty function since click is handled by parent div
+                logo="/cosxlogo.png"
+                logoAlt="CosX Logo"
+              />
+            </div>
+          </div>
 
-          {/* Timeline Circles */}
-          {timeline.map((_, i) => (
+          {/* Mobile Version */}
+          <div className="grid grid-cols-2 w-full gap-4 md:hidden p-4 bg-[#F2F2F2] rounded-xl">
+            <div onClick={() => handleFolderClick("vng")} className="cursor-pointer">
+              <div className={`bg-white border border-gray-200 rounded-lg p-4 flex flex-col items-center transition-opacity duration-200 ${selectedCompany === "vng" ? "opacity-100" : "opacity-50"}`}>
+                <div className="w-20 h-20 mb-2 flex items-center justify-center">
+                  <Image
+                    src="/vnglogo.png"
+                    alt="VNG Logo"
+                    width={80}
+                    height={80}
+                    className="object-contain"
+                  />
+                </div>
+   
+              </div>
+            </div>
+            <div onClick={() => handleFolderClick("nlti")} className="cursor-pointer">
+              <div className={`bg-white border border-gray-200 rounded-lg p-4 flex flex-col items-center transition-opacity duration-200 ${selectedCompany === "nlti" ? "opacity-100" : "opacity-50"}`}>
+                <div className="w-20 h-20 mb-2 flex items-center justify-center">
+                  <Image
+                    src="/nltilogo.png"
+                    alt="NLTI Logo"
+                    width={70}
+                    height={70}
+                    className="object-contain"
+                  />
+                </div>
+
+              </div>
+            </div>
+            <div onClick={() => handleFolderClick("vexio")} className="cursor-pointer">
+              <div className={`bg-white border border-gray-200 rounded-lg p-4 flex flex-col items-center transition-opacity duration-200 ${selectedCompany === "vexio" ? "opacity-100" : "opacity-50"}`}>
+                <div className="w-20 h-20 mb-2 flex items-center justify-center">
+                  <Image
+                    src="/vexiologo.png"
+                    alt="Vexio Logo"
+                    width={70}
+                    height={70}
+                    className="object-contain"
+                  />
+                </div>
+              
+              </div>
+            </div>
+            <div onClick={() => handleFolderClick("cosx")} className="cursor-pointer">
+              <div className={`bg-white border border-gray-200 rounded-lg p-4 flex flex-col items-center transition-opacity duration-200 ${selectedCompany === "cosx" ? "opacity-100" : "opacity-50"}`}>
+                <div className="w-20 h-20 mb-2 flex items-center justify-center">
+                  <Image
+                    src="/cosxlogo.png"
+                    alt="CosX Logo"
+                    width={80}
+                    height={80}
+                    className="object-contain"
+                  />
+                </div>
+    
+              </div>
+            </div>
+          </div>
+ 
+          <div className="md:mt-8 mt-6 w-full max-w-5xl mx-auto">
+            <div 
+              key={selectedCompany}
+              className="bg-[#F2F2F2] border border-[#E1E2E2] rounded-lg md:p-6 p-4 animate-slide-up"
+            >
+              <div className="flex flex-row items-center justify-between gap-4 mb-2">
+                <div>
+                  <h3 className="font-normal md:text-xl text-lg text-gray-900">
+                    {
+                      companyData[selectedCompany as keyof typeof companyData]
+                        .name
+                    }
+                  </h3>
+                </div>
+                <div className="text-sm md:text-base text-[#7C7C7C]">
+                  {
+                    companyData[selectedCompany as keyof typeof companyData]
+                      .period
+                  }
+                </div>
+              </div>
+              <div className="text-base text-[#626262] mb-4">
+                {companyData[selectedCompany as keyof typeof companyData].role}
+              </div>
+              <div className="space-y-2">
+                <ul className="list-disc space-y-1 text-base md:text-lg text-[#626262] pl-4">
+                  {companyData[
+                    selectedCompany as keyof typeof companyData
+                  ].description.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full mt-4 gap-4 md:gap-0">
+            <div className="text-lg text-[#626262]">
+              Over the past few years, I&apos;ve helped launch cloud platforms,
+              airport
+            </div>
+            <Link
+              href="https://drive.google.com/file/d/1A2RkGJNKCQKiEHqFEwLgM9iMx6JwHme4/view"
+              target="_blank"
+              className="items-center gap-2 sm:gap-3 lg:gap-4 bg-black text-white text-base font-normal px-4 py-2 rounded-md shadow-md flex whitespace-nowrap"
+            >
+              Resume
+              <div className="flex flex-row items-center gap-1 sm:gap-2 bg-[#4253D5] rounded-full p-0.5 sm:p-1">
+                <ArrowUpRight className="w-4 h-4 text-white" />
+              </div>
+            </Link>
+          </div>
+          {/* <div className="absolute w-full h-[1px] top-4 bg-[repeating-linear-gradient(to_right,_#BFBFAF_0_12px,_transparent_12px_24px)] z-0" /> */}
+
+          {/* {timeline.map((_, i) => (
             <div
               key={i}
               className={`absolute top-2.5 md:top-1.5 z-20 ${
@@ -169,16 +343,15 @@ export default function PersonSections() {
                     : "bg-white border-[#BFBFAF]"
                 }`}
               >
-                {/* Optionally, inner dot for active */}
+               
                 {i === timeline.length - 1 && (
                   <div className="w-2 h-2 md:w-3 md:h-3 rounded-full bg-[#BFBFAF]" />
                 )}
               </div>
             </div>
-          ))}
+          ))} */}
 
-          {/* Timeline Items */}
-          <div className="flex flex-row justify-between w-full gap-4 md:gap-14 lg:gap-24 z-10 pt-4">
+          {/* <div className="flex flex-row justify-between w-full gap-4 md:gap-14 lg:gap-24 z-10 pt-4">
             {timeline.map((item, i) => (
               <div key={i} className="flex flex-col items-center w-1/4">
                 <div className="flex flex-col items-center mb-2">
@@ -201,7 +374,7 @@ export default function PersonSections() {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
