@@ -4,7 +4,8 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { Instrument_Serif } from "next/font/google";  
+import { Instrument_Serif } from "next/font/google";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";  
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -83,13 +84,24 @@ const ProjectComponent = ({
         </div>
       </div>
       {imageSrc ? (
-        <Image
-          src={imageSrc}
-          alt="flint dashboard"
-          width={384}
-          height={216}
-          className={cn("absolute bottom-0", imagePosition)}
-        />
+        imageSrc.endsWith('.lottie') ? (
+          <div className={cn("absolute bottom-0 left-1/2 -translate-x-1/2", imagePosition)} style={{ width: '500px', height: '300px' }}>
+            <DotLottieReact
+              src={imageSrc}
+              loop
+              autoplay
+              style={{ width: '100%', height: '100%' }}
+            />
+          </div>
+        ) : (
+          <Image
+            src={imageSrc}
+            alt="project image"
+            width={384}
+            height={216}
+            className={cn("absolute bottom-0", imagePosition)}
+          />
+        )
       ) : (
         <div className="absolute -bottom-10 left-10 flex items-center justify-center h-[216px]">
           <p className={`${instrumentSerif.className} text-[40px] font-normal text-black`}>Coming Soon...</p>
