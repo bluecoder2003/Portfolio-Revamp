@@ -45,7 +45,7 @@ const mockProjects = [
     title: "DESIGN : Vion",
     description: "Tool that helps you listen to ai generated audiobooks",
     date: "12/2024",
-    // imageSrc: "/vng.svg",
+    imageSrc: "/paperplane.lottie",
     imagePosition: "!bottom-0 !right-0",
     className: "col-span-1 lg:col-span-4 h-[454px]",
     // hoverTextColor: "text-white",
