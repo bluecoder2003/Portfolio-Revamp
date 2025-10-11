@@ -41,8 +41,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <Image
                   src="/luce-web.webp"
                   alt="Holographic Logo"
-                  width={1000}
-                  height={1000}
+                  width={800}
+                  height={800}
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="mb-8 md:hidden flex flex-col justify-center items-center">
@@ -51,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   alt="Holographic Logo"
                   width={800}
                   height={800}
-                  className="w-3/4 h-auto mb-6"
+                  className="w-3/4 h-auto mb-6 object-cover"
                 />
                 <div className="w-full max-w-sm">
                   <ul className="space-y-3">
