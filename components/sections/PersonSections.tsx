@@ -56,7 +56,7 @@ export default function PersonSections() {
         period: "Jun 2025 - Present",
         description: [
           <>Worked on the WordPress → Next.js migration for <a href="https://signzy.com" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Signzy <ArrowUpRight className="w-4 h-4 inline" /></a>, improving design consistency and performance.</>,
-          <>Designed and built websites for <a href="https://www.natural-capital.partners/" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Natural Capital Partners <ArrowUpRight className="w-4 h-4 inline" /></a>, <a href="https://www.cosx.ai/" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">CosX Website <ArrowUpRight className="w-4 h-4 inline" /></a>,  <a href="https://kareverse.com" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Kareverse <ArrowUpRight className="w-4 h-4 inline" /></a>, and <a href="https://akhandjyoti.com" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Akhand Jyoti <ArrowUpRight className="w-4 h-4 inline" /></a>, and currently leading the CosxLive redesign.</>,
+          <>Designed and built websites for <a href="https://www.natural-capital.partners/" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Natural Capital Partners <ArrowUpRight className="w-4 h-4 inline" /></a>, <a href="https://www.cosx.ai/" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">CosX Website <ArrowUpRight className="w-4 h-4 inline" /></a>,  <a href="https://kareverse.com" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Kareverse <ArrowUpRight className="w-4 h-4 inline" /></a>, and <a href="https://www.anmoljyoti.akhandjyoti.com/" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Akhand Jyoti <ArrowUpRight className="w-4 h-4 inline" /></a>, and currently leading the CosxLive redesign.</>,
         ],
       },
   };
@@ -179,7 +179,7 @@ export default function PersonSections() {
               <Folder
                 isOpen={openFolder === "vng"}
                 onClick={() => {}} // Empty function since click is handled by parent div
-                logo="/vnglogo.png"
+                logo="/vnglogo.webp"
                 logoAlt="VNG Logo"
               />
             </div>
@@ -187,7 +187,7 @@ export default function PersonSections() {
               <Folder
                 isOpen={openFolder === "nlti"}
                 onClick={() => {}} // Empty function since click is handled by parent div
-                logo="/nltilogo.png"
+                logo="/nltilogo.webp"
                 logoAlt="NLTI Logo"
               />
             </div>
@@ -195,7 +195,7 @@ export default function PersonSections() {
               <Folder
                 isOpen={openFolder === "vexio"}
                 onClick={() => {}} // Empty function since click is handled by parent div
-                logo="/vexiologo.png"
+                logo="/vexiologo.webp"
                 logoAlt="Vexio Logo"
               />
             </div>
@@ -203,7 +203,7 @@ export default function PersonSections() {
               <Folder
                 isOpen={openFolder === "cosx"}
                 onClick={() => {}} // Empty function since click is handled by parent div
-                logo="/cosxlogo.png"
+                logo="/cosxlogo.webp"
                 logoAlt="CosX Logo"
               />
             </div>
