@@ -1,5 +1,4 @@
 // components/Footer.tsx
-import Link from "next/link";
 import { navigationItems } from './Navigation';
 // import { FaHeart } from "react-icons/fa";
 import { motion } from 'framer-motion';
@@ -53,9 +52,12 @@ const Footer = ({ onNavigate }: FooterProps) => {
         <div className="flex flex-col justify-between items-start w-full lg:w-3/5">
           <p className="mb-3 text-lg font-normal text-white">
             This portfolio is just a glimpse — a few pages from{" "}
-            <Link href="#person" className={`text-white text-xl underline decoration-2 underline-offset-4 ${instrumentSerif.className}`}>
+            <button 
+              onClick={() => handleNavigation('#person')} 
+              className={`text-white text-xl underline decoration-2 underline-offset-4 hover:text-gray-200 transition-colors cursor-pointer ${instrumentSerif.className}`}
+            >
               a longer story
-            </Link>{" "}
+            </button>{" "}
             still unfolding.
           </p> 
         </div>
