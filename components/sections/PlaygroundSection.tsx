@@ -30,13 +30,13 @@ const mockProjects = [
     description: "Pause before you reel: Because you deserve a guilty conscience 🤡",
     text: "What if every tap on the Reels button came with a sarcastic, guilt-inducing reality check? <br/> Say hello to brutally honest pop-ups that make you laugh, cringe, and maybe—just maybe—stop scrolling.",
     date: "01/2025",
-    className: "col-span-1 lg:col-span-6 h-[546px]",
+    className: "col-span-1 lg:col-span-6 h-[500px]",
   },
   {
     id: 4,
     videoSrc: "/funny.webm",
     mediaType: "video" as const,
-    className: "col-span-1 lg:col-span-6 h-[546px]",
+    className: "col-span-1 lg:col-span-6 h-[500px]",
   },
   {
     id: 5,
