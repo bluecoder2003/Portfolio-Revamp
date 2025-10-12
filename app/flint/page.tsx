@@ -5,6 +5,28 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/animated-section";
+import type { Metadata } from "next";
+
+export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: "Flint - Task Management Made Easy",
+  description: "Flint simplifies task management with an easy-to-use interface, quick team creation, seamless member invites, and an intuitive Kanban board for efficient collaboration.",
+  keywords: "task management, project management, team collaboration, kanban board, productivity",
+  openGraph: {
+    title: "Flint - Task Management Made Easy",
+    description: "Flint simplifies task management with an easy-to-use interface, quick team creation, seamless member invites, and an intuitive Kanban board for efficient collaboration.",
+    type: "website",
+    images: [
+      {
+        url: "/flint-proj.webp",
+        width: 1200,
+        height: 630,
+        alt: "Flint Task Management Platform",
+      },
+    ],
+  },
+};
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],

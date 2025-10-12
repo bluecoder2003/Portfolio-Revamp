@@ -5,6 +5,28 @@ import { RiHeartFill } from "react-icons/ri";
 import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/animated-section";
+import type { Metadata } from "next";
+
+export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: "Hiyn - UI/UX Design Platform",
+  description: "A digital platform for UI/UX designers that merges learning, collaboration, and recruitment—helping learners grow and showcase their skills while enabling companies to discover top design talent.",
+  keywords: "UI/UX design, design platform, design learning, design collaboration, design recruitment, portfolio",
+  openGraph: {
+    title: "Hiyn - UI/UX Design Platform",
+    description: "A digital platform for UI/UX designers that merges learning, collaboration, and recruitment—helping learners grow and showcase their skills while enabling companies to discover top design talent.",
+    type: "website",
+    images: [
+      {
+        url: "/hiyn-proj.webp",
+        width: 1200,
+        height: 630,
+        alt: "Hiyn UI/UX Design Platform",
+      },
+    ],
+  },
+};
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],

@@ -5,6 +5,28 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/animated-section";
+import type { Metadata } from "next";
+
+export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: "Safeve - Women's Safety Platform",
+  description: "Enhancing women's safety through anonymous reporting mechanisms. A secure, anonymous reporting system that empowers victims, helps organizations spot patterns, and fosters a culture of trust and accountability.",
+  keywords: "women safety, anonymous reporting, workplace safety, harassment reporting, POSH act, safety platform",
+  openGraph: {
+    title: "Safeve - Women's Safety Platform",
+    description: "Enhancing women's safety through anonymous reporting mechanisms. A secure, anonymous reporting system that empowers victims, helps organizations spot patterns, and fosters a culture of trust and accountability.",
+    type: "website",
+    images: [
+      {
+        url: "/safeve-proj.webp",
+        width: 1200,
+        height: 630,
+        alt: "Safeve Women's Safety Platform",
+      },
+    ],
+  },
+};
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],

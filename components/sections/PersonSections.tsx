@@ -306,8 +306,7 @@ export default function PersonSections() {
           </div>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full mt-4 gap-4 md:gap-0">
             <div className="text-lg text-[#626262]">
-              Over the past few years, I&apos;ve helped launch cloud platforms,
-              airport
+            Peek inside the folder to uncover my professional adventures !!
             </div>
             <Link
               href="https://drive.google.com/file/d/1A2RkGJNKCQKiEHqFEwLgM9iMx6JwHme4/view"
