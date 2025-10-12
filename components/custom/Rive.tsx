@@ -77,13 +77,21 @@ const Rive = ({ currentSection = "playground" }: RiveProps) => {
   };
 
   return (
-    <div
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className="w-full max-w-[1280px] mx-auto cursor-pointer overflow-hidden"
-    >
-      <RiveComponent style={{ width: '100%', height: '500px' }} className="h-[200px] md:h-[450px] lg:h-[500px]"/>
-    </div>
+    <>
+      {/* Resource hint for LCP optimization */}
+      <link rel="preload" href="/animations/blue-dot.riv" as="fetch" crossOrigin="anonymous" />
+      <div
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className="w-full max-w-[1280px] mx-auto cursor-pointer overflow-hidden"
+        data-fetchpriority="high"
+      >
+        <RiveComponent 
+          style={{ width: '100%', height: '500px' }} 
+          className="h-[200px] md:h-[450px] lg:h-[500px]"
+        />
+      </div>
+    </>
   );
 };
 

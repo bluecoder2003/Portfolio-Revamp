@@ -21,8 +21,9 @@ const containerVariants: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.05, // Reduced from 0.1 to 0.05 for faster staggering
-      delayChildren: 0.1     // Reduced from 0.2 to 0.1 for quicker start
+      staggerChildren: 0.02, // Even faster staggering for smoother feel
+      delayChildren: 0.05,   // Minimal delay for immediate start
+      ease: "easeOut"        // Smoother easing
     }
   }
 }
@@ -31,19 +32,17 @@ const containerVariants: Variants = {
 const cardVariants: Variants = {
   hidden: { 
     opacity: 0, 
-    y: 40,           // Reduced from 60 to 40 for subtler movement
-    scale: 0.98      // Increased from 0.95 to 0.98 for less dramatic scale
+    y: 20,           // Minimal movement to reduce jitter
+    scale: 0.99      // Minimal scale change for smoother feel
   },
   visible: { 
     opacity: 1, 
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.6,  // Reduced from 0.8 to 0.6 for faster animation
-      ease: [0.25, 0.46, 0.45, 0.94], // Smoother easing curve
-      type: "spring",
-      stiffness: 120,  // Increased stiffness for snappier feel
-      damping: 20      // Increased damping for less bounce
+      duration: 0.4,  // Faster animation for smoother feel
+      ease: "easeOut", // Smoother easing
+      type: "tween"   // Use tween for more predictable animations
     }
   }
 }
@@ -87,23 +86,23 @@ const NavigationProvider = () => {
   const sectionVariants = {
     initial: { 
       opacity: 0, 
-      y: 15,          // Reduced from 20 to 15 for subtler movement
-      scale: 0.98     // Increased from 0.95 to 0.98 for less dramatic scale
+      y: 10,          // Minimal movement to reduce jitter
+      scale: 0.99     // Minimal scale change for smoother feel
     },
     animate: { 
       opacity: 1, 
       y: 0,
       scale: 1,
       transition: {
-        duration: 0.4  // Reduced from 0.1 to 0.4 for smoother transition
+        duration: 0.3  // Faster transition for smoother feel
       }
     },
     exit: { 
       opacity: 0, 
-      y: -15,         // Reduced from -20 to -15 for subtler movement
-      scale: 0.98,    // Increased from 0.95 to 0.98
+      y: -10,         // Minimal movement to reduce jitter
+      scale: 0.99,    // Minimal scale change
       transition: {
-        duration: 0.3  // Reduced from 0.15 to 0.3 for faster exit
+        duration: 0.2  // Faster exit for smoother feel
       }
     }
   }

@@ -49,7 +49,10 @@ const HeroSection = ({
   };
 
   return (
-    <div className="relative bg-white w-full max-w-7xl mx-auto h-[600px] md:h-fit rounded-[16px] flex flex-col justify-between overflow-hidden">
+    <div 
+      className="relative bg-white w-full max-w-7xl mx-auto h-[600px] md:h-fit rounded-[16px] flex flex-col justify-between overflow-hidden"
+      data-fetchpriority="high"
+    >
       {/* Top Row */}
       <div className="absolute top-0 left-0 z-20 h-full flex flex-col lg:flex-row gap-8 lg:gap-0 justify-between items-start w-full px-4 md:px-[40px] pt-4 md:pt-[40px] pointer-events-none">
         <div className="bg-gradient-to-b from-white to-transparent h-[300px] w-full absolute top-0 left-0 -z-10" />

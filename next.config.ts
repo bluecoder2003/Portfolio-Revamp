@@ -10,6 +10,30 @@ const nextConfig: NextConfig = {
         pathname: '/portfolio/**',
       },
     ],
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
+  },
+  experimental: {
+    optimizePackageImports: ['framer-motion', '@rive-app/react-canvas'],
+  },
+  turbopack: {
+    rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+  },
+  serverExternalPackages: ['@lottiefiles/dotlottie-react'],
+  output: 'standalone',
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  poweredByHeader: false,
+  compress: true,
+  generateEtags: false,
+  httpAgentOptions: {
+    keepAlive: true,
   },
 };
 

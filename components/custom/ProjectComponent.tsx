@@ -1,11 +1,17 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { Instrument_Serif } from "next/font/google";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";  
+
+// Dynamic import for Lottie to avoid SSR issues
+const DotLottieReact = React.lazy(() => 
+  import("@lottiefiles/dotlottie-react").then(module => ({ 
+    default: module.DotLottieReact 
+  }))
+);  
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -42,6 +48,11 @@ const ProjectComponent = ({
   // onMouseLeave,
   onClick,
 }: ProjectComponentProps & { hovered?: boolean }) => {
+  const [isClient, setIsClient] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsClient(true);
+  }, []);
   return (
     <motion.div
       className={cn(
@@ -75,9 +86,9 @@ const ProjectComponent = ({
         </div>
         {/* <h3 className="font-normal text-base">{projectDate || "03/2025"}</h3> */}
         <div className="cursor-pointer" onClick={() => {}}>
-          <div className="flex items-center justify-center bg-white border-4 border-[#E6E6E6] rounded-full p-2 transition-all duration-300 ease-out">
+          <div className="flex items-center justify-center bg-white border-2 border-[#E6E6E6] rounded-full p-2 transition-all duration-300 ease-out">
             <ArrowUpRight className={cn(
-              "text-[#7C7C7C] w-10 h-10 transition-all duration-300 ease-out",
+              "text-[#7C7C7C] lg:w-8 lg:h-8 md:w-6 md:h-6 w-5 h-5 transition-all duration-300 ease-out",
               `hover:${hoverArrowColor}`
             )} />
           </div>
@@ -85,22 +96,41 @@ const ProjectComponent = ({
       </div>
       {imageSrc ? (
         imageSrc.endsWith('.lottie') ? (
-          <div className={cn("absolute bottom-0 left-1/2 -translate-x-1/2", imagePosition)} style={{ width: '500px', height: '300px' }}>
-            <DotLottieReact
-              src={imageSrc}
-              loop
-              autoplay
-              style={{ width: '100%', height: '100%' }}
-            />
+          <div 
+            className={cn("absolute bottom-0 left-1/2 -translate-x-1/2", imagePosition)} 
+            style={{ width: '500px', height: '300px' }}
+          >
+            {isClient ? (
+              <Suspense fallback={
+                <div className="w-full h-full bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">
+                  <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+                </div>
+              }>
+                <DotLottieReact
+                  src={imageSrc}
+                  loop
+                  autoplay
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </Suspense>
+            ) : (
+              <div className="w-full h-full bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">
+                <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+              </div>
+            )}
           </div>
         ) : (
-          <Image
-            src={imageSrc}
-            alt="project image"
-            width={384}
-            height={216}
-            className={cn("absolute bottom-0", imagePosition)}
-          />
+            <Image
+              src={imageSrc}
+              alt="project image"
+              width={500}
+              height={300}
+              className={cn("absolute bottom-0 left-1/2 -translate-x-1/2", imagePosition)}
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+            />
         )
       ) : (
         <div className="absolute -bottom-10 left-10 flex items-center justify-center h-[216px]">
