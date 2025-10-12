@@ -117,14 +117,14 @@ Recruiters can explore these portfolios and track skill progression to identify 
               alt="Flint"
               width={1000}
               height={1000}
-              className="w-full h-full lg:w-[635px] lg:h-[669px] object-cover rounded-3xl"
+              className="w-full lg:w-1/2 h-full lg:h-[670px] object-cover rounded-3xl"
             />
             <Image
               src="/h3.webp"
               alt="Flint"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover rounded-3xl"
+              className="w-full lg:w-1/2 h-full lg:h-[670px] object-cover rounded-3xl"
             />
           </div>
           <Image

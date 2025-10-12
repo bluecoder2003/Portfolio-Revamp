@@ -151,20 +151,20 @@ const Page = () => {
               className="w-full lg:w-1/2 h-auto object-cover rounded-3xl"
             />
           </div>
-          <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px] overflow-hidden rounded-3xl">
+          <div className="flex flex-col lg:flex-row justify-between items-center w-full gap-[10px]">
             <Image
               src="/s5.webp"
               alt="Safeve"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover"
+              className="w-full lg:w-1/3 h-full lg:h-[700px] object-cover rounded-3xl"
             />
             <Image
               src="/s6.webp"
               alt="Safeve"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover"
+              className="w-full h-full lg:h-[700px] object-cover rounded-3xl"
             />
           </div>
         </div>

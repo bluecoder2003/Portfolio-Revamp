@@ -108,7 +108,7 @@ const Page = () => {
               alt="Flint"
               width={1000}
               height={1000}
-              className="w-full h-full object-cover rounded-3xl"
+              className="w-full h-full lg:h-[700px] object-cover rounded-3xl"
             />
             <Image
               // src="https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/f2.svg"
@@ -116,7 +116,7 @@ const Page = () => {
               alt="Flint"
               width={1000}
               height={1000}
-              className="w-full h-full lg:w-[464px] lg:h-[669px] object-cover rounded-3xl"
+              className="w-full lg:w-1/2 h-full lg:h-[700px] object-contain rounded-3xl"
             />
           </div>
           <div className="flex flex-col lg:flex-row justify-between items-center w-full h-full gap-[10px] overflow-hidden rounded-3xl">
