@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { RiHeartFill } from "react-icons/ri";
-import { Instrument_Serif } from "next/font/google";
+// import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/animated-section";
 import type { Metadata } from "next";
@@ -28,12 +28,12 @@ export const metadata: Metadata = {
   },
 };
 
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-instrument-serif",
-  style: "italic",
-});
+// const instrumentSerif = Instrument_Serif({
+//   subsets: ["latin"],
+//   weight: ["400"],
+//   variable: "--font-instrument-serif",
+//   style: "italic",
+// });
 
 const Page = () => {
   return (
@@ -41,12 +41,13 @@ const Page = () => {
       <AnimatedSection delay={0.1}>
         <div className="bg-white w-full max-w-7xl mx-auto h-fit p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between">
           {/* Top Row: Back Button */}
-          <div className="flex flex-row items-start justify-between w-full">
+          <div className="flex flex-row items-start justify-between w-full mb-4">
             <Link
               href="/"
-              className="bg-black rounded-full w-10 h-10 md:w-14 md:h-14 flex items-center justify-center mb-4"
+              className="flex items-center gap-2 text-sm md:text-base bg-gray-100 px-3 py-2 rounded-md text-gray-600 hover:text-black transition-colors duration-200"
             >
-              <ArrowLeft className="text-white w-8 h-8" />
+              <ArrowLeft className="w-4 h-4" />
+              <span>back to projects</span>
             </Link>
             <div className="flex-1" />
           </div>
@@ -54,31 +55,23 @@ const Page = () => {
           <div className="flex flex-col gap-4 mt-2">
             {/* Heading and Subtitle */}
             <div className="flex flex-col md:flex-row justify-between items-start w-full gap-3">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3 max-w-3xl">
               <span
-                className={`text-4xl md:text-5xl lg:text-[56px] font-normal text-black leading-none ${instrumentSerif.className}`}
+                className="text-4xl md:text-5xl lg:text-5xl font-normal text-black leading-tight"
               >
-                Hiyn
+                <span className="text-[#AD1F04]">Hiyn:</span> a dynamic creative hierarchy for designers
               </span>
-              <span className="text-lg lg:text-xl font-normal text-gray-700 w-full">
-              A platform for UI/UX designers to learn, collaborate, and get hired
+              <span className="text-base md:text-lg font-normal text-black w-full">
+                Hiyn is a digital platform that helps designers rise through a dynamic creative hierarchy, showcasing their skills and gaining recognition.
               </span>
             </div>
-            <Link
-              href="https://www.figma.com/design/LwuOEOI3vfOWRzAmS7EVQx/hiyn?node-id=545-528&t=QpCChzpieddcQgjb-1"
-              className="items-center gap-2 sm:gap-3 lg:gap-4 bg-black text-white text-base font-normal px-4 py-2 rounded-md shadow-md flex whitespace-nowrap"
-            >
-              View Figma
-              <div className="flex flex-row items-center gap-1 sm:gap-2 bg-[#AD1F04] rounded-full p-0.5 sm:p-1">
-                <ArrowUpRight className="w-4 h-4 text-white" />
-              </div>
-            </Link>
+            
             </div>
             {/* 3-Column Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 lg:gap-6 mt-3 lg:mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mt-3 lg:mt-6">
               {/* Project Overview */}
               <div className="border border-dashed border-zinc-300 rounded-2xl p-4 lg:p-6 h-full flex flex-col">
-                <div className="text-lg lg:text-xl font-normal text-gray-700 mb-4">
+                <div className="text-lg lg:text-xl font-medium text-gray-700 mb-4">
                   Project Overview
                 </div>
                 <div className="text-base font-normal text-black">
@@ -88,14 +81,15 @@ const Page = () => {
         
               {/* Proposed Solution */}
               <div className="border border-dashed border-zinc-300 rounded-2xl p-4 lg:p-6 h-full flex flex-col">
-                <div className="text-lg lg:text-xl font-normal text-gray-700 mb-4">
+                <div className="text-lg lg:text-xl font-medium text-gray-700 mb-4">
                   Proposed Solution
                 </div>
-                <div className="text-base font-normal text-black">
-                Develop an all-in-one platform where UI/UX designers can learn through curated modules, build real-world projects, collaborate with peers, and maintain a public portfolio. <br/>
-
-Recruiters can explore these portfolios and track skill progression to identify and hire top talent efficiently.
-                </div>
+                <ul className="flex flex-col gap-2 text-base font-normal text-black list-disc list-inside">
+                  <li>Created a unified platform for designers to learn through curated modules</li>
+                  <li>Enabled hands-on learning with real-world projects</li>
+                  <li>Provided public portfolios to showcase work and track growth</li>
+                  <li>Helped recruiters discover top design talent</li>
+                </ul>
               </div>
             </div>
           </div>
@@ -155,23 +149,29 @@ Recruiters can explore these portfolios and track skill progression to identify 
 
       {/* Next Project Section */}
       <AnimatedSection delay={0.3}>
-        <div className="bg-white max-w-7xl mx-auto w-full h-[300px] md:h-[462px] p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between">
-          <div className="flex flex-row justify-between items-center lg:items-start w-full">
-            <span className="text-3xl md:text-4xl lg:text-[64px] font-normal text-black">
-              Next Project
-            </span>
-            <div className="flex items-center justify-center">
-              <Link 
-                href="/flint"
-                className="bg-black rounded-full w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center cursor-pointer hover:bg-gray-800 transition-colors duration-300"
-              >
-                <ArrowUpRight className="text-white w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10" />
-              </Link>
-            </div>
+        <div className="bg-white max-w-7xl mx-auto w-full p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between h-[300px] md:h-[462px]">
+          {/* Previous and Next Projects */}
+          <div className="grid grid-cols-2 gap-6 md:gap-8 mb-12">
+            {/* Previous Project */}
+            <Link href="/safeve" className="group flex flex-col gap-4">
+              <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-md w-fit text-sm md:text-base text-gray-600 group-hover:text-black transition-colors">
+                <ArrowLeft className="w-4 h-4" />
+                <span>Previous Project</span>
+              </div>
+            </Link>
+
+            {/* Next Project */}
+            <Link href="/flint" className="group flex flex-col gap-4 items-end">
+              <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-md w-fit text-sm md:text-base text-gray-600 group-hover:text-black transition-colors justify-end">
+                <span>Next Project</span>
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            </Link>
           </div>
-          <div className="flex-1" />
-          <div className="mt-12 border-t pt-4 flex flex-row justify-between items-center text-base text-black">
-            <span>© 2025 All Rights Reserved</span>
+
+          {/* Footer */}
+          <div className="border-t pt-4 flex flex-row justify-between items-center text-base text-black">
+            <span>© 2026 All Rights Reserved</span>
             <span className="flex items-center gap-2">
               Made with{" "}
               <span className="text-black text-xl">
