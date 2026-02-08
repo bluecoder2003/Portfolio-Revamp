@@ -44,9 +44,9 @@ const Page = () => {
           <div className="flex flex-row items-start justify-between w-full mb-4">
             <Link
               href="/"
-              className="flex items-center gap-2 text-sm md:text-base bg-gray-100 px-3 py-2 rounded-md text-gray-600 hover:text-black transition-colors duration-200"
+              className="flex items-center gap-2 text-xs md:text-base bg-gray-100 px-3 py-2 rounded-md text-gray-600 hover:text-black transition-colors duration-200"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="md:w-4 md:h-4 w-3 h-3" />
               <span>back to projects</span>
             </Link>
             <div className="flex-1" />
@@ -57,7 +57,7 @@ const Page = () => {
             <div className="flex flex-col md:flex-row justify-between items-start w-full gap-3">
             <div className="flex flex-col gap-3 max-w-3xl">
               <span
-                className="text-4xl md:text-5xl lg:text-5xl font-normal text-black leading-tight"
+                className="text-3xl md:text-5xl lg:text-5xl font-normal text-black leading-tight"
               >
                 <span className="text-[#4253D5]">Flint:</span> simplifying team task management
               </span>
@@ -164,23 +164,23 @@ const Page = () => {
           <div className="grid grid-cols-2 gap-6 md:gap-8 mb-12">
             {/* Previous Project */}
             <Link href="/hiyn" className="group flex flex-col gap-4">
-              <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-md w-fit text-sm md:text-base text-gray-600 group-hover:text-black transition-colors">
-                <ArrowLeft className="w-4 h-4" />
+              <div className="flex whitespace-nowrap items-center gap-2 bg-gray-100 px-4 py-2 rounded-md w-fit text-xs md:text-base text-gray-600 group-hover:text-black transition-colors">
+                <ArrowLeft className="md:w-4 md:h-4 w-3 h-3" />
                 <span>Previous Project</span>
               </div>
             </Link>
 
             {/* Next Project */}
-            <Link href="/safeve" className="group flex flex-col gap-4 items-end">
-              <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-md w-fit text-sm md:text-base text-gray-600 group-hover:text-black transition-colors justify-end">
+            <Link href="/vion" className="group flex flex-col gap-4 items-end">
+              <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-md w-fit text-xs md:text-base text-gray-600 group-hover:text-black transition-colors justify-end">
                 <span>Next Project</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="md:w-4 md:h-4 w-3 h-3" />
               </div>
             </Link>
           </div>
 
           {/* Footer */}
-          <div className="border-t pt-4 flex flex-row justify-between items-center text-base text-black">
+          <div className="border-t pt-4 flex flex-row justify-between items-center md:text-base text-xs text-black">
             <span>© 2026 All Rights Reserved</span>
             <span className="flex items-center gap-2">
               Made with{" "}

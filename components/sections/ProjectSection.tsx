@@ -41,15 +41,16 @@ const mockProjects = [
     route: "/safeve",
   },
   {
-    id: 4,
+    id: 1,
     title: "design : vion",
-    description: "Tool that helps you listen to ai generated audiobooks",
-    date: "12/2024",
-    imageSrc: "/paperplane.lottie",
-    imagePosition: "!bottom-0 !right-0",
+    description: "Vion is a platform that helps you create and manage your tasks.",
+    date: "02/2026",
+    imageSrc: "/vion.webp",
+    imagePosition: "!bottom-0 !w-[300px] !h-[200px] md:!w-[350px] md:!h-[200px] lg:!w-fit lg:!h-[300px]",
     className: "hover:bg-[#093FB4] hover:text-white col-span-1 lg:col-span-6 h-[330px] md:h-[350px] lg:h-[454px]",
     hoverTextColor: "text-white",
-    hoverArrowColor: "text-purple-700",
+    hoverArrowColor: "text-black",
+    route: "/vion",
   },
 ];
 
