@@ -66,14 +66,17 @@ const HeroSection = ({
         {/* Top Left */}
         <div className="pointer-events-auto flex flex-col md:flex-row justify-between items-start w-full gap-8">
           <span className="text-lg font-normal text-black">
-            Designer & Developer{" "}
+          currently building at {" "}
             <span className="text-[#093FB4] underline">
               <Link href="https://cosx.ai">@cosx.ai</Link>
             </span>{" "}
-            · prev.{" "}
+            <span className="text-black">
+            ~ design x code
+            </span>
+            {/* · prev.{" "}
             <span className="text-[#093FB4] underline">
               <Link href="https://vexio.in">@vexio.in</Link>
-            </span>
+            </span> */}
           </span>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
           {navigationItems.map((item) => (
@@ -170,9 +173,9 @@ const HeroSection = ({
             Hellooo, I&apos;m Neelakshi Das
           </div>
           <div
-            className={`text-[48px] md:text-[56px] font-normal text-[#093FB4] leading-none ${instrumentSerif.className}`}
+            className={`text-[48px] md:text-[56px] font-normal text-[#093FB4] tracking-tight leading-none ${instrumentSerif.className}`}
           >
-            Design Engineer
+            Designer & Engineer
           </div>
         </div>
 
