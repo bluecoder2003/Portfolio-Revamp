@@ -1,8 +1,4 @@
-import { Mail, Github } from "lucide-react";
-import { RiBehanceFill } from "react-icons/ri";
-import { RiTwitterXFill } from "react-icons/ri";
-import { FaDribbble } from "react-icons/fa";
-import { FaLinkedinIn } from "react-icons/fa6";
+import { Mail, Github, Linkedin, Twitter, Dribbble, Pen } from "lucide-react";
 
 const contacts = [
   [
@@ -10,15 +6,15 @@ const contacts = [
       icon: <Mail className="w-7 h-7" />, label: "Email", value: "dasneelakshi01@gmail.com", href: "mailto:dasneelakshi01@gmail.com"
     },
     {
-      icon: <FaLinkedinIn className="w-7 h-7" />, label: "LinkedIn", value: "@neelakshi", href: "https://www.linkedin.com/in/neelakshi-das-b0ba68244/"
+      icon: <Linkedin className="w-7 h-7" />, label: "LinkedIn", value: "@neelakshi", href: "https://www.linkedin.com/in/neelakshi-das-b0ba68244/"
     },
   ],
   [
     {
-      icon: <RiTwitterXFill className="w-7 h-7" />, label: "Twitter", value: "@bluecoder2003", href: "https://twitter.com/bluecoder2003"
+      icon: <Twitter className="w-7 h-7" />, label: "Twitter", value: "@bluecoder2003", href: "https://twitter.com/bluecoder2003"
     },
     {
-      icon: <FaDribbble className="w-7 h-7" />, label: "Dribbble", value: "@bluecoder2003", href: "https://dribbble.com/bluecoder2003"
+      icon: <Dribbble className="w-7 h-7" />, label: "Dribbble", value: "@bluecoder2003", href: "https://dribbble.com/bluecoder2003"
     },
   ],
   [
@@ -26,7 +22,7 @@ const contacts = [
       icon: <Github className="w-7 h-7" />, label: "Github", value: "@bluecoder2003", href: "https://github.com/bluecoder2003"
     },
     {
-      icon: <RiBehanceFill className="w-7 h-7" />, label: "Behance", value: "@neelakshi", href: "https://www.behance.net/neelakshi"
+      icon: <Pen className="w-7 h-7" />, label: "Behance", value: "@neelakshi", href: "https://www.behance.net/neelakshi"
     },
   ],
 ];

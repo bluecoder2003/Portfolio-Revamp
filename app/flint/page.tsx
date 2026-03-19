@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { RiHeartFill } from "react-icons/ri";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { Heart, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 // import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/animated-section";
@@ -13,6 +12,9 @@ export const metadata: Metadata = {
   title: "Flint - Task Management Made Easy",
   description: "Flint simplifies task management with an easy-to-use interface, quick team creation, seamless member invites, and an intuitive Kanban board for efficient collaboration.",
   keywords: "task management, project management, team collaboration, kanban board, productivity",
+  alternates: {
+    canonical: "/flint",
+  },
   openGraph: {
     title: "Flint - Task Management Made Easy",
     description: "Flint simplifies task management with an easy-to-use interface, quick team creation, seamless member invites, and an intuitive Kanban board for efficient collaboration.",
@@ -185,7 +187,7 @@ const Page = () => {
             <span className="flex items-center gap-2">
               Made with{" "}
               <span className="text-black text-xl">
-                <RiHeartFill />
+                <Heart className="w-5 h-5 fill-current" />
               </span>
             </span>
           </div>

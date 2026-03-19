@@ -1,9 +1,5 @@
-// components/Footer.tsx
 import { navigationItems } from './Navigation';
-// import { FaHeart } from "react-icons/fa";
-import { motion } from 'framer-motion';
-import { RiDoubleQuotesL } from "react-icons/ri";
-import { useState, useEffect } from 'react';
+import { Quote } from "lucide-react";
 
 import { Instrument_Serif } from "next/font/google";
 
@@ -12,6 +8,7 @@ const instrumentSerif = Instrument_Serif({
   weight: ["400"],
   variable: "--font-instrument-serif",
   style: "italic",
+  display: "swap",
 });
 
 interface FooterProps {
@@ -19,18 +16,6 @@ interface FooterProps {
 }
 
 const Footer = ({ onNavigate }: FooterProps) => {
-  const [isDesktop, setIsDesktop] = useState(false);
-
-  useEffect(() => {
-    const checkIsDesktop = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-    
-    checkIsDesktop();
-    window.addEventListener('resize', checkIsDesktop);
-    
-    return () => window.removeEventListener('resize', checkIsDesktop);
-  }, []);
   const handleNavigation = (href: string) => {
     if (onNavigate) {
       // Map href to section type
@@ -65,34 +50,28 @@ const Footer = ({ onNavigate }: FooterProps) => {
         {/* Right Side */}
         <div className='grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4'>
           {navigationItems.map((item) => (
-            <motion.button 
-              key={item.label} 
+            <button
+              key={item.label}
               onClick={() => handleNavigation(item.href)}
               className='flex items-center text-white text-lg gap-2 font-normal transition-colors group'
-              // whileHover={{ scale: .98 }}
-              transition={{ duration: 0.2 }}
             >
-              <motion.div
-                className="group-hover:rotate-[-35deg] transition-transform duration-300 ease-in-out bg-white rounded-full p-1 text-[#093FB4] hover:text-[#093FB4] group-hover:bg-white"
+              <div
+                className="group-hover:rotate-[-35deg] transition-transform duration-300 ease-in-out bg-white rounded-full p-1 text-[#093FB4] group-hover:bg-white"
               >
-               <RiDoubleQuotesL size={18} className="group-hover:text-[#093FB4]"/>
-              </motion.div>
+               <Quote size={16} className="group-hover:text-[#093FB4] fill-current"/>
+              </div>
               {item.label}
-            </motion.button>
+            </button>
           ))}
         </div>
       </div>
-      <motion.div 
-        className="absolute -bottom-7 md:-bottom-16 lg:-bottom-24 left-0 z-10 flex items-center justify-center pointer-events-none"
-        initial={{ y: isDesktop ? 100 : 0, opacity: isDesktop ? 0 : 0.3 }}
-        whileInView={{ y: 0, opacity: 0.3 }}
-        viewport={{ amount: 0.3 }}
-        transition={{ duration: isDesktop ? 0.8 : 0, ease: "easeOut" }}
+      <div
+        className="absolute -bottom-7 md:-bottom-16 lg:-bottom-24 left-0 z-10 flex items-center justify-center pointer-events-none opacity-30"
       >
         <span className="text-[#072A8A] text-[60px] md:text-[120px] lg:text-[200px] font-bold tracking-wider select-none">
           BLUECODER
         </span>
-      </motion.div>
+      </div>
 
       {/* Divider */}
       {/* <div className="mt-12 border-t pt-4 flex flex-row justify-between items-center text-base text-black">

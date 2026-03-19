@@ -10,11 +10,15 @@ const nextConfig: NextConfig = {
         pathname: '/portfolio/**',
       },
     ],
-    formats: ['image/webp', 'image/avif'],
-    minimumCacheTTL: 60,
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 31536000,
   },
   experimental: {
-    optimizePackageImports: ['framer-motion', '@rive-app/react-canvas'],
+    optimizePackageImports: [
+      'framer-motion',
+      'lucide-react',
+      '@rive-app/react-canvas',
+    ],
   },
   turbopack: {
     rules: {
@@ -31,7 +35,6 @@ const nextConfig: NextConfig = {
   },
   poweredByHeader: false,
   compress: true,
-  generateEtags: false,
   httpAgentOptions: {
     keepAlive: true,
   },

@@ -1,17 +1,23 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { navigationItems } from "./Navigation";
-import { CornerRightDown } from "lucide-react";
-import { motion } from "framer-motion";
+import { CornerRightDown, Quote } from "lucide-react";
 
 import { Instrument_Serif } from "next/font/google";
-import { RiDoubleQuotesL } from "react-icons/ri";
-import Rive from "../custom/Rive";
+
+const Rive = dynamic(() => import("../custom/Rive"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[200px] md:h-[450px] lg:h-[500px] bg-gray-50 animate-pulse" />
+  ),
+});
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-instrument-serif",
   style: "italic",
+  display: "swap",
 });
 
 interface HeroSectionProps {
@@ -71,18 +77,16 @@ const HeroSection = ({
           </span>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
           {navigationItems.map((item) => (
-            <motion.button
+            <button
               key={item.label}
               onClick={() => handleNavigation(item.href)}
               className="flex items-center text-black text-lg gap-2 font-normal hover:text-[#093FB4] transition-colors group"
-              // whileHover={{ scale: .98 }}
-              transition={{ duration: 0.2 }}
             >
-              <motion.div className="group-hover:rotate-[-35deg] transition-transform duration-300 ease-in-out bg-black rounded-full p-1 text-white hover:text-[#093FB4] group-hover:bg-[#093FB4]">
-                <RiDoubleQuotesL size={18} className="group-hover:text-white" />
-              </motion.div>
+              <div className="group-hover:rotate-[-35deg] transition-transform duration-300 ease-in-out bg-black rounded-full p-1 text-white group-hover:bg-[#093FB4]">
+                <Quote size={16} className="group-hover:text-white fill-current" />
+              </div>
               {item.label}
-            </motion.button>
+            </button>
           ))}
         </div>
         </div>

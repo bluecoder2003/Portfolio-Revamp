@@ -3,21 +3,21 @@ import React, { Suspense } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
 import { Instrument_Serif } from "next/font/google";
 
 // Dynamic import for Lottie to avoid SSR issues
-const DotLottieReact = React.lazy(() => 
-  import("@lottiefiles/dotlottie-react").then(module => ({ 
-    default: module.DotLottieReact 
+const DotLottieReact = React.lazy(() =>
+  import("@lottiefiles/dotlottie-react").then(module => ({
+    default: module.DotLottieReact
   }))
-);  
+);
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-instrument-serif",
   style: "italic",
+  display: "swap",
 });
 
 type ProjectComponentProps = {
@@ -54,23 +54,12 @@ const ProjectComponent = ({
     setIsClient(true);
   }, []);
   return (
-    <motion.div
+    <div
       className={cn(
         "relative flex flex-col h-[454.5px] flex-1 rounded-[20px] bg-white cursor-pointer group transition-all duration-300 ease-out",
         className
       )}
-      // onMouseEnter={onMouseEnter}
-      // onMouseLeave={onMouseLeave}
       onClick={onClick}
-      animate={{ boxShadow: "0 0px 0px rgba(0,0,0,0)" }}
-      transition={{
-        type: "spring",
-        stiffness: 100,
-        damping: 24,
-        mass: 1,
-        duration: 0.5,
-        delay: 0.6,
-      }}
     >
       <div className="flex justify-between items-start gap-4 pt-4 md:pt-8 px-4 md:px-8">
         <div className="flex flex-col gap-2">
@@ -137,7 +126,7 @@ const ProjectComponent = ({
           <p className={`${instrumentSerif.className} text-[40px] font-normal text-black`}>Coming Soon...</p>
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 
