@@ -77,6 +77,28 @@ const mockProjects = [
     showRedirectButton: true,
     redirectLink: "https://swab-paste-12055977.figma.site/",
   },
+  {
+    id: 9,
+    title: "DESIGN",
+    description: "Figma Makeathon 2026",
+    date: "03/2026",
+    videoSrc: "/figmamakeathon.webm",
+    mediaType: "video" as const,
+    className: "col-span-1 lg:col-span-6 h-[500px]",
+    showRedirectButton: true,
+    redirectLink: "https://peony-candle-12655337.figma.site/",
+  },
+  {
+    id: 10,
+    title: "DEVELOPMENT",
+    description: "Figma Build 2026",
+    date: "03/2026",
+    videoSrc: "/figbuild.webm",
+    mediaType: "video" as const,
+    className: "col-span-1 lg:col-span-6 h-[500px]",
+    showRedirectButton: true,
+    redirectLink: "https://visor-jade-40774028.figma.site/",
+  },
 ];
 
 export default function PlaygroundSection() {
