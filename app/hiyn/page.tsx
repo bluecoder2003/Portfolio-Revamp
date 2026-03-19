@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { RiHeartFill } from "react-icons/ri";
+import { ArrowLeft, ArrowRight, Heart } from "lucide-react";
 // import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/animated-section";
@@ -13,6 +12,9 @@ export const metadata: Metadata = {
   title: "Hiyn - UI/UX Design Platform",
   description: "A digital platform for UI/UX designers that merges learning, collaboration, and recruitment—helping learners grow and showcase their skills while enabling companies to discover top design talent.",
   keywords: "UI/UX design, design platform, design learning, design collaboration, design recruitment, portfolio",
+  alternates: {
+    canonical: "/hiyn",
+  },
   openGraph: {
     title: "Hiyn - UI/UX Design Platform",
     description: "A digital platform for UI/UX designers that merges learning, collaboration, and recruitment—helping learners grow and showcase their skills while enabling companies to discover top design talent.",
@@ -175,7 +177,7 @@ const Page = () => {
             <span className="flex items-center gap-2">
               Made with{" "}
               <span className="text-black text-xl">
-                <RiHeartFill />
+                <Heart className="w-5 h-5 fill-current" />
               </span>
             </span>
           </div>

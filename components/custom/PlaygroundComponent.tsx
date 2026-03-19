@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import { ArrowUpRight, Maximize2 } from "lucide-react";
 
 type PlaygroundComponentProps = {
@@ -21,6 +20,42 @@ type PlaygroundComponentProps = {
   onMaximizeClick?: () => void;
 };
 
+const LazyVideo = ({ src, className }: { src: string; className?: string }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      src={isVisible ? src : undefined}
+      className={className}
+      autoPlay={isVisible}
+      muted
+      loop
+      playsInline
+      preload="none"
+    />
+  );
+};
+
 const PlaygroundComponent = ({
   className,
   imageSrc,
@@ -34,12 +69,12 @@ const PlaygroundComponent = ({
   showRedirectButton = false,
   redirectLink,
   onMaximizeClick,
-}: PlaygroundComponentProps & { hovered?: boolean }) => {
+}: PlaygroundComponentProps) => {
   const hasTextContent = projectTitle || projectDescription || projectDate;
   const hasMedia = imageSrc || videoSrc;
 
   return (
-    <motion.div
+    <div
       className={cn(
         "relative flex flex-col h-[454.5px] flex-1 rounded-[20px] bg-white cursor-pointer group",
         className
@@ -69,12 +104,13 @@ const PlaygroundComponent = ({
             >
               {projectDescription}
             </p>
-            <p
-              className="font-normal mt-8 text-lg text-gray-700"
-              dangerouslySetInnerHTML={{ __html: projectText || "" }}
-            />
+            {projectText && (
+              <p
+                className="font-normal mt-8 text-lg text-gray-700"
+                dangerouslySetInnerHTML={{ __html: projectText }}
+              />
+            )}
           </div>
-          {/* <h3 className="font-normal text-base text-[#3d3d3d]">{projectDate}</h3> */}
 
           {!hasMedia && (
             <div className="flex items-end justify-center mb-8 h-[350px]">
@@ -104,21 +140,18 @@ const PlaygroundComponent = ({
           )}
         >
           {mediaType === "video" && videoSrc ? (
-            <video
+            <LazyVideo
               src={videoSrc}
               className="w-full h-full object-cover rounded-lg"
-              autoPlay
-              muted
-              loop
-              playsInline
             />
           ) : imageSrc ? (
             <Image
               src={imageSrc}
-              alt="project media"
+              alt={projectDescription || "project media"}
               width={384}
               height={216}
               className="w-full h-full object-cover rounded-lg"
+              loading="lazy"
             />
           ) : null}
           {showMaximizeButton && (
@@ -151,7 +184,7 @@ const PlaygroundComponent = ({
           )}
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };
 

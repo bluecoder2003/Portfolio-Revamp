@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { RiHeartFill } from "react-icons/ri";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { Heart, ArrowLeft, ArrowRight } from "lucide-react";
 // import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/animated-section";
@@ -10,19 +9,22 @@ import type { Metadata } from "next";
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: "Flint - Task Management Made Easy",
-  description: "Flint simplifies task management with an easy-to-use interface, quick team creation, seamless member invites, and an intuitive Kanban board for efficient collaboration.",
-  keywords: "task management, project management, team collaboration, kanban board, productivity",
+  title: "Vion - AI-Powered Audiobook Platform",
+  description: "Vion converts any book into a personalized AI-generated audiobook, allowing users to customize narrator and character voices for an immersive listening experience.",
+  keywords: "AI audiobook, text to speech, audiobook creator, AI narration, personalized audiobook, voice customization",
+  alternates: {
+    canonical: "/vion",
+  },
   openGraph: {
-    title: "Flint - Task Management Made Easy",
-    description: "Flint simplifies task management with an easy-to-use interface, quick team creation, seamless member invites, and an intuitive Kanban board for efficient collaboration.",
+    title: "Vion - AI-Powered Audiobook Platform",
+    description: "Vion converts any book into a personalized AI-generated audiobook with customizable narrator and character voices.",
     type: "website",
     images: [
       {
         url: "/vion.webp",
         width: 1200,
         height: 630,
-        alt: "Vion ",
+        alt: "Vion AI Audiobook Platform",
       },
     ],
   },
@@ -179,7 +181,7 @@ Vion converts any book into a personalized AI-generated audiobook, allowing user
             <span className="flex items-center gap-2">
               Made with{" "}
               <span className="text-black text-xl">
-                <RiHeartFill />
+                <Heart className="w-5 h-5 fill-current" />
               </span>
             </span>
           </div>

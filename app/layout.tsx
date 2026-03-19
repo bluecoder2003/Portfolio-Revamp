@@ -2,23 +2,62 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Pixel Stories",
-  description: "Neelakshi's Portfolio",
-  keywords: "portfolio, designer, developer, UI/UX, frontend",
+  title: {
+    default: "Neelakshi Das — Design Engineer Portfolio",
+    template: "%s | Neelakshi Das",
+  },
+  description:
+    "Portfolio of Neelakshi Das — Design Engineer crafting intuitive, high-performance interfaces. UI/UX design and frontend development.",
+  keywords: [
+    "portfolio",
+    "design engineer",
+    "UI/UX designer",
+    "frontend developer",
+    "Neelakshi Das",
+    "React",
+    "Next.js",
+  ],
   authors: [{ name: "Neelakshi Das" }],
-  robots: "index, follow",
+  creator: "Neelakshi Das",
+  metadataBase: new URL("https://pixelstories.design"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "Pixel Stories",
-    description: "Neelakshi's Portfolio",
+    title: "Neelakshi Das — Design Engineer Portfolio",
+    description:
+      "Portfolio of Neelakshi Das — Design Engineer crafting intuitive, high-performance interfaces.",
     type: "website",
+    locale: "en_US",
+    url: "https://pixelstories.design",
+    siteName: "Pixel Stories",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Neelakshi's Portfolio Preview",
+        alt: "Neelakshi Das — Design Engineer Portfolio",
       },
     ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Neelakshi Das — Design Engineer Portfolio",
+    description:
+      "Design Engineer crafting intuitive, high-performance interfaces.",
+    images: ["/og-image.png"],
+    creator: "@bluecoder2003",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -33,12 +72,16 @@ export default function RootLayout({
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//neelakshi.s3.us-east-1.amazonaws.com" />
-        
+
         {/* Preconnect to critical origins */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
-        {/* Preload critical fonts with font-display: swap for better performance */}
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+
+        {/* Preload only the most critical font */}
         <link
           rel="preload"
           href="/fonts/NeueMontreal-Regular.otf"
@@ -46,48 +89,39 @@ export default function RootLayout({
           type="font/otf"
           crossOrigin="anonymous"
         />
-        <link
-          rel="preload"
-          href="/fonts/NeueMontreal-Bold.otf"
-          as="font"
-          type="font/otf"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/InstrumentSerif-Regular.ttf"
-          as="font"
-          type="font/ttf"
-          crossOrigin="anonymous"
-        />
-        
-        {/* Preload critical above-the-fold assets only */}
-        <link
-          rel="preload"
-          href="/animations/blue-dot.riv"
-          as="fetch"
-          crossOrigin="anonymous"
-          fetchPriority="high"
-        />
-        
-        {/* Preload only the first visible project image */}
-        <link rel="preload" href="/hiyn.webp" as="image" fetchPriority="high" />
-        
-        {/* Prefetch other project images with lower priority */}
-        <link rel="prefetch" href="/flint.webp" as="image" />
-        <link rel="prefetch" href="/safeve.webp" as="image" />
-        <link rel="prefetch" href="/paperplane.lottie" as="fetch" />
-        
-        {/* Prefetch video assets with low priority */}
-        <link rel="prefetch" href="/credit-card.webm" as="video" />
-        <link rel="prefetch" href="/funny.webm" as="video" />
-        <link rel="prefetch" href="/aot.webm" as="video" />
-        <link rel="prefetch" href="/potter.webm" as="video" />
-        
+
         {/* Resource hints for better caching */}
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Neelakshi Das",
+              jobTitle: "Design Engineer",
+              url: "https://pixelstories.design",
+              sameAs: [
+                "https://github.com/bluecoder2003",
+                "https://twitter.com/bluecoder2003",
+                "https://www.linkedin.com/in/neelakshi-das-b0ba68244/",
+                "https://dribbble.com/bluecoder2003",
+                "https://www.behance.net/neelakshi",
+              ],
+              knowsAbout: [
+                "UI/UX Design",
+                "Frontend Development",
+                "React",
+                "Next.js",
+                "TypeScript",
+              ],
+            }),
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

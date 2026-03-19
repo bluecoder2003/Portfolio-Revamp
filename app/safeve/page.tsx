@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { RiHeartFill } from "react-icons/ri";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { Heart, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 // import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/animated-section";
@@ -13,6 +12,9 @@ export const metadata: Metadata = {
   title: "Safeve - Women's Safety Platform",
   description: "Enhancing women's safety through anonymous reporting mechanisms. A secure, anonymous reporting system that empowers victims, helps organizations spot patterns, and fosters a culture of trust and accountability.",
   keywords: "women safety, anonymous reporting, workplace safety, harassment reporting, POSH act, safety platform",
+  alternates: {
+    canonical: "/safeve",
+  },
   openGraph: {
     title: "Safeve - Women's Safety Platform",
     description: "Enhancing women's safety through anonymous reporting mechanisms. A secure, anonymous reporting system that empowers victims, helps organizations spot patterns, and fosters a culture of trust and accountability.",
@@ -172,7 +174,7 @@ const Page = () => {
             <span className="flex items-center gap-2">
               Made with{" "}
               <span className="text-black text-xl">
-                <RiHeartFill />
+                <Heart className="w-5 h-5 fill-current" />
               </span>
             </span>
           </div>
