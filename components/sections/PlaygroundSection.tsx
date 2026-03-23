@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from "react";
 import PlaygroundComponent from "../custom/PlaygroundComponent";
 import PlaygroundModal from "../custom/PlaygroundModal";

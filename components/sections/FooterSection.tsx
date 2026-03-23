@@ -1,3 +1,6 @@
+'use client'
+
+import { useRouter } from 'next/navigation';
 import { navigationItems } from './Navigation';
 import { Quote } from "lucide-react";
 
@@ -11,24 +14,12 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
-interface FooterProps {
-  onNavigate?: (section: string) => void;
-}
+const Footer = () => {
+  const router = useRouter();
 
-const Footer = ({ onNavigate }: FooterProps) => {
   const handleNavigation = (href: string) => {
-    if (onNavigate) {
-      // Map href to section type
-      const sectionMap: { [key: string]: string } = {
-        '#playground': 'playground',
-        '#projects': 'projects', 
-        '#person': 'person',
-        '#connect': 'connect'
-      }
-      const section = sectionMap[href] || 'playground'
-      onNavigate(section)
-    }
-  }
+    router.push(href);
+  };
 
   return (
     <footer className="relative bg-[#093FB4] max-w-7xl mx-auto w-full h-[500px] md:h-[462px] p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between overflow-hidden">
@@ -37,14 +28,14 @@ const Footer = ({ onNavigate }: FooterProps) => {
         <div className="flex flex-col justify-between items-start w-full lg:w-3/5">
           <p className="mb-3 text-lg font-normal text-white">
             This portfolio is just a glimpse — a few pages from{" "}
-            <button 
-              onClick={() => handleNavigation('#person')} 
+            <button
+              onClick={() => handleNavigation('/person')}
               className={`text-white text-xl underline decoration-2 underline-offset-4 hover:text-gray-200 transition-colors cursor-pointer ${instrumentSerif.className}`}
             >
               a longer story
             </button>{" "}
             still unfolding.
-          </p> 
+          </p>
         </div>
 
         {/* Right Side */}
@@ -72,14 +63,6 @@ const Footer = ({ onNavigate }: FooterProps) => {
           BLUECODER
         </span>
       </div>
-
-      {/* Divider */}
-      {/* <div className="mt-12 border-t pt-4 flex flex-row justify-between items-center text-base text-black">
-        <span>© 2025 All Rights Reserved</span>
-        <span className="flex flex-row items-center gap-2">
-          Made with <FaHeart size={16} className="text-black"/>
-        </span>
-      </div> */}
     </footer>
   );
 };
