@@ -173,7 +173,7 @@ const HeroSection = ({
             Hellooo, I&apos;m Neelakshi Das
           </div>
           <div
-            className={`text-[48px] md:text-[56px] font-normal text-[#093FB4] tracking-tight leading-none ${instrumentSerif.className}`}
+            className={`text-[48px] md:text-[56px] font-normal text-[#093FB4] tracking-normal leading-none ${instrumentSerif.className}`}
           >
             Designer & Engineer
           </div>
