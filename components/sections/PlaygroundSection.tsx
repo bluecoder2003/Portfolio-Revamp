@@ -2,20 +2,19 @@ import React from "react";
 import PlaygroundComponent from "../custom/PlaygroundComponent";
 import { useModal } from "../context/ModalContext";
 
+
 const mockProjects = [
   {
-    id: 1,
+    id: 5,
     title: "DEVELOPMENT",
     description: "A credit card masking concept (built in Nextjs)",
     date: "03/2025",
-    // videoSrc: "https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/credit-card.mov",
     videoSrc: "/credit-card.webm",
     mediaType: "video" as const,
     className: "col-span-1 lg:col-span-7 h-[500px]",
-    // showMaximizeButton: true,
   },
   {
-    id: 2,
+    id: 6,
     title: "DESIGN",
     description: "A holographic logo design",
     date: "02/2025",
@@ -39,26 +38,66 @@ const mockProjects = [
     className: "col-span-1 lg:col-span-6 h-[500px]",
   },
   {
-    id: 5,
+    id: 1,
     title: "DEVELOPMENT",
-    description: "A college website",
-    date: "03/2025",
-    // videoSrc: "https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/aot.mov",
-    videoSrc: "/aot.webm",
+    description: "Preloader Iteration",
+    date: "02/2025",
+    videoSrc: "/preloader.webm",
     mediaType: "video" as const,
-    className: "col-span-1 lg:col-span-5 h-[500px]",
-    showRedirectButton: true,
-    redirectLink: "https://monoid-prod.vercel.app/",
+    className: "col-span-1 lg:col-span-6 h-[500px]",
   },
   {
-    id: 6,
+    id: 2,
     title: "DEVELOPMENT",
     description: "Just a potterhead (built in Nextjs)",
     date: "02/2025",
-    // videoSrc: "https://neelakshi.s3.us-east-1.amazonaws.com/portfolio/potter.mov",
     videoSrc: "/potter.webm",
     mediaType: "video" as const,
-    className: "col-span-1 lg:col-span-7 h-[500px]",
+    className: "col-span-1 lg:col-span-6 h-[500px]",
+  },
+  {
+    id: 7,
+    title: "DEVELOPMENT",
+    description: "A custom button interaction",
+    date: "03/2026",
+    videoSrc: "/button.webm",
+    mediaType: "video" as const,
+    className: "col-span-1 lg:col-span-6 h-[500px]",
+    showRedirectButton: true,
+    redirectLink: "https://design-gallery-one.vercel.app/",
+  },
+  {
+    id: 8,
+    title: "DEVELOPMENT",
+    description: "A Naruto-inspired animation",
+    date: "03/2026",
+    videoSrc: "/naruto.webm",
+    mediaType: "video" as const,
+    className: "col-span-1 lg:col-span-6 h-[500px]",
+    showRedirectButton: true,
+    redirectLink: "https://swab-paste-12055977.figma.site/",
+  },
+  {
+    id: 9,
+    title: "DESIGN",
+    description: "Figma Makeathon 2026",
+    date: "03/2026",
+    videoSrc: "/figmamakeathon.webm",
+    mediaType: "video" as const,
+    className: "col-span-1 lg:col-span-6 h-[500px]",
+    showRedirectButton: true,
+    redirectLink: "https://peony-candle-12655337.figma.site/",
+  },
+  {
+    id: 10,
+    title: "DEVELOPMENT",
+    description: "Figma Build 2026",
+    date: "03/2026",
+    videoSrc: "/figbuild.webm",
+    mediaType: "video" as const,
+    className: "col-span-1 lg:col-span-6 h-[500px]",
+    showRedirectButton: true,
+    redirectLink: "https://visor-jade-40774028.figma.site/",
   },
 ];
 
@@ -75,7 +114,7 @@ export default function PlaygroundSection() {
     <section className="w-full max-w-7xl mx-auto h-auto rounded-[16px] flex flex-col justify-between relative">
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-[10px] overflow-hidden relative">
-        {mockProjects.map((project) => (
+        {[...mockProjects].sort((a, b) => b.id - a.id).map((project) => (
           <PlaygroundComponent
             key={project.id}
             className={project.className}
