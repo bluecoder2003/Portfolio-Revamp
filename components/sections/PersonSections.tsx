@@ -7,6 +7,7 @@ import { Instrument_Serif } from "next/font/google";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Folder from "../custom/Folder";
+import { useTheme } from "../context/ThemeContext";
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -17,8 +18,10 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export default function PersonSections() {
-  const [openFolder, setOpenFolder] = useState<string>("cosx"); // Default to CosX open
-  const [selectedCompany, setSelectedCompany] = useState("cosx"); // Default to CosX
+  const [openFolder, setOpenFolder] = useState<string>("cosx");
+  const [selectedCompany, setSelectedCompany] = useState("cosx");
+  const { theme } = useTheme();
+  const isBlue = theme === 'blue';
 
   const handleFolderClick = (company: string) => {
     setSelectedCompany(company);
@@ -65,16 +68,16 @@ export default function PersonSections() {
   };
 
   return (
-    <section className="bg-white w-full max-w-7xl mx-auto h-fit p-4 md:p-[40px] rounded-[16px] flex flex-col gap-8 ">
+    <section className={`w-full max-w-7xl mx-auto h-fit p-4 md:p-[40px] rounded-[16px] flex flex-col gap-8 transition-colors duration-500 ${isBlue ? 'bg-[#093FB4]' : 'bg-white'}`}>
       {/* Header */}
-      <div className="text-[28px] md:text-[32px] font-normal text-black mb-2">
+      <div className={`text-[28px] md:text-[32px] font-normal mb-2 transition-colors duration-500 ${isBlue ? 'text-white' : 'text-black'}`}>
         Behind The Pixels
       </div>
       <div className="flex flex-col justify-between items-center w-full max-w-5xl mx-auto">
         {/* Top Row */}
         <div className="flex flex-col justify-between items-center w-full">
           <div
-            className={`text-[#093FB4] text-2xl font-normal ${instrumentSerif.className} mb-4`}
+            className={`text-2xl font-normal ${instrumentSerif.className} mb-4 transition-colors duration-500 ${isBlue ? 'text-white/80' : 'text-[#093FB4]'}`}
           >
             Peek into my life
           </div>
@@ -88,7 +91,7 @@ export default function PersonSections() {
               className="object-contain w-full h-full md:w-[300px] md:h-fit lg:w-[400px] lg:h-fit"
             />
             {/* Bio Text */}
-            <div className="text-black text-lg font-normal">
+            <div className={`text-lg font-normal transition-colors duration-500 ${isBlue ? 'text-white/90' : 'text-black'}`}>
               Born in Kolkata, the City of Joy — where every lane hums with art,
               culture, and color — I grew up surrounded by stories and
               creativity. That early chaos and charm shaped how I see and
@@ -111,7 +114,7 @@ export default function PersonSections() {
             height={1000}
             className="object-contain w-full h-full block md:hidden"
           />
-          <div className="text-black text-lg font-normal">
+          <div className={`text-lg font-normal transition-colors duration-500 ${isBlue ? 'text-white/90' : 'text-black'}`}>
             Creativity has always been my constant — from handmade cards to
             intuitive UI. I fell for design through its visual charm, but
             it&apos;s the research and problem-solving that keep me grounded.
@@ -140,7 +143,7 @@ export default function PersonSections() {
           />
           {/* Bio Text */}
           <div className="flex flex-col gap-2">
-            <div className="text-black text-lg font-normal">
+            <div className={`text-lg font-normal transition-colors duration-500 ${isBlue ? 'text-white/90' : 'text-black'}`}>
               Also...One of my most exciting moments was being featured at the
               Figma Makeathon, recognized among 10,000+ participants.
               <br />
@@ -165,12 +168,12 @@ export default function PersonSections() {
         <div className="w-full h-[1px] my-6 bg-[repeating-linear-gradient(to_right,_#BFBFAF_0_12px,_transparent_12px_24px)]" />
         {/* Timeline Header */}
         <div
-          className={`text-[#093FB4] text-2xl hidden md:block font-normal ${instrumentSerif.className} mt-4 lg:mb-16 mb-8`}
+          className={`text-2xl hidden md:block font-normal ${instrumentSerif.className} mt-4 lg:mb-16 mb-8 transition-colors duration-500 ${isBlue ? 'text-white/80' : 'text-[#093FB4]'}`}
         >
           Places I&apos;ve worked before
         </div>
         <div
-          className={`text-[#093FB4] text-2xl block md:hidden font-normal ${instrumentSerif.className} my-8`}
+          className={`text-2xl block md:hidden font-normal ${instrumentSerif.className} my-8 transition-colors duration-500 ${isBlue ? 'text-white/80' : 'text-[#093FB4]'}`}
         >
           Places I&apos;ve worked before
         </div>
@@ -213,7 +216,7 @@ export default function PersonSections() {
           </div>
 
           {/* Mobile Version */}
-          <div className="grid grid-cols-2 w-full gap-4 md:hidden p-4 bg-[#F2F2F2] rounded-xl">
+          <div className={`grid grid-cols-2 w-full gap-4 md:hidden p-4 rounded-xl transition-colors duration-500 ${isBlue ? 'bg-white/10' : 'bg-[#F2F2F2]'}`}>
             <div onClick={() => handleFolderClick("vng")} className="cursor-pointer">
               <div className={`bg-white border border-gray-200 rounded-lg p-4 flex flex-col items-center transition-opacity duration-200 ${selectedCompany === "vng" ? "opacity-100" : "opacity-50"}`}>
                 <div className="w-20 h-20 mb-2 flex items-center justify-center">
@@ -275,18 +278,18 @@ export default function PersonSections() {
           <div className="md:mt-8 mt-6 w-full max-w-5xl mx-auto">
             <div 
               key={selectedCompany}
-              className="bg-[#F2F2F2] border border-[#E1E2E2] rounded-lg md:p-6 p-4 animate-slide-up"
+              className={`rounded-lg md:p-6 p-4 animate-slide-up transition-colors duration-500 ${isBlue ? 'bg-white/10 border border-white/20' : 'bg-[#F2F2F2] border border-[#E1E2E2]'}`}
             >
               <div className="flex flex-row items-center justify-between gap-4 mb-2">
                 <div>
-                  <h3 className="font-normal md:text-xl text-lg text-gray-900">
+                  <h3 className={`font-normal md:text-xl text-lg transition-colors duration-500 ${isBlue ? 'text-white' : 'text-gray-900'}`}>
                     {
                       companyData[selectedCompany as keyof typeof companyData]
                         .name
                     }
                   </h3>
                 </div>
-                <div className="text-sm md:text-base text-[#7C7C7C]">
+                <div className={`text-sm md:text-base transition-colors duration-500 ${isBlue ? 'text-white/60' : 'text-[#7C7C7C]'}`}>
                   {
                     companyData[selectedCompany as keyof typeof companyData]
                       .period

@@ -2,6 +2,7 @@
 
 import { useRive, useStateMachineInput, Layout, Fit, Alignment } from '@rive-app/react-canvas';
 import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 interface RiveProps {
   currentSection?: string;
@@ -11,6 +12,8 @@ const Rive = ({ currentSection = "playground" }: RiveProps) => {
   const STATE_MACHINE_NAME = "State Machine 1";
   const HOVER_INPUT_NAME = "Hover";
   const NAVIGATION_INPUT_NAME = "Navigation";
+  const { theme } = useTheme();
+  const isBlue = theme === 'blue';
 
   const { rive, RiveComponent } = useRive({
     src: "/animations/blue-dot.riv",
@@ -54,6 +57,10 @@ const Rive = ({ currentSection = "playground" }: RiveProps) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className="w-full max-w-[1280px] mx-auto cursor-pointer overflow-hidden"
+      style={{
+        filter: isBlue ? 'invert(1) hue-rotate(180deg)' : 'none',
+        transition: 'filter 0.5s ease',
+      }}
     >
       <RiveComponent
         style={{ width: '100%', height: '500px' }}

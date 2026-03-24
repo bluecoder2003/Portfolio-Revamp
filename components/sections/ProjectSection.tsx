@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import ProjectComponent from "../custom/ProjectComponent";
+import { useTheme } from "../context/ThemeContext";
 
 // Mock data for projects
 const mockProjects = [
@@ -59,6 +60,8 @@ const mockProjects = [
 export default function ProjectSection() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const router = useRouter();
+  const { theme } = useTheme();
+  const isBlue = theme === 'blue';
 
   const handleProjectClick = (route: string) => {
     router.push(route);
@@ -67,7 +70,7 @@ export default function ProjectSection() {
   return (
     <section className="w-full max-w-7xl mx-auto h-auto rounded-[16px] flex flex-col justify-between relative">
       {hoveredId !== null && (
-        <div className="fixed inset-0 bg-[#E6E6E6]/70 z-30 transition-all duration-400 ease-out pointer-events-none rounded-2xl" />
+        <div className={`fixed inset-0 z-30 transition-all duration-400 ease-out pointer-events-none rounded-2xl ${isBlue ? 'bg-[#072A8A]/70' : 'bg-[#E6E6E6]/70'}`} />
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-[10px] overflow-hidden relative">
         {mockProjects.map((project) => (

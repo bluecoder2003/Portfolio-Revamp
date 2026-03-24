@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
+import { useTheme } from "../context/ThemeContext";
 
 type PlaygroundComponentProps = {
   className?: string;
@@ -68,13 +69,16 @@ const PlaygroundComponent = ({
   tags,
   onClick,
 }: PlaygroundComponentProps) => {
+  const { theme } = useTheme();
+  const isBlue = theme === 'blue';
   const hasTextContent = projectTitle || projectDescription || projectDate;
   const hasMedia = imageSrc || videoSrc;
 
   return (
     <div
       className={cn(
-        "relative flex flex-col flex-1 rounded-[20px] bg-white group overflow-hidden",
+        "relative flex flex-col flex-1 rounded-[20px] group overflow-hidden transition-colors duration-500",
+        isBlue ? "bg-[#093FB4]" : "bg-white",
         onClick ? "cursor-pointer" : "cursor-default",
         className
       )}
@@ -107,20 +111,20 @@ const PlaygroundComponent = ({
       {/* Text-only cards (no media) */}
       {!hasMedia && hasTextContent && (
         <div className="flex flex-col justify-start h-full px-6 py-8">
-          <div className="flex justify-between items-start w-full mb-2">
+          {/* <div className="flex justify-between items-start w-full mb-2">
             <h3 className="font-normal text-sm md:text-base text-[#3d3d3d]">
               {projectTitle}
             </h3>
             <h3 className="font-normal text-sm md:text-base text-[#3d3d3d]">
               {projectDate}
             </h3>
-          </div>
-          <p className="font-normal text-lg md:text-xl text-black">
+          </div> */}
+          <p className={cn("font-normal text-lg md:text-xl transition-colors duration-500", isBlue ? "text-white" : "text-black")}>
             {projectDescription}
           </p>
           {projectText && (
             <p
-              className="font-normal mt-4 text-base text-gray-700"
+              className={cn("font-normal mt-4 text-base transition-colors duration-500", isBlue ? "text-white/70" : "text-gray-700")}
               dangerouslySetInnerHTML={{ __html: projectText }}
             />
           )}
@@ -150,7 +154,7 @@ const PlaygroundComponent = ({
           {tags.map((tag, index) => (
             <span
               key={index}
-              className="px-4 py-1.5 text-sm text-[#555] bg-white border border-[#e0e0e0] rounded-full whitespace-nowrap"
+              className={cn("px-4 py-1.5 text-sm rounded-full whitespace-nowrap transition-colors duration-500", isBlue ? "text-white/70 bg-white/10 border border-white/20" : "text-[#555] bg-white border border-[#e0e0e0]")}
             >
               {tag}
             </span>
