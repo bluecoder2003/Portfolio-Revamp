@@ -7,6 +7,9 @@ import { Instrument_Serif } from "next/font/google";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Folder from "../custom/Folder";
+import { GeistPixelSquare } from "geist/font/pixel";
+
+const geistPixelSquare = GeistPixelSquare;
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -67,17 +70,13 @@ export default function PersonSections() {
   return (
     <section className="bg-white w-full max-w-7xl mx-auto h-fit p-4 md:p-[40px] rounded-[16px] flex flex-col gap-8 ">
       {/* Header */}
-      <div className="text-[28px] md:text-[32px] font-normal text-black mb-2">
-        Behind The Pixels
+      <div className="text-[28px] md:text-[32px] font-normal text-black mb-2 w-full flex items-center justify-center gap-2">
+        Behind The<span className ={`text-[#4253D5] ${geistPixelSquare.className}`}>Pixels</span>
       </div>
       <div className="flex flex-col justify-between items-center w-full max-w-5xl mx-auto">
         {/* Top Row */}
         <div className="flex flex-col justify-between items-center w-full">
-          <div
-            className={`text-[#093FB4] text-2xl font-normal ${instrumentSerif.className} mb-4`}
-          >
-            Peek into my life
-          </div>
+          
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             {/* Polaroid Grid */}
             <Image
@@ -164,16 +163,7 @@ export default function PersonSections() {
         </div>
         <div className="w-full h-[1px] my-6 bg-[repeating-linear-gradient(to_right,_#BFBFAF_0_12px,_transparent_12px_24px)]" />
         {/* Timeline Header */}
-        <div
-          className={`text-[#093FB4] text-2xl hidden md:block font-normal ${instrumentSerif.className} mt-4 lg:mb-16 mb-8`}
-        >
-          Places I&apos;ve worked before
-        </div>
-        <div
-          className={`text-[#093FB4] text-2xl block md:hidden font-normal ${instrumentSerif.className} my-8`}
-        >
-          Places I&apos;ve worked before
-        </div>
+       
         {/* Timeline */}
         <div className="relative flex flex-col items-center w-full">
           {/* Animated Folder Component */}
@@ -309,7 +299,7 @@ export default function PersonSections() {
           </div>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full mt-4 gap-4 md:gap-0">
             <div className="text-lg text-[#626262]">
-            Peek inside the folder to uncover my professional adventures !!
+            Peek inside the folders above
             </div>
             <Link
               href="https://drive.google.com/file/d/1A2RkGJNKCQKiEHqFEwLgM9iMx6JwHme4/view"
