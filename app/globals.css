@@ -99,30 +99,14 @@ body {
   font-display: optional;
 }
 
-@font-face {
-  font-family: 'Instrument Serif';
-  src: url('/fonts/InstrumentSerif-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Instrument Serif';
-  src: url('/fonts/InstrumentSerif-Italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: optional;
-}
-
 .instrument-serif-regular {
-  font-family: "Instrument Serif", serif;
+  font-family: var(--font-geist-pixel-square), monospace;
   font-weight: 400;
   font-style: normal;
 }
 
 .instrument-serif-regular-italic {
-  font-family: "Instrument Serif", serif;
+  font-family: var(--font-geist-pixel-square), monospace;
   font-weight: 400;
   font-style: italic;
 }

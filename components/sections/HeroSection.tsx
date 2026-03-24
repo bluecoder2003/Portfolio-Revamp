@@ -4,16 +4,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { navigationItems } from "./Navigation";
 import { CornerRightDown, Quote } from "lucide-react";
+import { GeistPixelSquare } from "geist/font/pixel";
 
-import { Instrument_Serif } from "next/font/google";
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-instrument-serif",
-  style: "italic",
-  display: "swap",
-});
+const geistPixelSquare = GeistPixelSquare;
 
 interface HeroSectionProps {
   currentSection?: string;
@@ -44,8 +37,7 @@ const HeroSection = ({
     >
       {/* Top Row */}
       <div className="h-full flex flex-col lg:flex-row gap-8 lg:gap-0 justify-between items-start w-full px-4 md:px-[40px] pt-4 md:pt-[40px] pointer-events-none">
-        <div className="bg-gradient-to-b from-white to-transparent h-[300px] w-full absolute top-0 left-0 -z-10" />
-        <div className="bg-gradient-to-t from-white to-transparent h-[300px] w-full absolute bottom-0 left-0 -z-10" />
+       
         {/* Top Left */}
         <div className="pointer-events-auto flex flex-col md:flex-row justify-between items-start w-full gap-8">
           <span className="text-lg font-normal text-black">
@@ -74,14 +66,14 @@ const HeroSection = ({
         </div>
       </div>
 
-      <div className="bg-gradient-to-t from-white to-transparent h-full w-full " />
+      <div className="h-full w-full " />
       <div className="flex flex-row justify-between items-end w-full px-4 md:px-[40px] pb-4 md:pb-[40px]">
         <div className="pointer-events-auto">
           <div className="text-xl font-normal text-black mb-2">
             Hellooo, I&apos;m Neelakshi Das
           </div>
           <div
-            className={`text-[48px] md:text-[56px] font-normal text-[#093FB4] tracking-normal leading-none ${instrumentSerif.className}`}
+            className={`text-[48px] md:text-[56px] font-normal text-[#093FB4] tracking-tighter leading-none ${geistPixelSquare.className}`}
           >
             Designer & Engineer
           </div>

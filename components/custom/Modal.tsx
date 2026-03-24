@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Minimize2 } from "lucide-react";
 import Image from "next/image";
 
 interface ModalProps {

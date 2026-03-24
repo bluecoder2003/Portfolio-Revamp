@@ -57,7 +57,6 @@ const VideoPreview = ({ src, className }: { src: string; className?: string }) =
 
 const PlaygroundComponent = ({
   className,
-  id,
   imageSrc,
   videoSrc,
   mediaType = "image",
