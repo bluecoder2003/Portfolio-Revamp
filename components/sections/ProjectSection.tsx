@@ -30,7 +30,7 @@ const mockProjects = [
     title: "design : safeve",
     description: "Report anonymously. Break the silence, not your privacy.",
     date: "01/2025",
-    imageSrc: "/s9.webp",
+    imageSrc: "/s10.webp",
     className: "col-span-1 lg:col-span-6 h-[330px] md:h-[350px] lg:h-[500px]",
     tags: ["Design", "Safeve", "2025"],
     route: "/projects/safeve",

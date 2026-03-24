@@ -88,14 +88,14 @@ export default function PersonSections() {
             />
             {/* Bio Text */}
             <div className="text-black text-lg font-normal">
-              Born in Kolkata, the City of Joy — where every lane hums with art,
-              culture, and color — I grew up surrounded by stories and
+              Born in Kolkata, the City of Joy, where every lane hums with art,
+              culture, and color, I grew up surrounded by stories and
               creativity. That early chaos and charm shaped how I see and
               express.
               <br />
-              <br />I speak Hindi, English, and Bengali — each with its own
-              rhythm — and I&apos;m slowly picking up Spanish too. Wherever I
-              go, that energy stays — a quiet anchor, a loud spark.
+              <br />I speak Hindi, English, and Bengali , each with its own
+              rhythm , and I&apos;m slowly picking up Spanish too. Wherever I
+              go, that energy stays, a quiet anchor, a loud spark.
             </div>
           </div>
         </div>
@@ -111,13 +111,13 @@ export default function PersonSections() {
             className="object-contain w-full h-full block md:hidden"
           />
           <div className="text-black text-lg font-normal">
-            Creativity has always been my constant — from handmade cards to
+            Creativity has always been my constant, from handmade cards to
             intuitive UI. I fell for design through its visual charm, but
             it&apos;s the research and problem-solving that keep me grounded.
             <br />
             I&apos;m a curious soul with a love for mountains, travel, and the
             occasional deep-dive into random rabbit holes. Design lets me blend
-            craft with clarity — and I wouldn&apos;t have it any other way.
+            craft with clarity, and I wouldn&apos;t have it any other way.
           </div>
           <Image
             src="/about-two.webp"
@@ -144,7 +144,7 @@ export default function PersonSections() {
               Figma Makeathon, recognized among 10,000+ participants.
               <br />
               Seeing a project I built from scratch stand out on a global stage
-              was surreal — both humbling and electrifying — and reminded me why
+              was surreal, both humbling and electrifying, and reminded me why
               I love creating
             </div>
             <button

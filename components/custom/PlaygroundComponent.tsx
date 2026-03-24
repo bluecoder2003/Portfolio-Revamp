@@ -106,14 +106,7 @@ const PlaygroundComponent = ({
       {/* Text-only cards (no media) */}
       {!hasMedia && hasTextContent && (
         <div className="flex flex-col justify-start h-full px-6 py-8">
-          <div className="flex justify-between items-start w-full mb-2">
-            <h3 className="font-normal text-sm md:text-base text-[#3d3d3d]">
-              {projectTitle}
-            </h3>
-            <h3 className="font-normal text-sm md:text-base text-[#3d3d3d]">
-              {projectDate}
-            </h3>
-          </div>
+        
           <p className="font-normal text-lg md:text-xl text-black">
             {projectDescription}
           </p>

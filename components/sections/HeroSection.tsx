@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { navigationItems } from "./Navigation";
 import { GeistPixelSquare } from "geist/font/pixel";
+import SocialLinks from "@/components/custom/SocialLinks";
 
 const geistPixelSquare = GeistPixelSquare;
 const navigationIcons: Record<string, string> = {
@@ -47,7 +48,7 @@ const HeroSection = ({
         <div className="pointer-events-auto flex flex-col md:flex-row justify-between items-start w-full gap-8">
           <span className="text-lg font-normal text-black flex gap-2">
           currently at {" "}
-            <span className="text-[#093FB4] underline">
+            <span className="text-[#093FB4] cursor-pointer inline-flex items-center gap-2 dotted-underline leading-tight">
               <Link href="https://cosx.ai"> @cosx.ai</Link>
             </span>
           </span>
@@ -95,9 +96,9 @@ const HeroSection = ({
       </div>
 
       <div className="h-full w-full " />
-      <div className="flex flex-row justify-between items-end w-full px-4 md:px-[40px] pb-4 md:pb-[40px]">
-        <div className="pointer-events-auto">
-          <div className="text-xl font-normal text-black mb-2">
+      <div className="flex flex-col lg:flex-row justify-between items-end w-full px-4 md:px-[40px] pb-4 md:pb-[40px] gap-4 md:gap-0">
+        <div className="pointer-events-auto flex w-full flex-col gap-2 md:gap-3">
+          <div className="text-xl font-normal text-black">
             Hey, I&apos;m Neelakshi
           </div>
           <div
@@ -105,16 +106,17 @@ const HeroSection = ({
           >
             Designer & Engineer
           </div>
+
+          {/* Mobile social links - below title */}
+          <div className="pointer-events-auto lg:hidden mt-6 md:mt-4">
+            <SocialLinks />
+          </div>
         </div>
 
-        {/* <div className="pointer-events-auto">
-          <div className="text-[#093FB4] text-lg font-normal items-center gap-2 transition-colors hidden md:flex ">
-            {getSectionTitle(currentSection)}
-            <div>
-              <CornerRightDown className="w-5 h-5 mt-1" />
-            </div>
-          </div>
-        </div> */}
+        {/* Desktop social links - bottom right */}
+        <div className="pointer-events-auto hidden lg:block">
+          <SocialLinks />
+        </div>
       </div>
     </div>
   );
