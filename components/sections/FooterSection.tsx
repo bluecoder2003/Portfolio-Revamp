@@ -25,7 +25,7 @@ const Footer = () => {
     <footer className="relative bg-[#093FB4] max-w-7xl mx-auto w-full h-[500px] md:h-[462px] p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between overflow-hidden">
       <div className="flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-0 w-full">
         {/* Left Side */}
-        <div className="flex flex-col justify-between items-start w-full lg:w-3/5">
+        {/* <div className="flex flex-col justify-between items-start w-full lg:w-3/5">
           <p className="mb-3 text-lg font-normal text-white">
             This portfolio is just a glimpse — a few pages from{" "}
             <button
@@ -36,10 +36,10 @@ const Footer = () => {
             </button>{" "}
             still unfolding.
           </p>
-        </div>
+        </div> */}
 
         {/* Right Side */}
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4'>
+        {/* <div className='grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4'>
           {navigationItems.map((item) => (
             <button
               key={item.label}
@@ -54,15 +54,15 @@ const Footer = () => {
               {item.label}
             </button>
           ))}
-        </div>
+        </div> */}
       </div>
-      <div
+      {/* <div
         className="absolute -bottom-7 md:-bottom-16 lg:-bottom-24 left-0 z-10 flex items-center justify-center pointer-events-none opacity-30"
       >
         <span className="text-[#072A8A] text-[60px] md:text-[120px] lg:text-[200px] font-bold tracking-wider select-none">
           BLUECODER
         </span>
-      </div>
+      </div> */}
     </footer>
   );
 };

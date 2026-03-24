@@ -1,19 +1,11 @@
 'use client'
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { navigationItems } from "./Navigation";
 import { CornerRightDown, Quote } from "lucide-react";
 
 import { Instrument_Serif } from "next/font/google";
-
-const Rive = dynamic(() => import("../custom/Rive"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-[200px] md:h-[450px] lg:h-[500px] bg-gray-50 animate-pulse" />
-  ),
-});
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -41,18 +33,17 @@ const HeroSection = ({
       playground: "The Playground",
       projects: "The Projects",
       person: "The Person",
-      connect: "Connect Maybe?",
     };
     return titleMap[section] || "The Playground";
   };
 
   return (
     <div
-      className="relative bg-white w-full max-w-7xl mx-auto h-[600px] md:h-fit rounded-[16px] flex flex-col justify-between overflow-hidden"
+      className="relative bg-white w-full max-w-7xl mx-auto h-[600px] md:h-[500px] rounded-[16px] flex flex-col justify-between overflow-hidden"
       data-fetchpriority="high"
     >
       {/* Top Row */}
-      <div className="absolute top-0 left-0 z-20 h-full flex flex-col lg:flex-row gap-8 lg:gap-0 justify-between items-start w-full px-4 md:px-[40px] pt-4 md:pt-[40px] pointer-events-none">
+      <div className="h-full flex flex-col lg:flex-row gap-8 lg:gap-0 justify-between items-start w-full px-4 md:px-[40px] pt-4 md:pt-[40px] pointer-events-none">
         <div className="bg-gradient-to-b from-white to-transparent h-[300px] w-full absolute top-0 left-0 -z-10" />
         <div className="bg-gradient-to-t from-white to-transparent h-[300px] w-full absolute bottom-0 left-0 -z-10" />
         {/* Top Left */}
@@ -66,7 +57,7 @@ const HeroSection = ({
             ~ design x code
             </span>
           </span>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
+          <div className="grid grid-cols-1 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
           {navigationItems.map((item) => (
             <button
               key={item.label}
@@ -82,12 +73,9 @@ const HeroSection = ({
         </div>
         </div>
       </div>
-      <div className="w-full overflow-hidden z-10">
-        <Rive currentSection={currentSection} />
-      </div>
 
-      <div className="bg-gradient-to-t from-white to-transparent h-full w-full absolute bottom-0 left-0 z-0" />
-      <div className="absolute bottom-0 left-0 z-20 flex flex-row justify-between items-end w-full px-4 md:px-[40px] pb-4 md:pb-[40px]">
+      <div className="bg-gradient-to-t from-white to-transparent h-full w-full " />
+      <div className="flex flex-row justify-between items-end w-full px-4 md:px-[40px] pb-4 md:pb-[40px]">
         <div className="pointer-events-auto">
           <div className="text-xl font-normal text-black mb-2">
             Hellooo, I&apos;m Neelakshi Das
