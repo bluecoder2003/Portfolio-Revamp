@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import PlaygroundComponent from "../custom/PlaygroundComponent";
 import PlaygroundModal from "../custom/PlaygroundModal";
+import Modal from "../custom/Modal";
 import { AnimatePresence } from "framer-motion";
 
 type Project = {
@@ -17,6 +18,7 @@ type Project = {
   className: string;
   tags?: string[];
   redirectLink?: string;
+  useLuceModal?: boolean;
 };
 
 const mockProjects: Project[] = [
@@ -39,6 +41,7 @@ const mockProjects: Project[] = [
     mediaType: "image" as const,
     className: "col-span-1 lg:col-span-5 h-[500px]",
     tags: ["Logo Design", "Holographic", "Branding", "2025"],
+    useLuceModal: true,
   },
   {
     id: 3,
@@ -128,6 +131,7 @@ const mockProjects: Project[] = [
 
 export default function PlaygroundSection() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isLuceModalOpen, setIsLuceModalOpen] = useState(false);
 
   return (
     <section className="w-full max-w-7xl mx-auto h-auto rounded-[16px] flex flex-col justify-between relative">
@@ -147,9 +151,11 @@ export default function PlaygroundSection() {
               tags={project.tags}
               redirectLink={project.redirectLink}
               onClick={
-                project.imageSrc || project.videoSrc
-                  ? () => setSelectedProject(project)
-                  : undefined
+                project.useLuceModal
+                  ? () => setIsLuceModalOpen(true)
+                  : project.imageSrc || project.videoSrc
+                    ? () => setSelectedProject(project)
+                    : undefined
               }
             />
           ))}
@@ -171,6 +177,8 @@ export default function PlaygroundSection() {
             />
           )}
         </AnimatePresence>
+
+        <Modal isOpen={isLuceModalOpen} onClose={() => setIsLuceModalOpen(false)} />
     </section>
   );
 }

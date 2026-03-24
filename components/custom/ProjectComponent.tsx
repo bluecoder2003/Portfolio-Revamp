@@ -1,129 +1,62 @@
 "use client";
-import React, { Suspense } from "react";
+import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { ArrowUpRight } from "lucide-react";
-import { Instrument_Serif } from "next/font/google";
-
-// Dynamic import for Lottie to avoid SSR issues
-const DotLottieReact = React.lazy(() =>
-  import("@lottiefiles/dotlottie-react").then(module => ({
-    default: module.DotLottieReact
-  }))
-);
-
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-instrument-serif",
-  style: "italic",
-  display: "swap",
-});
 
 type ProjectComponentProps = {
   className?: string;
-  imagePosition?: string;
   imageSrc?: string;
   projectTitle?: string;
   projectDescription?: string;
   projectDate?: string;
-  hoverTextColor?: string;
-  hoverArrowColor?: string;
-  route?: string;
-  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+  tags?: string[];
   onClick?: () => void;
 };
 
 const ProjectComponent = ({
   className,
-  imagePosition,
   imageSrc,
-  projectTitle,
   projectDescription,
-  // projectDate,
-  hoverTextColor,
-  hoverArrowColor,
-  // onMouseEnter,
-  // onMouseLeave,
+  tags,
   onClick,
-}: ProjectComponentProps & { hovered?: boolean }) => {
-  const [isClient, setIsClient] = React.useState(false);
-
-  React.useEffect(() => {
-    setIsClient(true);
-  }, []);
+}: ProjectComponentProps) => {
   return (
     <div
       className={cn(
-        "relative flex flex-col h-[454.5px] flex-1 rounded-[20px] bg-white cursor-pointer group transition-all duration-300 ease-out",
+        "relative flex flex-col flex-1 rounded-[20px] bg-white group overflow-hidden cursor-pointer",
         className
       )}
       onClick={onClick}
     >
-      <div className="flex justify-between items-start gap-4 pt-4 md:pt-8 px-4 md:px-8">
-        <div className="flex flex-col gap-2">
-          <h3 className="font-normal transition-all duration-300 ease-out text-xl">{projectTitle || "Gamify"}</h3>
-          {/* {projectDescription && ( */}
-            <p className={cn(
-              "font-normal text-base md:text-lg transition-all duration-300 ease-out text-[#7C7C7C] leading-tight",
-              hoverTextColor && `group-hover:${hoverTextColor}`
-            )}>
-              {projectDescription}
-            </p>
-          {/* )} */}
+      {/* Media section on top */}
+      {imageSrc && (
+        <div
+          className="relative w-full flex-1 min-h-0 overflow-hidden rounded-[20px] m-[6px]"
+          style={{ width: "calc(100% - 12px)" }}
+        >
+          <Image
+            src={imageSrc}
+            alt={projectDescription || "project media"}
+            width={600}
+            height={400}
+            className="w-full h-full object-cover object-center rounded-[14px]"
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
         </div>
-        {/* <h3 className="font-normal text-base">{projectDate || "03/2025"}</h3> */}
-        <div className="cursor-pointer" onClick={() => {}}>
-          <div className="flex items-center justify-center bg-white border-2 border-[#E6E6E6] rounded-full p-2 transition-all duration-300 ease-out">
-            <ArrowUpRight className={cn(
-              "text-[#7C7C7C] lg:w-8 lg:h-8 md:w-6 md:h-6 w-5 h-5 transition-all duration-300 ease-out",
-              `hover:${hoverArrowColor}`
-            )} />
-          </div>
-        </div>
-      </div>
-      {imageSrc ? (
-        imageSrc.endsWith('.lottie') ? (
-          <div 
-            className={cn("absolute bottom-0 left-1/2 -translate-x-1/2", imagePosition)} 
-            style={{ width: '500px', height: '300px' }}
-          >
-            {isClient ? (
-              <Suspense fallback={
-                <div className="w-full h-full bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">
-                  <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
-                </div>
-              }>
-                <DotLottieReact
-                  src={imageSrc}
-                  loop
-                  autoplay
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </Suspense>
-            ) : (
-              <div className="w-full h-full bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
-              </div>
-            )}
-          </div>
-        ) : (
-            <Image
-              src={imageSrc}
-              alt="project image"
-              width={500}
-              height={300}
-              className={cn("absolute bottom-0 left-1/2 -translate-x-1/2", imagePosition)}
-              loading="lazy"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
-            />
-        )
-      ) : (
-        <div className="absolute -bottom-10 left-10 flex items-center justify-center h-[216px]">
-          <p className={`${instrumentSerif.className} text-[40px] font-normal text-black`}>Coming Soon...</p>
+      )}
+
+      {/* Tags section at bottom */}
+      {tags && tags.length > 0 && (
+        <div className="flex flex-wrap gap-2 px-4 py-3">
+          {tags.map((tag, index) => (
+            <span
+              key={index}
+              className="px-4 py-1.5 text-sm text-[#555] bg-white border border-[#e0e0e0] rounded-full whitespace-nowrap"
+            >
+              {tag}
+            </span>
+          ))}
         </div>
       )}
     </div>
