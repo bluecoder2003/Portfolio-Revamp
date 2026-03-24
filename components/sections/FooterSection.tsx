@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 const PixelCloud = ({ delay, duration, bottom, opacity, scale = 1, flipped = false, isSunset = false }: { delay: number; duration: number; bottom: number; opacity: number; scale?: number; flipped?: boolean; isSunset?: boolean }) => {
   return (
@@ -47,7 +48,6 @@ const PixelSun = ({ isSunset = false }: { isSunset?: boolean }) => {
   const rayTipColor = isSunset ? '#FFBD45' : '#FFC94A';
   const eyeColor = '#D4A243';
   const cheekColor = '#F7B7C8';
-  const mouthColor = '#C38C2E';
 
   const bodyPixels: Array<{ x: number; y: number; color: string }> = [
     { x: 5, y: 0, color: outlineColor }, { x: 6, y: 0, color: outlineColor }, { x: 7, y: 0, color: outlineColor },
@@ -147,12 +147,22 @@ const Footer = () => {
           }
         }
       `}</style>
-      <footer
-        className={`relative max-w-7xl mx-auto w-full h-[500px] md:h-[462px] p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between overflow-hidden transition-all duration-1000`}
+      <motion.footer
+        className={`relative max-w-7xl mx-auto w-full h-[500px] md:h-[462px] p-4 md:p-[40px] rounded-[16px] flex flex-col justify-between overflow-hidden`}
+        animate={{
+          backgroundPosition: mode === 'sunset' ? '0% 100%' : '0% 0%',
+        }}
+        transition={{
+          duration: 1.5,
+          ease: 'easeInOut',
+        }}
         style={{
-          background: mode === 'sunset'
-            ? 'linear-gradient(180deg, #FFD9A3 0%, #FFB377 22%, #FF9467 42%, #F56A5F 62%, #8A4F69 84%, #6B425A 100%)'
-            : '#093FB4'
+          backgroundSize: '100% 220%',
+          backgroundImage: `
+            radial-gradient(120% 88% at 50% 108%, rgba(255, 153, 170, 0.98) 0%, rgba(255, 170, 182, 0.88) 16%, rgba(255, 188, 176, 0.66) 30%, rgba(239, 178, 222, 0.34) 52%, rgba(239, 178, 222, 0) 72%),
+            radial-gradient(82% 62% at 84% 80%, rgba(255, 219, 150, 0.74) 0%, rgba(255, 199, 156, 0.38) 24%, rgba(255, 199, 156, 0) 58%),
+            linear-gradient(180deg, #1A53C5 0%, #496EDC 18%, #7A87EA 36%, #AF95EC 56%, #D79CDE 74%, #F3A7CB 88%, #FF9EB5 100%)
+          `,
         }}
       >
       <div className="flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-0 w-full">
@@ -198,7 +208,7 @@ const Footer = () => {
       <PixelCloud delay={-10} duration={33} bottom={35} opacity={0.38} scale={1.3} isSunset={mode === 'sunset'} />
 
       {/* Sun message in bottom right */}
-      <div className={`absolute w-full bottom-0 right-0 md:bottom-6 md:right-6 text-sm md:text-base font-normal flex items-start justify-center md:justify-end gap-4 ${mode === 'sunset' ? 'text-orange-100' : 'text-white'} transition-colors duration-500`}>
+      <div className={`absolute w-full bottom-0 right-0 md:bottom-6 md:right-6 text-sm md:text-base font-normal flex items-start justify-center md:justify-end gap-4 ${mode === 'sunset' ? 'text-[#FFF7EE]' : 'text-white'} transition-colors duration-500`}>
         <p className="text-center md:text-right leading-[1.35]">In case you didn&apos;t look up today,<br />here&apos;s a little sky for you ~</p>
         <button
           onClick={() => setMode(mode === 'sunset' ? 'day' : 'sunset')}
@@ -219,7 +229,7 @@ const Footer = () => {
           BLUECODER
         </span>
       </div> */}
-    </footer>
+    </motion.footer>
     </>
   );
 };

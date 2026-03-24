@@ -45,13 +45,10 @@ const HeroSection = ({
        
         {/* Top Left */}
         <div className="pointer-events-auto flex flex-col md:flex-row justify-between items-start w-full gap-8">
-          <span className="text-lg font-normal text-black">
-          currently building at {" "}
+          <span className="text-lg font-normal text-black flex gap-2">
+          currently at {" "}
             <span className="text-[#093FB4] underline">
-              <Link href="https://cosx.ai">@cosx.ai</Link>
-            </span>{" "}
-            <span className="text-black hidden md:flex">
-            ~ design x code
+              <Link href="https://cosx.ai"> @cosx.ai</Link>
             </span>
           </span>
           <div className="grid grid-cols-1 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
@@ -101,10 +98,10 @@ const HeroSection = ({
       <div className="flex flex-row justify-between items-end w-full px-4 md:px-[40px] pb-4 md:pb-[40px]">
         <div className="pointer-events-auto">
           <div className="text-xl font-normal text-black mb-2">
-            Hellooo, I&apos;m Neelakshi Das
+            Hey, I&apos;m Neelakshi
           </div>
           <div
-            className={`text-5xl md:text-[56px] font-normal text-[#093FB4] tracking-tighter leading-none ${geistPixelSquare.className}`}
+            className={`text-4xl md:text-[56px] font-normal text-[#093FB4] tracking-tighter leading-none ${geistPixelSquare.className}`}
           >
             Designer & Engineer
           </div>

@@ -149,7 +149,7 @@ const PlaygroundComponent = ({
           {tags.map((tag, index) => (
             <span
               key={index}
-              className="px-4 py-1.5 text-sm text-[#555] bg-white border border-[#e0e0e0] rounded-full whitespace-nowrap"
+              className="px-4 py-1.5 text-xs md:text-sm text-[#555] bg-white border border-[#e0e0e0] rounded-full whitespace-nowrap"
             >
               {tag}
             </span>
