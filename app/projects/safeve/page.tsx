@@ -1,11 +1,12 @@
 import React from "react";
 import Link from "next/link";
-import { Heart, ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 // import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/animated-section";
 import type { Metadata } from "next";
-
+import { GeistPixelSquare } from "geist/font/pixel";
+const geistPixelSquare = GeistPixelSquare;
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
@@ -60,7 +61,7 @@ const Page = () => {
               <span
                 className="text-3xl md:text-5xl lg:text-5xl font-normal text-black leading-tight"
               >
-                <span className="text-[#DD3418]">Safeve:</span> enhancing women&apos;s safety through anonymous reporting mechanisms
+                <span className={` text-[#DD3418] ${geistPixelSquare.className}`} >Safeve:</span> enhancing women&apos;s safety through anonymous reporting
               </span>
               <span className="text-base md:text-lg font-normal text-black w-full">
                 A secure, anonymous reporting system that empowers victims, helps organizations spot patterns, and fosters a culture of trust and accountability.
@@ -70,18 +71,25 @@ const Page = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mt-4">
               {/* Project Overview */}
               <div className="bg-white border border-gray-200 rounded-2xl p-4 lg:p-6 h-full flex flex-col">
-                <div className="text-lg lg:text-xl font-medium text-gray-700 mb-4">
+                <div className={`text-lg lg:text-xl font-medium text-gray-700 mb-4 ${geistPixelSquare.className}`}>
                   Project Overview
                 </div>
-                <div className="flex flex-col gap-2 text-base font-normal text-black">
-                  <div className="flex items-center gap-1">Website: <Link href="https://www.behance.net/gallery/223013105/Safeve" className="text-black hover:text-[#DD3418] transition-colors duration-200 flex items-center gap-1">Case Study <ArrowUpRight className="w-4 h-4" /></Link></div>
-                  <div>Challenge: Despite the POSH Act, women’s safety remains a concern. Fear of backlash and stigma often silences victims—especially in tech—making anonymous reporting essential.
+                <div className="flex flex-col gap-3 text-base font-normal text-black">
+                  <div className="flex items-center gap-1">
+                    <Link
+                      href="https://www.behance.net/gallery/223013105/Safeve"
+                      className="relative text-black hover:text-[#DD3418] transition-colors duration-200 inline-flex items-center gap-1 leading-tight after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-[1.5px] after:w-0 after:bg-[repeating-linear-gradient(to_right,#DD3418_0px,#DD3418_4px,transparent_4px,transparent_8px)] after:transition-[width] after:duration-300 hover:after:w-full"
+                    >
+                      Case Study <ArrowUpRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                  <div>Despite the POSH Act, women’s safety remains a concern. Fear of backlash and stigma often silences victims—especially in tech—making anonymous reporting essential.
                   </div>
                 </div>
               </div>
               {/* What I worked on */}
               <div className="bg-white border border-gray-200 rounded-2xl p-4 lg:p-6 h-full flex flex-col">
-                <div className="text-lg lg:text-xl font-medium text-gray-700 mb-4">
+                <div className={`text-lg lg:text-xl font-medium text-gray-700 mb-4 ${geistPixelSquare.className}`}>
                 Proposed Solution
                 </div>
                 <ul className="flex flex-col gap-2 text-base font-normal text-black list-disc list-inside">
@@ -169,14 +177,23 @@ const Page = () => {
           </div>
 
           {/* Footer */}
-          <div className="border-t pt-4 flex flex-row justify-between items-center md:text-base text-xs text-black">
+          <div className="pt-4 flex flex-row justify-between items-end md:text-base text-xs text-black">
             <span>© 2026 All Rights Reserved</span>
-            <span className="flex items-center gap-2">
-              Made with{" "}
-              <span className="text-black text-xl">
-                <Heart className="w-5 h-5 fill-current" />
-              </span>
-            </span>
+            <div
+  className="w-20 h-20 bg-black hover:bg-[#093FB4] transition-colors duration-300"
+  style={{
+    maskImage: "url('/hand.svg')",
+    maskRepeat: "no-repeat",
+    maskPosition: "center",
+    maskSize: "contain",
+    WebkitMaskImage: "url('/hand.svg')",
+    WebkitMaskRepeat: "no-repeat",
+    WebkitMaskPosition: "center",
+    WebkitMaskSize: "contain",
+  }}
+/>
+
+
           </div>
         </div>
       </AnimatedSection>

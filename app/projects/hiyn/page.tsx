@@ -1,10 +1,12 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Heart } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 // import { Instrument_Serif } from "next/font/google";
 import Image from "next/image";
 import AnimatedSection from "@/components/ui/animated-section";
 import type { Metadata } from "next";
+import { GeistPixelSquare } from "geist/font/pixel";
+const geistPixelSquare = GeistPixelSquare;
 
 export const dynamic = 'force-dynamic';
 
@@ -61,7 +63,7 @@ const Page = () => {
               <span
                 className="text-3xl md:text-5xl lg:text-5xl font-normal text-black leading-tight"
               >
-                <span className="text-[#AD1F04]">Hiyn:</span> a dynamic creative hierarchy for designers
+                <span className={` text-[#AD1F04] ${geistPixelSquare.className}`}>Hiyn:</span> a dynamic creative hierarchy for designers
               </span>
               <span className="text-base md:text-lg font-normal text-black w-full">
                 Hiyn is a digital platform that helps designers rise through a dynamic creative hierarchy, showcasing their skills and gaining recognition.
@@ -73,7 +75,7 @@ const Page = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mt-3 lg:mt-6">
               {/* Project Overview */}
               <div className="border border-dashed border-zinc-300 rounded-2xl p-4 lg:p-6 h-full flex flex-col">
-                <div className="text-lg lg:text-xl font-medium text-gray-700 mb-4">
+                <div className={`text-lg lg:text-xl font-medium text-gray-700 mb-4 ${geistPixelSquare.className}`}>
                   Project Overview
                 </div>
                 <div className="text-base font-normal text-black">
@@ -83,7 +85,7 @@ const Page = () => {
         
               {/* Proposed Solution */}
               <div className="border border-dashed border-zinc-300 rounded-2xl p-4 lg:p-6 h-full flex flex-col">
-                <div className="text-lg lg:text-xl font-medium text-gray-700 mb-4">
+                <div className={`text-lg lg:text-xl font-medium text-gray-700 mb-4 ${geistPixelSquare.className}`}>
                   Proposed Solution
                 </div>
                 <ul className="flex flex-col gap-2 text-base font-normal text-black list-disc list-inside">
@@ -172,14 +174,23 @@ const Page = () => {
           </div>
 
           {/* Footer */}
-          <div className="border-t pt-4 flex flex-row justify-between items-center md:text-base text-xs text-black">
+          <div className="pt-4 flex flex-row justify-between items-end md:text-base text-xs text-black">
             <span>© 2026 All Rights Reserved</span>
-            <span className="flex items-center gap-2">
-              Made with{" "}
-              <span className="text-black text-xl">
-                <Heart className="w-5 h-5 fill-current" />
-              </span>
-            </span>
+            <div
+  className="w-20 h-20 bg-black hover:bg-[#093FB4] transition-colors duration-300"
+  style={{
+    maskImage: "url('/hand.svg')",
+    maskRepeat: "no-repeat",
+    maskPosition: "center",
+    maskSize: "contain",
+    WebkitMaskImage: "url('/hand.svg')",
+    WebkitMaskRepeat: "no-repeat",
+    WebkitMaskPosition: "center",
+    WebkitMaskSize: "contain",
+  }}
+/>
+
+
           </div>
         </div>
       </AnimatedSection>

@@ -12,8 +12,8 @@
   height: 1.5px;
   background-image: repeating-linear-gradient(
     to right,
-    #093FB4 0px,
-    #093FB4 4px,
+    var(--dotted-underline-color, #093FB4) 0px,
+    var(--dotted-underline-color, #093FB4) 4px,
     transparent 4px,
     transparent 8px
   );

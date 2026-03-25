@@ -12,7 +12,7 @@ const mockProjects = [
     date: "03/2025",
     imageSrc: "/h8.webp",
     className: "col-span-1 lg:col-span-6 h-[330px] md:h-[350px] lg:h-[500px]",
-    tags: ["Design", "Hiyn", "2025"],
+    tags: ["Hiyn", "Creative Platform"],
     route: "/projects/hiyn",
   },
   {
@@ -22,7 +22,7 @@ const mockProjects = [
     date: "02/2025",
     imageSrc: "/f1.webp",
     className: "col-span-1 lg:col-span-6 h-[330px] md:h-[350px] lg:h-[500px]",
-    tags: ["Design", "Development", "Flint", "2025"],
+    tags: ["Flint", "Task Management"],
     route: "/projects/flint",
   },
   {
@@ -32,7 +32,7 @@ const mockProjects = [
     date: "01/2025",
     imageSrc: "/s10.webp",
     className: "col-span-1 lg:col-span-6 h-[330px] md:h-[350px] lg:h-[500px]",
-    tags: ["Design", "Safeve", "2025"],
+    tags: ["Safeve", "Anonymous Reporting"],
     route: "/projects/safeve",
   },
   {
@@ -42,7 +42,7 @@ const mockProjects = [
     date: "02/2026",
     imageSrc: "/v5.webp",
     className: "col-span-1 lg:col-span-6 h-[330px] md:h-[350px] lg:h-[500px]",
-    tags: ["Design", "Vion", "2026"],
+    tags: ["Vion", "Audiobook Generation"],
     route: "/projects/vion",
   },
 ];

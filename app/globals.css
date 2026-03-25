@@ -233,6 +233,17 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Custom text selection color matching theme */
+  ::selection {
+    background-color: #093FB4;
+    color: #ffffff;
+  }
+
+  ::-moz-selection {
+    background-color: #093FB4;
+    color: #ffffff;
+  }
 }
 
 /* Animated Folder Styles */
