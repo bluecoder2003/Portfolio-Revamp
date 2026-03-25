@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GeistPixelSquare } from "geist/font/pixel";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -67,7 +68,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={GeistPixelSquare.variable}>
       <head>
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />

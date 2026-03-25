@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Minimize2 } from "lucide-react";
 import Image from "next/image";
 
 interface ModalProps {
@@ -79,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   </ul>
                 </div>
               </div>
-              <div className="flex justify-end">
+              {/* <div className="flex justify-end">
                 <button
                   onClick={onClose}
                   className="p-2 lg:p-4 rounded-full bg-[#222222] hover:bg-[#333333] transition-colors"
@@ -89,7 +88,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     strokeWidth={1}
                   />
                 </button>
-              </div>
+              </div> */}
             </div>
           </motion.div>
         </motion.div>

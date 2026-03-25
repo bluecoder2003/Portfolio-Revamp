@@ -1,137 +1,184 @@
-import React from "react";
+'use client'
+
+import React, { useState } from "react";
 import PlaygroundComponent from "../custom/PlaygroundComponent";
-import { useModal } from "../context/ModalContext";
+import PlaygroundModal from "../custom/PlaygroundModal";
+import Modal from "../custom/Modal";
+import { AnimatePresence } from "framer-motion";
 
+type Project = {
+  id: number;
+  title?: string;
+  description?: string;
+  text?: string;
+  date?: string;
+  imageSrc?: string;
+  videoSrc?: string;
+  mediaType?: "image" | "video";
+  className: string;
+  tags?: string[];
+  redirectLink?: string;
+  useLuceModal?: boolean;
+};
 
-const mockProjects = [
+const mockProjects: Project[] = [
   {
     id: 5,
-    title: "DEVELOPMENT",
-    description: "A credit card masking concept (built in Nextjs)",
+    title: "Credit Card Masking",
+    description: "card numbers stay hidden by default and reveal on hover.",
     date: "03/2025",
     videoSrc: "/credit-card.webm",
     mediaType: "video" as const,
     className: "col-span-1 lg:col-span-7 h-[500px]",
+    tags: ["Credit Card", "Next.js", "Development"],
   },
   {
     id: 6,
-    title: "DESIGN",
-    description: "A holographic logo design",
+    title: "Logo Iteration",
+    description: "a non-mainstream logo study driven by intentional decisions.",
     date: "02/2025",
-    imageSrc: "/luce-dark.webp",
+    imageSrc: "/luce-web.webp",
     mediaType: "image" as const,
     className: "col-span-1 lg:col-span-5 h-[500px]",
-    showMaximizeButton: true,
+    tags: ["Logo Design", "Holographic", "Branding"],
+    useLuceModal: true,
   },
   {
     id: 3,
-    title: "DESIGN",
-    description: "Pause before you reel: Because you deserve a guilty conscience 🤡",
+    title: "Pause Before You Reel",
+    description: "Pause before you reel: Because you deserve a guilty conscience",
     text: "What if every tap on the Reels button came with a sarcastic, guilt-inducing reality check? <br/> Say hello to brutally honest pop-ups that make you laugh, cringe, and maybe—just maybe—stop scrolling.",
     date: "01/2025",
     className: "col-span-1 lg:col-span-6 h-[500px]",
+    tags: ["UX Concept", "Design", "Social Media"],
   },
   {
     id: 4,
+    title: "Pause Before You Reel",
+    description: "sarcastic pop-ups that guilt-trip your Reels scrolling.",
+    text: "What if every tap on the Reels button came with a sarcastic, guilt-inducing reality check? <br/> Say hello to brutally honest pop-ups that make you laugh, cringe, and maybe—just maybe—stop scrolling.",
     videoSrc: "/funny.webm",
     mediaType: "video" as const,
     className: "col-span-1 lg:col-span-6 h-[500px]",
+    tags: ["Fun", "Video"],
+    redirectLink: "https://www.ridiculous.design/ridiculous-shots",
   },
   {
     id: 1,
-    title: "DEVELOPMENT",
-    description: "Preloader Iteration",
+    title: "Wind Hashira Prelude",
+    description: "a preloader built around a subtle wind motif.",
     date: "02/2025",
     videoSrc: "/preloader.webm",
     mediaType: "video" as const,
     className: "col-span-1 lg:col-span-6 h-[500px]",
+    tags: ["Preloader", "Wind Hashira"],
   },
   {
     id: 2,
-    title: "DEVELOPMENT",
-    description: "Just a potterhead (built in Nextjs)",
+    title: "Just a Potterhead",
+    description: "how the spell Aparecium will actually work in real life",
     date: "02/2025",
     videoSrc: "/potter.webm",
     mediaType: "video" as const,
     className: "col-span-1 lg:col-span-6 h-[500px]",
+    tags: ["Harry Potter", "Aparecium"],
   },
   {
-    id: 7,
-    title: "DEVELOPMENT",
-    description: "A custom button interaction",
+    id: 10,
+    title: "Randomness as Inspiration",
+    description: "a simple idea: one click, one randomly curated website, built to break creative blocks.",
     date: "03/2026",
     videoSrc: "/button.webm",
     mediaType: "video" as const,
     className: "col-span-1 lg:col-span-6 h-[500px]",
-    showRedirectButton: true,
     redirectLink: "https://design-gallery-one.vercel.app/",
+    tags: ["Button Interaction", "Randomness"],
   },
   {
     id: 8,
-    title: "DEVELOPMENT",
-    description: "A Naruto-inspired animation",
+    title: "Anime Portfolio Iteration",
+    description: "a cozy anime-themed desk setup with where you can move your things around",
     date: "03/2026",
     videoSrc: "/naruto.webm",
     mediaType: "video" as const,
     className: "col-span-1 lg:col-span-6 h-[500px]",
-    showRedirectButton: true,
     redirectLink: "https://swab-paste-12055977.figma.site/",
+    tags: ["Naruto", "SetUp Animation", ],
   },
   {
     id: 9,
-    title: "DESIGN",
-    description: "Figma Makeathon 2026",
+    title: "Sound, Made Visible",
+    description: "a digital take on classic vibration experiments, audio transformed into real-time generative patterns.",
     date: "03/2026",
     videoSrc: "/figmamakeathon.webm",
     mediaType: "video" as const,
     className: "col-span-1 lg:col-span-6 h-[500px]",
-    showRedirectButton: true,
     redirectLink: "https://peony-candle-12655337.figma.site/",
+    tags: ["Figma Makeathon", "2026"],
   },
   {
-    id: 10,
-    title: "DEVELOPMENT",
-    description: "Figma Build 2026",
+    id: 7,
+    title: "SOMA, Decoding Discomfort",
+    description: "an AR concept that translates stress signals into guided pressure-point relief",
     date: "03/2026",
     videoSrc: "/figbuild.webm",
     mediaType: "video" as const,
     className: "col-span-1 lg:col-span-6 h-[500px]",
-    showRedirectButton: true,
     redirectLink: "https://visor-jade-40774028.figma.site/",
+    tags: ["Figma Build", "2026"],
   },
 ];
 
 export default function PlaygroundSection() {
-  const { openModal } = useModal();
-
-  const handleMaximizeClick = (projectId: number) => {
-    if (projectId === 2) {
-      openModal();
-    }
-  };
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isLuceModalOpen, setIsLuceModalOpen] = useState(false);
 
   return (
     <section className="w-full max-w-7xl mx-auto h-auto rounded-[16px] flex flex-col justify-between relative">
-
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-[10px] overflow-hidden relative">
-        {[...mockProjects].sort((a, b) => b.id - a.id).map((project) => (
-          <PlaygroundComponent
-            key={project.id}
-            className={project.className}
-            imageSrc={project.imageSrc}
-            videoSrc={project.videoSrc}
-            mediaType={project.mediaType}
-            projectTitle={project.title}
-            projectDescription={project.description}
-            projectText={project.text}
-            projectDate={project.date}
-            showMaximizeButton={project.showMaximizeButton}
-            showRedirectButton={project.showRedirectButton}
-            redirectLink={project.redirectLink}
-            onMaximizeClick={() => handleMaximizeClick(project.id)}
-          />
-        ))}
-      </div>
+          {[...mockProjects].sort((a, b) => b.id - a.id).map((project) => (
+            <PlaygroundComponent
+              key={project.id}
+              id={project.id}
+              className={project.className}
+              imageSrc={project.imageSrc}
+              videoSrc={project.videoSrc}
+              mediaType={project.mediaType}
+              projectTitle={project.title}
+              projectDescription={project.description}
+              projectText={project.text}
+              projectDate={project.date}
+              tags={project.tags}
+              redirectLink={project.redirectLink}
+              onClick={
+                project.useLuceModal
+                  ? () => setIsLuceModalOpen(true)
+                  : project.imageSrc || project.videoSrc
+                    ? () => setSelectedProject(project)
+                    : undefined
+              }
+            />
+          ))}
+        </div>
+
+        <AnimatePresence>
+          {selectedProject && (
+            <PlaygroundModal
+              isOpen
+              onClose={() => setSelectedProject(null)}
+              projectId={selectedProject.id}
+              title={selectedProject.title}
+              description={selectedProject.description}
+              text={selectedProject.text}
+              videoSrc={selectedProject.videoSrc}
+              imageSrc={selectedProject.imageSrc}
+              mediaType={selectedProject.mediaType}
+              redirectLink={selectedProject.redirectLink}
+            />
+          )}
+        </AnimatePresence>
+
+        <Modal isOpen={isLuceModalOpen} onClose={() => setIsLuceModalOpen(false)} />
     </section>
   );
 }

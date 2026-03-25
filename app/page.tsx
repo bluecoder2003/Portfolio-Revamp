@@ -1,9 +1,5 @@
-import ServerNavigationProvider from "@/components/sections/ServerNavigationProvider";
-
-// Force static generation
-export const dynamic = 'force-static'
-export const revalidate = false
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return <ServerNavigationProvider />;
+  redirect("/playground");
 }
