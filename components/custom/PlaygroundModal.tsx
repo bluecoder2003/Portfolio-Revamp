@@ -40,6 +40,25 @@ const PlaygroundModal: React.FC<PlaygroundModalProps> = ({
   }, [isOpen]);
 
   useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .animate-fadeIn {
+        animation: fadeIn 0.3s ease-in-out;
+      }
+    `;
+    document.head.appendChild(style);
+    return () => style.remove();
+  }, []);
+
+  useEffect(() => {
     if (!isOpen) return;
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -89,11 +108,11 @@ const PlaygroundModal: React.FC<PlaygroundModalProps> = ({
 
               {/* Media */}
               {hasMedia && (
-                <div className="relative m-3 mb-0">
+                <div className="relative m-3 mb-0 bg-gray-100 rounded-[16px] overflow-hidden" style={{ aspectRatio: '1200/800' }}>
                   {mediaType === "video" && videoSrc ? (
                     <video
                       src={videoSrc}
-                      className="w-full h-auto max-h-[65vh] rounded-[16px] object-contain"
+                      className="w-full h-full rounded-[16px] object-contain"
                       autoPlay
                       muted
                       loop
@@ -105,7 +124,12 @@ const PlaygroundModal: React.FC<PlaygroundModalProps> = ({
                       alt={description || "project media"}
                       width={1200}
                       height={800}
-                      className="w-full h-auto max-h-[65vh] rounded-[16px] object-contain"
+                      priority
+                      quality={90}
+                      placeholder="blur"
+                      blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'%3E%3Crect fill='%23f3f4f6' width='1200' height='800'/%3E%3C/svg%3E"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 900px"
+                      className="w-full h-full rounded-[16px] object-cover animate-fadeIn"
                     />
                   ) : null}
 
@@ -133,21 +157,16 @@ const PlaygroundModal: React.FC<PlaygroundModalProps> = ({
                   transition={{ delay: 0.1, duration: 0.25 }}
                   className="px-5 py-4"
                 >
-                  {description && (
+                  {title && (
                     <h3 className="text-base font-normal text-black">
-                      {description}
+                      {title}
                     </h3>
                   )}
-                  {text ? (
-                    <p
-                      className="text-sm text-gray-500 mt-1"
-                      dangerouslySetInnerHTML={{ __html: text }}
-                    />
-                  ) : title && (
+                  
                     <p className="text-sm text-gray-500 mt-1">
-                      {title}
+                      {description}
                     </p>
-                  )}
+                
                 </motion.div>
               )}
             </motion.div>
