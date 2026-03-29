@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
-  metadataBase: new URL("https://pixelstories.design"),
+  metadataBase: new URL("https://dasneelakshi.com"),
   alternates: {
-    canonical: "/",
+    canonical: "https://dasneelakshi.com",
   },
   openGraph: {
     title: "Neelakshi Das — Design Engineer Portfolio",
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
       "Portfolio of Neelakshi Das — Design Engineer crafting intuitive, high-performance interfaces.",
     type: "website",
     locale: "en_US",
-    url: "https://pixelstories.design",
-    siteName: "Pixel Stories",
+    url: "https://dasneelakshi.com",
+    siteName: "Neelakshi Das",
     images: [
       {
         url: "/og-image.png",
