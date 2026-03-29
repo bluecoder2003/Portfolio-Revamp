@@ -28,16 +28,16 @@ export const metadata: Metadata = {
     canonical: "https://dasneelakshi.com",
   },
   openGraph: {
-    title: "Neelakshi Das — Design Engineer Portfolio",
+    title: "Neelakshi Das — Design Engineer",
     description:
-      "Portfolio of Neelakshi Das — Design Engineer crafting intuitive, high-performance interfaces.",
+      "I help startups and SaaS teams bring ideas to life.",
     type: "website",
     locale: "en_US",
     url: "https://dasneelakshi.com",
     siteName: "Neelakshi Das",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://dasneelakshi.com/og-image.png",
         width: 1200,
         height: 630,
         alt: "Neelakshi Das — Design Engineer Portfolio",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: "Neelakshi Das — Design Engineer Portfolio",
     description:
       "Design Engineer crafting intuitive, high-performance interfaces.",
-    images: ["/og-image.png"],
+    images: ["https://dasneelakshi.com/og-image.png"],
     creator: "@bluecoder2003",
   },
   robots: {
