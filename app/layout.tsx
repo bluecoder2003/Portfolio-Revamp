@@ -4,11 +4,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Neelakshi Das — Design Engineer Portfolio",
+    default: "Neelakshi Das — Design Engineer",
     template: "%s | Neelakshi Das",
   },
   description:
-    "Portfolio of Neelakshi Das — Design Engineer crafting intuitive, high-performance interfaces. UI/UX design and frontend development.",
+    "I help startups and SaaS teams bring ideas to life.",
   keywords: [
     "portfolio",
     "design engineer",
@@ -40,15 +40,15 @@ export const metadata: Metadata = {
         url: "https://dasneelakshi.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Neelakshi Das — Design Engineer Portfolio",
+        alt: "Neelakshi Das — Design Engineer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Neelakshi Das — Design Engineer Portfolio",
+    title: "Neelakshi Das — Design Engineer",
     description:
-      "Design Engineer crafting intuitive, high-performance interfaces.",
+      "I help startups and SaaS teams bring ideas to life.",
     images: ["https://dasneelakshi.com/og-image.png"],
     creator: "@bluecoder2003",
   },
@@ -106,7 +106,7 @@ export default function RootLayout({
               "@type": "Person",
               name: "Neelakshi Das",
               jobTitle: "Design Engineer",
-              url: "https://pixelstories.design",
+              url: "https://dasneelakshi.com",
               sameAs: [
                 "https://github.com/bluecoder2003",
                 "https://twitter.com/bluecoder2003",
