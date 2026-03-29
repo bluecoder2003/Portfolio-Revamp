@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Neelakshi Das" }],
   creator: "Neelakshi Das",
+  icons: {
+    icon: "/favicon.ico",
+  },
   metadataBase: new URL("https://pixelstories.design"),
   alternates: {
     canonical: "/",

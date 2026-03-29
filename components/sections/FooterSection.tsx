@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { useSound } from '@/hooks/useSound';
 
 const PixelCloud = ({ delay, duration, bottom, opacity, scale = 1, flipped = false, isSunset = false }: { delay: number; duration: number; bottom: number; opacity: number; scale?: number; flipped?: boolean; isSunset?: boolean }) => {
   return (
@@ -115,6 +116,12 @@ const PixelSun = ({ isSunset = false }: { isSunset?: boolean }) => {
 
 const Footer = () => {
   const [mode, setMode] = useState<'day' | 'sunset'>('day');
+  const { playSound } = useSound();
+
+  const handleSunClick = () => {
+    playSound('toggle');
+    setMode(mode === 'sunset' ? 'day' : 'sunset');
+  };
 
   return (
     <>
@@ -211,7 +218,7 @@ const Footer = () => {
       <div className={`absolute w-full bottom-0 right-0 md:bottom-6 md:right-6 text-sm md:text-base font-normal flex items-start justify-center md:justify-end gap-4 ${mode === 'sunset' ? 'text-[#FFF7EE]' : 'text-white'} transition-colors duration-500`}>
         <p className="text-center md:text-right leading-[1.35]">In case you didn&apos;t look up today,<br />here&apos;s a little sky for you ~</p>
         <button
-          onClick={() => setMode(mode === 'sunset' ? 'day' : 'sunset')}
+          onClick={handleSunClick}
           className="shrink-0 cursor-pointer hover:scale-100 transition-transform"
           aria-label={mode === 'sunset' ? 'Switch to day sky' : 'Switch to sunset sky'}
           style={{
