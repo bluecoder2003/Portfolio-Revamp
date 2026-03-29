@@ -52,14 +52,14 @@ const HeroSection = ({
               <Link href="https://cosx.ai"> @cosx.ai</Link>
             </span>
           </span>
-          <div className="grid grid-cols-1 gap-2 md:gap-4 w-full md:w-fit pointer-events-auto">
+          <div className="flex flex-col lg:flex-row gap-2 lg:gap-6 w-full md:w-fit pointer-events-auto justify-end">
           {navigationItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <button
                 key={item.label}
                 onClick={() => handleNavigation(item.href)}
-                className={`flex items-center text-lg gap-2 leading-1.5 font-normal transition-colors group ${geistPixelSquare.className} ${
+                className={`flex items-center justify-start xl:justify-end w-fit text-lg md:text-base gap-2 lg:gap-1 leading-1.5 font-normal transition-colors group ${geistPixelSquare.className} ${
                   isActive
                     ? 'text-[#093FB4]'
                     : 'text-black hover:text-[#093FB4]'
@@ -71,7 +71,7 @@ const HeroSection = ({
                     : 'border-transparent group-hover:rotate-[-12deg] group-hover:border-[#093FB4]'
                 }`}>
                   <div
-                    className={`h-5 w-5 transition-colors duration-300 ease-in-out ${
+                    className={`h-5 w-5 md:h-4 md:w-4 transition-colors duration-300 ease-in-out ${
                       isActive ? 'bg-white' : 'bg-black group-hover:bg-[#093FB4]'
                     }`}
                     style={{
