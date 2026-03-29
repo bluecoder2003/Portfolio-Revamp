@@ -152,7 +152,7 @@ export default function NotFoundPage() {
       // Random wandering behavior
       const changeDirectionInterval = 2500 // Change direction every 2.5 seconds
       const padding = 30 // Allow ghost to roam across entire screen
-      const maxSpeed = 2 // Faster movement for better visibility
+      const maxSpeed = 0.6 // Slower, more gentle movement
 
       // Pick new target if needed
       if (timestamp >= ghostState.nextDirectionChangeTime) {
