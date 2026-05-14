@@ -43,7 +43,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       />
 
       {/* ── Header ──────────────────────────────────────── */}
-      <header className="mb-[var(--space-xxl)] border-b-hairline pb-[var(--space-xl)]">
+      <header className="mb-[var(--space-xxl)] pb-[var(--space-xl)]">
         <div className="flex items-baseline gap-[var(--space-md)] mb-[var(--space-md)]">
           <span className="type-meta text-[var(--color-meta)]">[ {project.kind} ]</span>
           <span className="type-meta text-[var(--color-meta)]">{project.year}</span>
@@ -62,7 +62,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           {project.tags.map(tag => (
             <span
               key={tag}
-              className="type-meta text-[var(--color-meta)] border-hairline py-[2px] px-[8px]"
+              className="type-meta text-[var(--color-meta)] py-[2px] px-[8px]"
             >
               {tag}
             </span>
@@ -91,7 +91,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       )}
 
       {/* ── Prev / Next nav ─────────────────────────────── */}
-      <div className="flex justify-between mt-[var(--space-xxxxxl)] pt-[var(--space-xl)] border-t-hairline">
+      <div className="flex justify-between mt-[var(--space-xxxxxl)] pt-[var(--space-xl)]">
         {prev ? (
           <Link href={`/projects/${prev.slug}`} className="no-underline">
             <span className="type-meta text-[var(--color-meta)] block mb-[var(--space-xxxxs)] inline-flex items-center gap-[4px]"><ArrowLeft size={10} weight="light" /> prev</span>

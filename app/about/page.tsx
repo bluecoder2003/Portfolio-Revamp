@@ -58,7 +58,7 @@ export default function AboutPage() {
 
       {/* ── Bio ─────────────────────────────────────────── */}
       <section className="mb-[var(--space-xxxxxl)]">
-        <div className="mb-[var(--space-xl)] pb-[var(--space-md)] border-b-hairline">
+        <div className="mb-[var(--space-xl)] pb-[var(--space-md)]">
           <span className="type-mono text-[var(--color-secondary)]">about</span>
         </div>
 
@@ -109,7 +109,7 @@ export default function AboutPage() {
         <div className="stack-xxl">
           {experience.map(job => (
             <div key={job.org}>
-              <div className="flex justify-between items-baseline mb-[var(--space-sm)] pb-[var(--space-sm)] border-b-hairline">
+              <div className="flex justify-between items-baseline mb-[var(--space-sm)] pb-[var(--space-sm)]">
                 <div>
                   <p className="type-body text-[var(--color-primary)]">{job.org}</p>
                   <p className="type-body text-[var(--color-secondary)]">{job.role}</p>
@@ -135,7 +135,7 @@ export default function AboutPage() {
           makeathons + hackathons
         </h2>
         {hackathons.map(h => (
-          <div key={h.name} className="border-b-hairline pb-[var(--space-lg)]">
+          <div key={h.name} className="pb-[var(--space-lg)]">
             <p className="type-body text-[var(--color-primary)] mb-[var(--space-xxxxs)]">{h.name}</p>
             <p className="type-body text-[var(--color-secondary)] mb-[var(--space-xxxxs)]">{h.result}</p>
             <p className="type-body text-[var(--color-meta)]">{h.project}</p>

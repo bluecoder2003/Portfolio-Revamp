@@ -1,54 +1,49 @@
 import Link from 'next/link'
-import Ghost from '@/components/ui/Ghost'
-import { ArrowRight } from '@phosphor-icons/react/dist/ssr'
-
-const positions = [
-  { year: '2026', org: 'CosX',  role: 'Design Engineer Intern' },
-  { year: '2025', org: 'Vexio', role: 'UI/UX Designer & Dev Intern' },
-]
+import Image from 'next/image'
+import HeroSection from '@/components/sections/HeroSection'
+import LazyVideo from '@/components/ui/LazyVideo'
+import { ArrowRight } from '@phosphor-icons/react/dist/ssr/ArrowRight'
 
 type Card = {
   title: string
   date:  string
+  asset: string
 }
 
 const cards: Card[] = [
-  { title: 'Sound, Made Visible',        date: "03 '26" },
-  { title: 'Credit Card Masking',        date: "03 '25" },
-  { title: 'SOMA — Decoding Discomfort', date: "03 '26" },
-  { title: 'Anime Portfolio Iteration',  date: "03 '26" },
-  { title: 'Randomness as Inspiration',  date: "03 '26" },
-  { title: 'Wind Hashira Prelude',       date: "02 '25" },
+  { title: 'Sound, Made Visible',        date: "03 '26", asset: '/figmamakeathon.webm' },
+  { title: 'Credit Card Masking',        date: "03 '25", asset: '/credit-card.webm'    },
+  { title: 'Randomness as Inspiration',  date: "03 '26", asset: '/button.webm'         },
+  { title: 'Anime Theme Iteration',      date: "03 '26", asset: '/naruto.webm'          },
+  { title: 'Just a Potterhead',          date: "02 '25", asset: '/potter.webm'          },
+  { title: 'Wind Hashira Prelude',       date: "02 '25", asset: '/preloader.webm'      },
 ]
+
+function CardMedia({ src, alt }: { src: string; alt: string }) {
+  if (src.endsWith('.webm') || src.endsWith('.mp4')) {
+    return <LazyVideo src={src} />
+  }
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      sizes="(max-width: 768px) 50vw, 33vw"
+      className="object-cover"
+    />
+  )
+}
 
 export default function Home() {
   return (
     <div className="pb-[var(--space-xxxxxl)]">
 
-      {/* ── Intro ───────────────────────────────────────── */}
-      <section className="mb-[var(--space-xxxxxl)]">
-        <Ghost />
-
-        <p className="type-body text-[var(--color-secondary)] max-w-[360px] mb-[var(--space-xl)]">
-          Design engineer working at the seam of AI, design, and the web.
-          I ship product surfaces end-to-end — research, interfaces, code,
-          and the metrics that prove they worked.
-        </p>
-
-        <div className="flex flex-col gap-[var(--space-xs)]">
-          {positions.map(p => (
-            <div key={p.org} className="flex gap-[var(--space-xl)]">
-              <span className="type-meta text-[var(--color-meta)] w-8 shrink-0">{p.year}</span>
-              <span className="type-body text-[var(--color-primary)] w-[72px] shrink-0">{p.org}</span>
-              <span className="type-body text-[var(--color-secondary)]">{p.role}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* ── Hero with sky ────────────────────────────────── */}
+      <HeroSection />
 
       {/* ── Creative explorations ───────────────────────── */}
       <section>
-        <div className="flex items-center justify-between mb-[var(--space-lg)] pb-[var(--space-sm)] border-b-hairline">
+        <div className="flex items-center justify-between mb-[var(--space-lg)]">
           <span className="type-mono text-[var(--color-secondary)]">creative explorations</span>
           <Link href="/playground" className="type-meta text-[var(--color-meta)] transition-colors">
             view all <ArrowRight size={10} weight="light" className="inline" />
@@ -62,7 +57,9 @@ export default function Home() {
               href="/playground"
               className="no-underline flex flex-col gap-[var(--space-xs)]"
             >
-              <div className="aspect-[16/10] bg-[#E6E7E8] overflow-hidden" />
+              <div className="relative aspect-[16/10] bg-[#E6E7E8] overflow-hidden">
+                <CardMedia src={card.asset} alt={card.title} />
+              </div>
 
               <div className="flex items-baseline justify-between gap-[var(--space-xs)]">
                 <p className="type-body text-[var(--color-primary)] text-[12px]">

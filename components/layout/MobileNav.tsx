@@ -17,7 +17,7 @@ export default function MobileNav() {
   return (
     <div className="fixed top-0 left-0 right-0 z-[100]">
       {/* ── Top bar ──────────────────────────────────────── */}
-      <div className="flex items-center justify-between px-[var(--space-lg)] py-[var(--space-md)] bg-[var(--color-surface)] border-b-hairline">
+      <div className="flex items-center justify-between px-[var(--space-lg)] py-[var(--space-md)] bg-[var(--color-surface)]">
         <Link
           href="/"
           className="type-mono text-[var(--color-primary)]"
@@ -36,7 +36,7 @@ export default function MobileNav() {
 
       {/* ── Nav panel ────────────────────────────────────── */}
       {open && (
-        <nav className="bg-[var(--color-surface)] border-b-hairline px-[var(--space-lg)] py-[var(--space-xl)] flex flex-col gap-[var(--space-lg)]">
+        <nav className="bg-[var(--color-surface)] px-[var(--space-lg)] py-[var(--space-xl)] flex flex-col gap-[var(--space-lg)]">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}

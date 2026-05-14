@@ -7,7 +7,7 @@ export default function ProjectsPage() {
     <div className="pb-[var(--space-xxxxxl)]">
 
       {/* ── Header ──────────────────────────────────────── */}
-      <div className="mb-[var(--space-xxl)] pb-[var(--space-md)] border-b-hairline">
+      <div className="mb-[var(--space-xxl)] pb-[var(--space-md)]">
         <span className="type-mono text-[var(--color-secondary)]">work</span>
       </div>
 

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
 import SiteShell from '@/components/layout/SiteShell'
+import { SkyProvider } from '@/contexts/SkyContext'
 
 const inter = Inter({
   subsets:  ['latin'],
@@ -27,7 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable}`}>
       <body>
-        <SiteShell>{children}</SiteShell>
+        <SkyProvider>
+          <SiteShell>{children}</SiteShell>
+        </SkyProvider>
       </body>
     </html>
   )
