@@ -2,9 +2,13 @@
 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { navigationItems } from "./Navigation";
 import { GeistPixelSquare } from "geist/font/pixel";
 import SocialLinks from "@/components/custom/SocialLinks";
+
+const E_THOUGHT_LINK =
+  "https://x.com/bluecoder2003/status/2043025344299667617?s=20";
 
 const geistPixelSquare = GeistPixelSquare;
 const navigationIcons: Record<string, string> = {
@@ -22,9 +26,33 @@ const HeroSection = ({
 }: HeroSectionProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const [showBubble, setShowBubble] = useState(false);
+
+  useEffect(() => {
+    let cycleTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const cycle = (shouldShow: boolean) => {
+      setShowBubble(shouldShow);
+      cycleTimer = setTimeout(
+        () => cycle(!shouldShow),
+        shouldShow ? 4500 : 9000
+      );
+    };
+
+    const initial = setTimeout(() => cycle(true), 1500);
+
+    return () => {
+      clearTimeout(initial);
+      if (cycleTimer) clearTimeout(cycleTimer);
+    };
+  }, []);
 
   const handleNavigation = (href: string) => {
     router.push(href);
+  };
+
+  const handleEClick = () => {
+    window.open(E_THOUGHT_LINK, "_blank", "noopener,noreferrer");
   };
 
   const getSectionTitle = (section: string) => {
@@ -104,7 +132,48 @@ const HeroSection = ({
           <div
             className={`text-4xl md:text-[56px] font-normal text-[#093FB4] tracking-tighter leading-none ${geistPixelSquare.className}`}
           >
-            Designer & Engineer
+            Designer &{" "}
+            <span className="whitespace-nowrap">
+              <span className="relative inline-block">
+                <span
+                  role="link"
+                  tabIndex={0}
+                  aria-label="Doesn't this letter feel a little different from the rest? Open the story on X"
+                  onClick={handleEClick}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      handleEClick();
+                    }
+                  }}
+                  className={`designer-engineer-e${
+                    showBubble ? " designer-engineer-e--active" : ""
+                  }`}
+                >
+                  E
+                  <span
+                    className="designer-engineer-e__fill"
+                    aria-hidden="true"
+                  >
+                    E
+                  </span>
+                </span>
+                <span
+                  className={`thought-bubble${
+                    showBubble ? " thought-bubble--visible" : ""
+                  }`}
+                  role="note"
+                  aria-hidden={!showBubble}
+                >
+                  <span className="thought-bubble-text">
+                    Doesn&apos;t this letter feel
+                    <br />
+                    a little different from the rest?
+                  </span>
+                </span>
+              </span>
+              ngineer
+            </span>
           </div>
 
           {/* Mobile social links - below title */}

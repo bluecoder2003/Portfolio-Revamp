@@ -442,3 +442,160 @@ body {
 .animate-slide-up {
   animation: slideUp 0.4s ease-out;
 }
+
+/* "E" in Designer & Engineer — a blue chip "slides" in left→right as a pixel sweep,
+   revealing a white E. On hide, the sweep retracts right→left and the bubble dissolves with it. */
+.designer-engineer-e {
+  display: inline-block;
+  color: #093FB4;
+  cursor: pointer;
+  position: relative;
+  padding: 0 0.06em;
+  margin: 0 0.01em 0 -0.06em;
+  border-radius: 2px;
+  transition: box-shadow 0.55s ease;
+}
+
+.designer-engineer-e--active,
+.designer-engineer-e:hover,
+.designer-engineer-e:focus-visible {
+  box-shadow: 0 6px 22px rgba(9, 63, 180, 0.22);
+  outline: none;
+}
+
+.designer-engineer-e__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 0.06em;
+  box-sizing: border-box;
+  background-color: #093FB4;
+  color: #FFFFFF;
+  pointer-events: none;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.55s steps(10, end);
+}
+
+.designer-engineer-e--active .designer-engineer-e__fill,
+.designer-engineer-e:hover .designer-engineer-e__fill,
+.designer-engineer-e:focus-visible .designer-engineer-e__fill {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Thought bubble */
+/* Pixel-art speech bubble: outer = blue outline, inner ::before = white fill */
+.thought-bubble {
+  position: absolute;
+  left: -10px;
+  bottom: calc(100% + 8px);
+  background: #093FB4;
+  color: #093FB4;
+  font-family: var(--font-geist-pixel-square), monospace;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  width: max-content;
+  max-width: min(280px, calc(100vw - 48px));
+  padding: 10px 14px 22px;
+  border: none;
+  border-radius: 0;
+  transform-origin: 30% 100%;
+  opacity: 0;
+  transform: translateY(8px) scale(0.85);
+  transition:
+    opacity 0.35s ease-out 0s,
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0s;
+  clip-path: polygon(
+    4px 0,
+    calc(100% - 4px) 0,
+    calc(100% - 4px) 4px,
+    100% 4px,
+    100% calc(100% - 16px),
+    calc(100% - 4px) calc(100% - 16px),
+    calc(100% - 4px) calc(100% - 12px),
+    42px calc(100% - 12px),
+    42px calc(100% - 8px),
+    38px calc(100% - 8px),
+    38px calc(100% - 4px),
+    34px calc(100% - 4px),
+    34px 100%,
+    22px 100%,
+    22px calc(100% - 12px),
+    4px calc(100% - 12px),
+    4px calc(100% - 16px),
+    0 calc(100% - 16px),
+    0 4px,
+    4px 4px
+  );
+  z-index: 5;
+  pointer-events: none;
+}
+
+.thought-bubble--visible,
+.designer-engineer-e:hover ~ .thought-bubble,
+.designer-engineer-e:focus-visible ~ .thought-bubble {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition-delay: 0.55s;
+}
+
+.thought-bubble::before {
+  content: "";
+  position: absolute;
+  inset: 2px 2px 2px 2px;
+  background: #FFFFFF;
+  clip-path: polygon(
+    4px 0,
+    calc(100% - 4px) 0,
+    calc(100% - 4px) 4px,
+    100% 4px,
+    100% calc(100% - 16px),
+    calc(100% - 4px) calc(100% - 16px),
+    calc(100% - 4px) calc(100% - 12px),
+    38px calc(100% - 12px),
+    38px calc(100% - 8px),
+    34px calc(100% - 8px),
+    34px calc(100% - 4px),
+    30px calc(100% - 4px),
+    30px 100%,
+    22px 100%,
+    22px calc(100% - 12px),
+    4px calc(100% - 12px),
+    4px calc(100% - 16px),
+    0 calc(100% - 16px),
+    0 4px,
+    4px 4px
+  );
+  pointer-events: none;
+}
+
+.thought-bubble-text {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+}
+
+@media (max-width: 639px) {
+  .thought-bubble {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thought-bubble,
+  .designer-engineer-e {
+    transition: opacity 0.2s linear;
+  }
+  .thought-bubble {
+    transform: none;
+  }
+  .thought-bubble--visible {
+    transform: none;
+  }
+}
