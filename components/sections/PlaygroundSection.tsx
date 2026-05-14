@@ -14,6 +14,7 @@ type Project = {
   date?: string;
   imageSrc?: string;
   videoSrc?: string;
+  posterSrc?: string;
   mediaType?: "image" | "video";
   className: string;
   tags?: string[];
@@ -22,6 +23,28 @@ type Project = {
 };
 
 const mockProjects: Project[] = [
+  {
+    id: 12,
+    title: "VectorDrop",
+    description: "a browser tool that turns raster PNGs and JPGs into clean editable SVGs in seconds.",
+    date: "05/2026",
+    videoSrc: "/vectordrop-hero.webm",
+    mediaType: "video" as const,
+    className: "col-span-1 lg:col-span-6 h-[500px]",
+    redirectLink: "https://www.vectordrop.co.in/",
+    tags: ["Raster to Vector", "SVG", "Web Tool"],
+  },
+  {
+    id: 11,
+    title: "Lynart",
+    description: "a small line-art study where flowers bloom into vector strokes, vibe-coded on lovable.",
+    date: "05/2026",
+    videoSrc: "/flower-lovable.webm",
+    mediaType: "video" as const,
+    className: "col-span-1 lg:col-span-6 h-[500px]",
+    redirectLink: "https://line-art.lovable.app/",
+    tags: ["Line Art", "Lovable", "Generative"],
+  },
   {
     id: 5,
     title: "Credit Card Masking",
@@ -42,26 +65,6 @@ const mockProjects: Project[] = [
     className: "col-span-1 lg:col-span-5 h-[500px]",
     tags: ["Logo Design", "Holographic", "Branding"],
     useLuceModal: true,
-  },
-  {
-    id: 3,
-    title: "Pause Before You Reel",
-    description: "Pause before you reel: Because you deserve a guilty conscience",
-    text: "What if every tap on the Reels button came with a sarcastic, guilt-inducing reality check? <br/> Say hello to brutally honest pop-ups that make you laugh, cringe, and maybe—just maybe—stop scrolling.",
-    date: "01/2025",
-    className: "col-span-1 lg:col-span-6 h-[500px]",
-    tags: ["UX Concept", "Design", "Social Media"],
-  },
-  {
-    id: 4,
-    title: "Pause Before You Reel",
-    description: "sarcastic pop-ups that guilt-trip your Reels scrolling.",
-    text: "What if every tap on the Reels button came with a sarcastic, guilt-inducing reality check? <br/> Say hello to brutally honest pop-ups that make you laugh, cringe, and maybe—just maybe—stop scrolling.",
-    videoSrc: "/funny.webm",
-    mediaType: "video" as const,
-    className: "col-span-1 lg:col-span-6 h-[500px]",
-    tags: ["Fun", "Video"],
-    redirectLink: "https://www.ridiculous.design/ridiculous-shots",
   },
   {
     id: 1,
@@ -143,6 +146,7 @@ export default function PlaygroundSection() {
               className={project.className}
               imageSrc={project.imageSrc}
               videoSrc={project.videoSrc}
+              posterSrc={project.posterSrc}
               mediaType={project.mediaType}
               projectTitle={project.title}
               projectDescription={project.description}

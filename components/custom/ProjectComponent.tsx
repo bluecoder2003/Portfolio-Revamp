@@ -23,7 +23,7 @@ const ProjectComponent = ({
   return (
     <div
       className={cn(
-        "relative flex flex-col flex-1 rounded-[20px] bg-white group overflow-hidden cursor-pointer",
+        "relative flex flex-col flex-1 rounded-[16px] bg-white group overflow-hidden cursor-pointer",
         className
       )}
       onClick={onClick}
@@ -31,7 +31,7 @@ const ProjectComponent = ({
       {/* Media section on top */}
       {imageSrc && (
         <div
-          className="relative w-full flex-1 min-h-0 overflow-hidden rounded-[20px] m-[6px]"
+          className="relative w-full flex-1 min-h-0 overflow-hidden rounded-[10px] m-[6px]"
           style={{ width: "calc(100% - 12px)" }}
         >
           <Image
@@ -39,7 +39,7 @@ const ProjectComponent = ({
             alt={projectDescription || "project media"}
             width={600}
             height={400}
-            className="w-full h-full object-cover object-center rounded-[14px]"
+            className="w-full h-full object-cover object-center rounded-[10px]"
             loading="lazy"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />

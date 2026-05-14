@@ -9,6 +9,7 @@ type PlaygroundComponentProps = {
   id: number;
   imageSrc?: string;
   videoSrc?: string;
+  posterSrc?: string;
   mediaType?: "image" | "video";
   projectTitle?: string;
   projectDescription?: string;
@@ -19,9 +20,18 @@ type PlaygroundComponentProps = {
   onClick?: () => void;
 };
 
-const VideoPreview = ({ src, className }: { src: string; className?: string }) => {
+const VideoPreview = ({
+  src,
+  poster,
+  className,
+}: {
+  src: string;
+  poster?: string;
+  className?: string;
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [hasFrame, setHasFrame] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -42,16 +52,31 @@ const VideoPreview = ({ src, className }: { src: string; className?: string }) =
   }, []);
 
   return (
-    <video
-      ref={videoRef}
-      src={isVisible ? src : undefined}
-      className={className}
-      autoPlay={isVisible}
-      muted
-      loop
-      playsInline
-      preload="none"
-    />
+    <div className={cn("relative w-full h-full overflow-hidden", className)}>
+      {/* Placeholder visible until the first video frame paints */}
+      {!hasFrame && (
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 animate-pulse"
+          style={poster ? { backgroundImage: `url(${poster})`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
+          aria-hidden="true"
+        />
+      )}
+      <video
+        ref={videoRef}
+        src={isVisible ? src : undefined}
+        poster={poster}
+        className={cn(
+          "w-full h-full object-cover transition-opacity duration-500",
+          hasFrame ? "opacity-100" : "opacity-0"
+        )}
+        autoPlay={isVisible}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        onLoadedData={() => setHasFrame(true)}
+      />
+    </div>
   );
 };
 
@@ -59,6 +84,7 @@ const PlaygroundComponent = ({
   className,
   imageSrc,
   videoSrc,
+  posterSrc,
   mediaType = "image",
   projectTitle,
   projectDescription,
@@ -73,7 +99,7 @@ const PlaygroundComponent = ({
   return (
     <div
       className={cn(
-        "relative flex flex-col flex-1 rounded-[20px] bg-white group overflow-hidden",
+        "relative flex flex-col flex-1 rounded-[16px] bg-white group overflow-hidden",
         onClick ? "cursor-pointer" : "cursor-default",
         className
       )}
@@ -82,13 +108,14 @@ const PlaygroundComponent = ({
       {/* Media section on top */}
       {hasMedia && (
         <div
-          className="relative w-full flex-1 min-h-0 overflow-hidden rounded-[20px] m-[6px]"
+          className="relative w-full flex-1 min-h-0 overflow-hidden rounded-[10px] m-[6px]"
           style={{ width: "calc(100% - 12px)" }}
         >
           {mediaType === "video" && videoSrc ? (
             <VideoPreview
               src={videoSrc}
-              className="w-full h-full object-cover rounded-[14px]"
+              poster={posterSrc}
+              className="w-full h-full rounded-[10px]"
             />
           ) : imageSrc ? (
             <Image
@@ -96,7 +123,7 @@ const PlaygroundComponent = ({
               alt={projectDescription || "project media"}
               width={384}
               height={216}
-              className="w-full h-full object-cover rounded-[14px]"
+              className="w-full h-full object-cover rounded-[10px]"
               loading="lazy"
             />
           ) : null}
@@ -136,19 +163,6 @@ const PlaygroundComponent = ({
         </div>
       )}
 
-      {/* Tags section at bottom */}
-      {tags && tags.length > 0 && (
-        <div className="flex flex-wrap gap-2 px-4 py-3">
-          {tags.map((tag, index) => (
-            <span
-              key={index}
-              className="px-4 py-1.5 text-xs md:text-sm text-[#555] bg-white border border-[#e0e0e0] rounded-full whitespace-nowrap"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
