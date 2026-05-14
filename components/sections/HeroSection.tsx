@@ -138,7 +138,7 @@ const HeroSection = ({
                 <span
                   role="link"
                   tabIndex={0}
-                  aria-label="Doesn't this letter feel a little different from the rest? Open the story on X"
+                  aria-label="Notice anything different about this letter? Open the story on X"
                   onClick={handleEClick}
                   onKeyDown={(event) => {
                     if (event.key === "Enter" || event.key === " ") {
@@ -166,9 +166,9 @@ const HeroSection = ({
                   aria-hidden={!showBubble}
                 >
                   <span className="thought-bubble-text">
-                    Doesn&apos;t this letter feel
+                    Notice anything different
                     <br />
-                    a little different from the rest?
+                    about this letter?
                   </span>
                 </span>
               </span>
