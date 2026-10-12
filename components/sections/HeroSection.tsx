@@ -7,23 +7,52 @@ import { navigationItems } from "./Navigation";
 import { GeistPixelSquare } from "geist/font/pixel";
 import SocialLinks from "@/components/custom/SocialLinks";
 
+const geistPixelSquare = GeistPixelSquare;
+
 const E_THOUGHT_LINK =
   "https://x.com/bluecoder2003/status/2043025344299667617?s=20";
 
-const geistPixelSquare = GeistPixelSquare;
-const navigationIcons: Record<string, string> = {
-  "The Playground": "/playground.svg",
-  "The Projects": "/projects.svg",
-  "The Person": "/user.svg",
-};
+const FloatingWindow = ({
+  title,
+  videoSrc,
+  className,
+  rotation,
+}: {
+  title: string;
+  videoSrc: string;
+  className?: string;
+  rotation: number;
+}) => (
+  <div
+    aria-hidden="true"
+    className={`absolute hidden xl:flex flex-col rounded-[10px] overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.10)] border border-[#E2E2E2] bg-white ${className ?? ""}`}
+    style={{ transform: `rotate(${rotation}deg)` }}
+  >
+    <div className="flex items-center gap-[6px] px-3 py-[6px] bg-[#F0EFEF] border-b border-[#E2E2E2] flex-shrink-0">
+      <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57] flex-shrink-0" />
+      <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E] flex-shrink-0" />
+      <span className="w-2.5 h-2.5 rounded-full bg-[#28C840] flex-shrink-0" />
+      <span className="ml-1.5 text-[10px] text-[#999] font-normal truncate">{title}</span>
+    </div>
+    <div className="flex-1 overflow-hidden">
+      <video
+        src={videoSrc}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="w-full h-full object-cover"
+      />
+    </div>
+  </div>
+);
 
 interface HeroSectionProps {
   currentSection?: string;
 }
 
-const HeroSection = ({
-  currentSection = "playground",
-}: HeroSectionProps) => {
+const HeroSection = ({ currentSection = "playground" }: HeroSectionProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [showBubble, setShowBubble] = useState(false);
@@ -47,96 +76,87 @@ const HeroSection = ({
     };
   }, []);
 
-  const handleNavigation = (href: string) => {
-    router.push(href);
-  };
-
   const handleEClick = () => {
     window.open(E_THOUGHT_LINK, "_blank", "noopener,noreferrer");
   };
 
-  const getSectionTitle = (section: string) => {
-    const titleMap: { [key: string]: string } = {
-      playground: "The Playground",
-      projects: "The Projects",
-      person: "The Person",
-    };
-    return titleMap[section] || "The Playground";
-  };
-
   return (
-    <div
-      className="relative bg-white w-full max-w-7xl mx-auto h-[600px] md:h-[500px] rounded-[16px] flex flex-col justify-between overflow-hidden"
-      data-fetchpriority="high"
-    >
-      {/* Top Row */}
-      <div className="h-full flex flex-col lg:flex-row gap-8 lg:gap-0 justify-between items-start w-full px-4 md:px-[40px] pt-4 md:pt-[40px] pointer-events-none">
-       
-        {/* Top Left */}
-        <div className="pointer-events-auto flex flex-col md:flex-row justify-between items-start w-full gap-8">
-          <span className="text-lg font-normal text-black flex gap-2">
-          currently at {" "}
-            <span className="text-[#093FB4] cursor-pointer inline-flex items-center gap-2 dotted-underline leading-tight">
-              <Link href="https://oleria.com"> @oleria</Link>
-            </span>
-            <span className="text-gray-400">, prev</span>
-            <span className="text-gray-400 cursor-pointer inline-flex items-center gap-2 dotted-underline leading-tight" style={{["--dotted-underline-color" as string]: "#9ca3af"}}>
-              <Link href="https://cosx.ai"> @cosx.ai</Link>
-            </span>
-          </span>
-          <div className="flex flex-col lg:flex-row gap-2 lg:gap-6 w-full md:w-fit pointer-events-auto justify-end">
+    <div className="w-full max-w-7xl mx-auto" data-fetchpriority="high">
+      {/* ── Top nav ── */}
+      <nav className="flex items-center justify-between px-4 lg:px-[40px] py-5 w-full">
+        <span className="text-sm font-normal text-[#0D0D0D] tracking-wide select-none">
+          neelakshi
+        </span>
+
+        <div className="hidden md:flex items-center gap-6">
           {navigationItems.map((item) => {
             const isActive = pathname === item.href;
             return (
               <button
                 key={item.label}
-                onClick={() => handleNavigation(item.href)}
-                className={`flex items-center justify-start xl:justify-end w-fit text-lg md:text-base gap-2 lg:gap-1 leading-1.5 font-normal transition-colors group ${geistPixelSquare.className} ${
+                onClick={() => router.push(item.href)}
+                className={`text-sm font-normal transition-colors ${
                   isActive
-                    ? 'text-[#093FB4]'
-                    : 'text-black hover:text-[#093FB4]'
+                    ? "text-[#093FB4]"
+                    : "text-[#666] hover:text-[#0D0D0D]"
                 }`}
               >
-                <div className={`rounded-full p-1 border border-dashed transition-all duration-300 ease-in-out ${
-                  isActive
-                    ? 'bg-[#093FB4] border-[#093FB4] group-hover:rotate-[-12deg]'
-                    : 'border-transparent group-hover:rotate-[-12deg] group-hover:border-[#093FB4]'
-                }`}>
-                  <div
-                    className={`h-5 w-5 md:h-4 md:w-4 transition-colors duration-300 ease-in-out ${
-                      isActive ? 'bg-white' : 'bg-black group-hover:bg-[#093FB4]'
-                    }`}
-                    style={{
-                      maskImage: `url(${navigationIcons[item.label]})`,
-                      maskRepeat: "no-repeat",
-                      maskPosition: "center",
-                      maskSize: "contain",
-                      WebkitMaskImage: `url(${navigationIcons[item.label]})`,
-                      WebkitMaskRepeat: "no-repeat",
-                      WebkitMaskPosition: "center",
-                      WebkitMaskSize: "contain",
-                    }}
-                    aria-hidden="true"
-                  />
-                </div>
-                {item.label}
+                {item.label.toLowerCase().replace("the ", "")}
               </button>
             );
           })}
         </div>
-        </div>
-      </div>
 
-      <div className="h-full w-full " />
-      <div className="flex flex-col lg:flex-row justify-between items-end w-full px-4 md:px-[40px] pb-4 md:pb-[40px] gap-4 md:gap-0">
-        <div className="pointer-events-auto flex w-full flex-col gap-2 md:gap-3">
-          <div className="text-xl font-normal text-black">
-            Hey, I&apos;m Neelakshi
-          </div>
+        <SocialLinks />
+      </nav>
+
+      {/* ── Scattered hero body ── */}
+      <div
+        className="relative px-4 lg:px-[40px] flex items-center justify-center overflow-hidden"
+        style={{ minHeight: "clamp(440px, 70vh, 640px)" }}
+      >
+        {/* Kaomoji accents — desktop only */}
+        <span className="absolute top-8 left-[7%] text-[#C8C8C8] text-sm font-mono select-none pointer-events-none hidden xl:block">
+          {`(^ ω ^)`}
+        </span>
+        <span className="absolute top-10 right-[7%] text-[#C8C8C8] text-sm font-mono select-none pointer-events-none hidden xl:block">
+          {`{^.^}`}
+        </span>
+        <span className="absolute bottom-14 left-[13%] text-[#C8C8C8] text-xs font-mono select-none pointer-events-none hidden xl:block">
+          {`(~ . ~)`}
+        </span>
+        <span className="absolute bottom-10 right-[11%] text-[#C8C8C8] text-xs font-mono select-none pointer-events-none hidden xl:block">
+          {`¯\\_(ツ)_/¯`}
+        </span>
+
+        {/* Floating macOS windows — xl only */}
+        <FloatingWindow
+          title="vectordrop"
+          videoSrc="/vectordrop-hero.webm"
+          className="top-4 left-0 w-[210px] h-[144px]"
+          rotation={-3.5}
+        />
+        <FloatingWindow
+          title="lynart"
+          videoSrc="/flower-lovable.webm"
+          className="bottom-4 right-0 w-[210px] h-[144px]"
+          rotation={3}
+        />
+        <FloatingWindow
+          title="credit card"
+          videoSrc="/credit-card.webm"
+          className="top-10 right-[7%] w-[168px] h-[114px]"
+          rotation={-1.5}
+        />
+
+        {/* ── Center content ── */}
+        <div className="text-center z-10 relative max-w-lg">
+          <p className="text-base text-[#999] mb-6">hey, i&apos;m neelakshi —</p>
+
           <div
-            className={`text-4xl md:text-[56px] font-normal text-[#093FB4] tracking-tighter leading-none ${geistPixelSquare.className}`}
+            className={`text-[48px] md:text-[64px] font-normal text-[#093FB4] tracking-tighter leading-none ${geistPixelSquare.className}`}
           >
-            Designer &{" "}
+            Designer &amp;{" "}
             <span className="whitespace-nowrap">
               <span className="relative inline-block">
                 <span
@@ -180,15 +200,49 @@ const HeroSection = ({
             </span>
           </div>
 
-          {/* Mobile social links - below title */}
-          <div className="pointer-events-auto lg:hidden mt-6 md:mt-4">
-            <SocialLinks />
-          </div>
-        </div>
+          <p className="text-base text-[#999] mt-5">
+            fluent in ai, design and the web
+          </p>
 
-        {/* Desktop social links - bottom right */}
-        <div className="pointer-events-auto hidden lg:block">
-          <SocialLinks />
+          <div className="flex items-center justify-center gap-2 mt-2 text-sm text-[#BBBBBB]">
+            <span>currently at</span>
+            <Link
+              href="https://oleria.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#093FB4] hover:underline"
+            >
+              @oleria
+            </Link>
+            <span>·</span>
+            <span>prev</span>
+            <Link
+              href="https://cosx.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#BBBBBB] hover:text-[#093FB4] transition-colors"
+            >
+              @cosx.ai
+            </Link>
+          </div>
+
+          {/* Mobile nav */}
+          <div className="flex items-center justify-center gap-5 mt-8 md:hidden">
+            {navigationItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => router.push(item.href)}
+                  className={`text-sm font-normal ${
+                    isActive ? "text-[#093FB4]" : "text-[#666]"
+                  }`}
+                >
+                  {item.label.toLowerCase().replace("the ", "")}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

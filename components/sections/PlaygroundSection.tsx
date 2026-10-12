@@ -137,7 +137,7 @@ export default function PlaygroundSection() {
   const [isLuceModalOpen, setIsLuceModalOpen] = useState(false);
 
   return (
-    <section className="w-full max-w-7xl mx-auto h-auto rounded-[16px] flex flex-col justify-between relative">
+    <section className="w-full h-auto flex flex-col justify-between relative">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-[10px] overflow-hidden relative">
           {[...mockProjects].sort((a, b) => b.id - a.id).map((project) => (
             <PlaygroundComponent

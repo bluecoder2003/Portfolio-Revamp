@@ -68,7 +68,7 @@ export default function PersonSections() {
   };
 
   return (
-    <section className="bg-white w-full max-w-7xl mx-auto h-fit p-4 md:p-[40px] rounded-[16px] flex flex-col gap-8 ">
+    <section className="bg-[#F5F4F2] w-full h-fit p-4 md:p-[40px] flex flex-col gap-8">
       {/* Header */}
       <div className="text-[28px] md:text-[32px] font-normal text-black my-8 md:my-2 w-full flex items-center justify-center gap-2">
         Behind The<span className ={`text-[#4253D5] ${geistPixelSquare.className}`}>Pixels</span>
