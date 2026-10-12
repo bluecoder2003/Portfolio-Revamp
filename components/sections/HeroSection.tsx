@@ -77,6 +77,10 @@ const HeroSection = ({
           <span className="text-lg font-normal text-black flex gap-2">
           currently at {" "}
             <span className="text-[#093FB4] cursor-pointer inline-flex items-center gap-2 dotted-underline leading-tight">
+              <Link href="https://oleria.com"> @oleria</Link>
+            </span>
+            <span className="text-gray-400">, prev</span>
+            <span className="text-gray-400 cursor-pointer inline-flex items-center gap-2 dotted-underline leading-tight" style={{["--dotted-underline-color" as string]: "#9ca3af"}}>
               <Link href="https://cosx.ai"> @cosx.ai</Link>
             </span>
           </span>

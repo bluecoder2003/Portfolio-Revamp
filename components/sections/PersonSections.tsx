@@ -59,7 +59,7 @@ export default function PersonSections() {
       cosx: {
         name: "CosX",
         role: "UI/UX Designer & Developer Intern",
-        period: "Jun 2025 - Present",
+        period: "Jun 2025 - Mar 2026",
         description: [
           <>Worked on the WordPress → Next.js migration for <a href="https://signzy.com" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Signzy <ArrowUpRight className="w-4 h-4 inline" /></a>, improving design consistency and performance.</>,
           <>Designed and built websites for <a href="https://www.natural-capital.partners/" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Natural Capital Partners <ArrowUpRight className="w-4 h-4 inline" /></a>, <a href="https://www.cosx.ai/" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">CosX Website <ArrowUpRight className="w-4 h-4 inline" /></a>,  <a href="https://kareverse.com" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Kareverse <ArrowUpRight className="w-4 h-4 inline" /></a>, and <a href="https://www.anmoljyoti.akhandjyoti.com/" target="_blank" rel="noopener noreferrer" className="text-[#093FB4] hover:text-[#273554]">Akhand Jyoti <ArrowUpRight className="w-4 h-4 inline" /></a>, and currently leading the CosxLive redesign.</>,
