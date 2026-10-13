@@ -1545,7 +1545,36 @@ export default function CrispContent() {
           .badge-name path { stroke-dashoffset: 0; }
         }
 
-        /* ── Phones: a composed one-screen layout (items are scaled with the scale property, which Drag compensates for) ── */
+        /* ── Tablets (portrait): a taller composed layout ── */
+        @media (min-width: 761px) and (max-width: 1100px) and (orientation: portrait) {
+          .pos-rc       { left: 7% !important; top: 4% !important; }
+          .pos-badge    { left: auto !important; right: 7%; }
+          .pos-mic      { left: 40% !important; top: 21% !important; }
+          .center-text  { top: 47% !important; width: 84vw !important; }
+          .title-huge   { font-size: 8.4vw !important; }
+          .center-text p:first-of-type { font-size: 2.6vw !important; margin: 34px 0 24px !important; }
+          .cta { font-size: 2.3vw; padding: 1.5vw 3vw; }
+          .pos-quill    { left: 44% !important; top: 81% !important; }
+          .pos-stats    { left: 6% !important; top: 66% !important; }
+          .pos-mountain { left: 38% !important; top: 64% !important; }
+          .pos-tal      { left: auto !important; right: 8%; top: 63% !important; }
+          .pos-vinyl    { left: 9% !important; top: 84% !important; }
+          .kao-1 { left: 62% !important; top: 30% !important; }
+          .kao-2 { left: 7% !important; top: 57% !important; }
+          .kao-3 { left: 72% !important; top: 89% !important; }
+          .kao-4 { left: 12% !important; top: 25% !important; }
+        }
+
+        /* ── Tablets (landscape): desktop layout, nudged so nothing collides ── */
+        @media (min-width: 761px) and (max-width: 1100px) and (orientation: landscape) {
+          .pos-badge    { left: auto !important; right: 4%; scale: .78; transform-origin: top right; }
+          .pos-vinyl    { scale: .85; transform-origin: top right; }
+          .pos-tal      { top: 66% !important; scale: .9; }
+          .kao-4 { left: 8% !important; top: 10% !important; }
+          .kao-2 { left: 76% !important; top: 86% !important; }
+        }
+
+                /* ── Phones: a composed one-screen layout (items are scaled with the scale property, which Drag compensates for) ── */
         @media (max-width: 760px) {
           .hide-mobile { display: none !important; }
           .window { min-height: 600px !important; }
@@ -1562,6 +1591,7 @@ export default function CrispContent() {
           .sel-dim { display: none; } /* would sit on the tagline at this size */
           .sel-hint { font-size: 14px; top: -21px; opacity: .85; transform: rotate(-2deg); }
           .hint-click { display: none; } .hint-tap { display: inline; }
+          .pos-mic, .pos-mountain { display: none !important; } /* phone only: jigglypuff + mountain prints stay on tablet/desktop */
           /* kaomoji tucked into the gaps of the phone layout */
           .kao-pos .kao { font-size: 12px; }
           .kao-1 { left: 7% !important; top: 22% !important; }
