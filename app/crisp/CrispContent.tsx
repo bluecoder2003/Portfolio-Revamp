@@ -15,11 +15,23 @@ const FIG = {
   ink: '#2B3FD6', // blue-pen handwriting
 }
 
-const TALINDREW_NOTE = <>a dna/rna visualiser<br />built in <u>figma make</u> ✦</>
+const TALINDREW_NOTE = <>a <u>dna/rna</u> visualiser ✦</>
+
+// ─── Kaomoji: bobs gently and flips through a few expressions ─────────────────
+function Kao({ frames, delay }: { frames: string[]; delay: number }) {
+  const [i, setI] = useState(0)
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let t: ReturnType<typeof setInterval>
+    const start = setTimeout(() => { t = setInterval(() => setI((n) => (n + 1) % frames.length), 900) }, delay * 1000)
+    return () => { clearTimeout(start); clearInterval(t) }
+  }, [frames.length, delay])
+  return <span className="kao" style={{ animationDelay: `${-delay}s` }}>{frames[i]}</span>
+}
 
 // ─── Pointer-capture drag ─────────────────────────────────────────────────────
 function Drag({
-  children, x, y, rot = 0, z = 10, className,
+  children, x, y, rot = 0, z = 10, className, onTap,
 }: {
   children: React.ReactNode
   x: string
@@ -27,6 +39,7 @@ function Drag({
   rot?: number
   z?: number
   className?: string
+  onTap?: () => void // fired on pointer-up when the pointer barely moved (capture swallows child clicks)
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const s = useRef({ drag: false, px: 0, py: 0, ox: 0, oy: 0, cx: 0, cy: 0, k: 1 })
@@ -69,7 +82,9 @@ function Drag({
         ref.current.style.transform = `translate(${st.cx}px,${st.cy}px) rotate(${rot}deg)`
       }}
       onPointerUp={() => {
-        s.current.drag = false
+        const st = s.current
+        if (st.drag && onTap && Math.hypot(st.cx - st.ox, st.cy - st.oy) < 4) onTap()
+        st.drag = false
         if (ref.current) {
           ref.current.style.cursor = 'grab'
           ref.current.style.zIndex = String(z)
@@ -83,7 +98,7 @@ function Drag({
 
 // ─── Easter egg: draggable sticker + handwritten note on hover/focus ─────────
 function Egg({
-  x, y, rot = 0, z = 12, className = '', note, side = 'bottom', label, children,
+  x, y, rot = 0, z = 12, className = '', note, side = 'bottom', label, onTap, children,
 }: {
   x: string
   y: string
@@ -93,11 +108,20 @@ function Egg({
   note: React.ReactNode
   side?: 'top' | 'bottom' | 'left' | 'right'
   label: string
+  onTap?: () => void
   children: React.ReactNode
 }) {
   return (
-    <Drag x={x} y={y} rot={rot} z={z} className={`egg ${className}`}>
-      <div className="egg-inner" tabIndex={0} aria-label={label}>
+    <Drag x={x} y={y} rot={rot} z={z} className={`egg ${className}`} onTap={onTap}>
+      <div
+        className="egg-inner"
+        tabIndex={0}
+        aria-label={label}
+        role={onTap ? 'button' : undefined}
+        onKeyDown={onTap ? (e) => {
+          if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onTap() }
+        } : undefined}
+      >
         <div className="sticker">{children}</div>
         <div className={`egg-note egg-note-${side}`} role="note">{note}</div>
       </div>
@@ -206,10 +230,7 @@ function QuilledMinion() {
   )
 }
 
-// ─── Photo objects (cut-out stock photos) ─────────────────────────────────────
-// Sources: mic — Holger Ellgaard (CC BY-SA 3.0), walkman — Dillan Payne (CC BY-SA 4.0),
-// the rest are CC0 / public domain.
-// These licences expect visible credit; it was removed from the page by request.
+// ─── Singing: Jigglypuff with a mic (Tenor gif, background cut out, saved locally) ──
 function MusicNotes() {
   return (
     <svg className="notes" width="60" height="70" viewBox="0 0 60 70" aria-hidden="true">
@@ -220,36 +241,201 @@ function MusicNotes() {
   )
 }
 
-function MicPhoto() {
+function SingingPuff() {
   return (
-    <div className="obj" style={{ width: 66, height: 141 }}>
-      <Image src="/crisp/mic.webp" alt="vintage microphone" width={66} height={141} className="obj-img sway" />
-      <span style={{ position: 'absolute', top: -28, left: 44 }}><MusicNotes /></span>
+    <div className="obj" style={{ width: 96, height: 110 }}>
+      <Image src="/crisp/jigglypuff.webp" alt="jigglypuff singing into a mic" width={96} height={110} className="obj-img sway" unoptimized />
+      <span style={{ position: 'absolute', top: -34, left: 66 }}><MusicNotes /></span>
     </div>
   )
 }
 
-function WalkmanPhoto() {
+// ─── Record player + CD stack ────────────────────────────────────────────────
+// Covers saved locally; audio is Apple's official 30-second iTunes preview for each track.
+// `sky` = top / middle / horizon colours the background fades to while that cd spins.
+const CDS = [
+  { id: 'lover', title: 'lover', artist: 'taylor swift', cover: '/crisp/cds/lover.jpg', itunes: 1468058173,
+    preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e0/db/47/e0db47b0-7f70-0631-0414-cd4777d2fb3e/mzaf_6362891154838442638.plus.aac.p.m4a',
+    sky: ['#F29BC6', '#C8B4F2', '#A8D3F6'] as const },
+  { id: 'yellow', title: 'yellow', artist: 'coldplay', cover: '/crisp/cds/yellow.jpg', itunes: 1122782283,
+    preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/66/f3/1a/66f31a76-a6ed-cb4c-f353-23310a7ae9a8/mzaf_10593596652344378873.plus.aac.p.m4a',
+    sky: ['#E89A1C', '#F5C543', '#FBE7A0'] as const },
+  { id: 'sunshine', title: 'pocketful of sunshine', artist: 'natasha bedingfield', cover: '/crisp/cds/sunshine.jpg', itunes: 1429194116,
+    preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ed/5e/e5/ed5ee543-0a02-c0f2-3d55-611fd7a29864/mzaf_9524300124207831673.plus.aac.p.m4a',
+    sky: ['#2FA8F0', '#86D3F7', '#FFF0B3'] as const },
+  { id: 'mystery', title: 'mystery of love', artist: 'sufjan stevens', cover: '/crisp/cds/mystery.jpg', itunes: 1318981699,
+    preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/73/5f/3d/735f3ddf-b063-1f18-db94-ab20e888edb3/mzaf_16854351342495465745.plus.aac.p.m4a',
+    sky: ['#5D8DC0', '#B399C3', '#E89A95'] as const },
+]
+type Cd = (typeof CDS)[number]
+const DEFAULT_SKY = ['#2C7AD6', '#4C96E5', '#7DB7EF'] as const
+
+// tint the sky (and the phone's browser chrome) to the song that's spinning
+function useSongSky(sky: readonly string[] | null, scene: string | null) {
+  // scene = cd id; some songs get extra scenery in the sky (see .scene-* styles)
+  useEffect(() => {
+    if (scene) document.documentElement.dataset.song = scene
+    else delete document.documentElement.dataset.song
+  }, [scene])
+  useEffect(() => {
+    const [a, b, c] = sky ?? DEFAULT_SKY
+    const root = document.documentElement.style
+    root.setProperty('--sky-a', a)
+    root.setProperty('--sky-b', b)
+    root.setProperty('--sky-c', c)
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', sky ? a : '#3F8BDF')
+  }, [sky])
+  useEffect(() => () => {
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#3F8BDF')
+    delete document.documentElement.dataset.song
+  }, [])
+}
+
+// groove arcs in two opposite quadrants, like the flat record illustration
+function grooves(cx: number, cy: number) {
+  const arcs: string[] = []
+  for (let r = 30; r <= 64; r += 5.5) {
+    arcs.push(`M${cx} ${cy - r}A${r} ${r} 0 0 1 ${cx + r} ${cy}`)
+    arcs.push(`M${cx} ${cy + r}A${r} ${r} 0 0 1 ${cx - r} ${cy}`)
+  }
+  return arcs.join('')
+}
+
+function Turntable({ cd, playing }: { cd: Cd | null; playing: boolean }) {
   return (
-    <div className="obj" style={{ width: 140, height: 119 }}>
-      <Image src="/crisp/cassette.webp" alt="mixtape cassette" width={104} height={66} className="obj-img tape" style={{ position: 'absolute', left: 18, top: 10 }} />
-      <Image src="/crisp/walkman.webp" alt="cassette walkman" width={140} height={119} className="obj-img" style={{ position: 'relative' }} />
-    </div>
+    <svg className={`tt${playing ? ' playing' : ''}`} width="200" height="145" viewBox="0 0 220 160" aria-hidden="true">
+      <defs>
+        <clipPath id="tt-label"><circle cx="88" cy="80" r="23" /></clipPath>
+        <path id="tt-curve" d="M88 80m-15 0a15 15 0 1 1 30 0a15 15 0 1 1 -30 0" />
+      </defs>
+      {/* plinth */}
+      <rect x="30" y="22" width="184" height="128" rx="9" fill="#8E1620" />
+      <rect x="30" y="14" width="184" height="128" rx="9" fill="#C8232E" />
+      <rect x="160" y="148" width="22" height="6" rx="1.5" fill="#2B2626" />
+      <rect x="186" y="148" width="22" height="6" rx="1.5" fill="#2B2626" />
+      <circle cx="202" cy="104" r="6.5" fill="#2B2626" />
+      <circle cx="202" cy="124" r="6.5" fill="#2B2626" />
+      {/* record */}
+      <g className="tt-record">
+        <circle cx="88" cy="80" r="72" fill="#141111" />
+        <path d={grooves(88, 80)} fill="none" stroke="#332E2E" strokeWidth="2.6" strokeLinecap="round" />
+        {cd ? (
+          <image href={cd.cover} x="65" y="57" width="46" height="46" clipPath="url(#tt-label)" preserveAspectRatio="xMidYMid slice" />
+        ) : (
+          <>
+            <circle cx="88" cy="80" r="23" fill="#FF8A00" />
+            <text fontSize="8.2" fontWeight="800" fill="#fff" letterSpacing="1.2" fontFamily="system-ui, sans-serif">
+              <textPath href="#tt-curve">NEELAKSHI · MIXTAPE ·</textPath>
+            </text>
+          </>
+        )}
+        <circle cx="88" cy="80" r="2.6" fill="#141111" />
+      </g>
+      {/* tonearm, drawn in the playing position; rotated off the record at rest */}
+      <g className="tt-arm">
+        <path d="M188 38 L188 64 Q190 116 150 134" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" />
+        <rect x="132" y="128" width="20" height="11" rx="2" fill="#A8A49C" transform="rotate(-24 142 133)" />
+        <circle cx="188" cy="38" r="14" fill="#2B2626" />
+        <circle cx="188" cy="38" r="6" fill="#141111" />
+      </g>
+    </svg>
+  )
+}
+
+function MusicCorner() {
+  const [open, setOpen] = useState(false)
+  const [cd, setCd] = useState<Cd | null>(null)
+  const [playing, setPlaying] = useState(false)
+  const audio = useRef<HTMLAudioElement | null>(null)
+  const root = useRef<HTMLDivElement>(null)
+
+  useEffect(() => () => audio.current?.pause(), [])
+
+  // close the stack on outside tap / Esc
+  useEffect(() => {
+    if (!open) return
+    const away = (e: PointerEvent) => { if (!root.current?.contains(e.target as Node)) setOpen(false) }
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    document.addEventListener('pointerdown', away)
+    document.addEventListener('keydown', esc)
+    return () => { document.removeEventListener('pointerdown', away); document.removeEventListener('keydown', esc) }
+  }, [open])
+
+  const stop = () => { audio.current?.pause(); setPlaying(false) }
+
+  const spin = (next: Cd) => {
+    setOpen(false)
+    if (cd?.id === next.id && playing) return stop()
+    audio.current?.pause()
+    const a = new Audio(next.preview)
+    a.volume = 0.7
+    a.onended = () => setPlaying(false)
+    // preview links can rotate; ask iTunes for a fresh one if the saved link dies
+    a.onerror = async () => {
+      try {
+        const res = await fetch(`https://itunes.apple.com/lookup?id=${next.itunes}&country=us`)
+        const url = (await res.json()).results?.[0]?.previewUrl
+        if (url && audio.current === a) { a.src = url; await a.play() }
+      } catch { setPlaying(false) }
+    }
+    audio.current = a
+    a.play().catch(() => {})
+    setCd(next)
+    setPlaying(true)
+  }
+
+  useSongSky(playing && cd ? cd.sky : null, playing && cd ? cd.id : null)
+
+  const note = playing && cd
+    ? <>now spinning:<br /><u>{cd.title}</u> ♪</>
+    : <>music on, <u>always</u><br />tap for my cds</>
+
+  return (
+    <Egg x="calc(100% - 250px)" y="46%" rot={0} z={open ? 300 : 12} className={`pos-vinyl${open ? ' crate-open' : ''}`} side="left"
+      label={playing && cd ? `record player — playing ${cd.title} by ${cd.artist}, press to stop` : 'record player — press to pick a cd'}
+      onTap={() => (playing ? stop() : setOpen((o) => !o))}
+      note={note}>
+      <div ref={root} className="obj">
+        <div className="crate" role="group" aria-label="cd stack" aria-hidden={!open}>
+          {CDS.map((c, i) => (
+            <button
+              key={c.id}
+              className={`cd${cd?.id === c.id ? ' on' : ''}`}
+              style={{ '--i': i, '--r': `${(i - (CDS.length - 1) / 2) * 4}deg` } as React.CSSProperties}
+              tabIndex={open ? 0 : -1}
+              onPointerDown={(e) => e.stopPropagation()}
+              onClick={() => spin(c)}
+              aria-label={`play ${c.title} by ${c.artist}`}
+            >
+              <span className="cd-disc" />
+              <span className="cd-case">
+                <Image src={c.cover} alt="" width={64} height={64} className="obj-img" style={{ width: 64, height: 64 }} />
+              </span>
+              <span className="cd-title">{c.title}</span>
+            </button>
+          ))}
+        </div>
+        <Turntable cd={cd} playing={playing} />
+      </div>
+    </Egg>
   )
 }
 
 // Neelakshi's own mountain photos, as a stack of two postcards
 const MOUNTAIN_SHOTS = [
-  { src: '/crisp/mountains-1.webp', alt: 'hilltop camp with red-roofed cottages above layered blue mountains' },
-  { src: '/crisp/mountains-2.webp', alt: 'misty mountain road at dawn, shot on a film-date camera' },
+  { src: '/crisp/mountains-1.webp', alt: 'hilltop camp with red-roofed cottages above layered blue mountains', caption: 'above the clouds', tape: '#F9C8D9' },
+  { src: '/crisp/mountains-2.webp', alt: 'misty mountain road at dawn, shot on a film-date camera', caption: 'the road up', tape: '#BFE3F5' },
 ]
 
-function Postcard({ src, alt }: { src: string; alt: string }) {
+// instant-film print: washi tape on top, glossy photo, handwritten caption on the strip
+function Postcard({ src, alt, caption, tape }: { src: string; alt: string; caption: string; tape: string }) {
   return (
     <div className="postcard">
-      <div style={{ position: 'relative', width: 108, height: 81, overflow: 'hidden' }}>
-        <Image src={src} alt={alt} fill sizes="108px" className="pc-photo" style={{ objectFit: 'cover' }} />
+      <span className="pc-tape" style={{ background: tape }} />
+      <div className="pc-window">
+        <Image src={src} alt={alt} fill sizes="112px" className="pc-photo" style={{ objectFit: 'cover' }} />
       </div>
+      <span className="pc-caption">{caption}</span>
     </div>
   )
 }
@@ -263,9 +449,19 @@ function MountainPostcard() {
   )
 }
 
-// ─── talindrew: glass microscope slide with a stained DNA helix ───────────────
-const HELIX = (() => {
-  const period = 36, w = 118 + period, mid = 21, amp = 12
+// hand-drawn loopy arrow used for every outbound link (matches the handwriting)
+function LoopArrow() {
+  return (
+    <svg className="rc-arrow" width="13" height="10" viewBox="0 0 18 14" aria-hidden="true">
+      <path d="M1.5 12.5 C4 12 5.5 9.5 4.5 8 C3.6 6.7 1.8 8 3 9.4 C5 11.5 10 8 15.5 2.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M11 2.2 L15.8 2.2 L15.4 7" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+// ─── talindrew: flat microscope + slide box (works like the record player) ────
+// strand art: a scrolling DNA double helix or a single RNA strand with its bases
+function strand(w: number, period: number, amp: number, mid: number) {
   const y = (x: number, sign: number) => mid + sign * amp * Math.sin((2 * Math.PI * x) / period)
   let a = '', b = ''
   for (let x = 0; x <= w; x++) {
@@ -275,87 +471,154 @@ const HELIX = (() => {
   const colors = [FIG.purple, FIG.blue, FIG.green, FIG.orange]
   const rungs = Array.from({ length: Math.floor(w / 6) }, (_, i) => {
     const x = 3 + i * 6
-    return { x, y1: y(x, 1), y2: y(x, -1), c: colors[i % 4] }
+    // rounded so server and client render identical numbers (avoids hydration mismatch)
+    return { x, y1: +y(x, 1).toFixed(2), y2: +y(x, -1).toFixed(2), c: colors[i % 4] }
   })
-  return { a, b, rungs, w, period }
-})()
+  return { a, b, rungs }
+}
+const HELIX = { w: 200, period: 40, ...strand(200, 40, 13, 24) }
 
-function MicroscopeSlide() {
+function Helix() {
+  const h = HELIX
   return (
-    <div style={{ textAlign: 'center' }}>
-      <div className="slide">
-        <div className="slide-window">
-          <svg className="helix" width={HELIX.w} height="42" viewBox={`0 0 ${HELIX.w} 42`} aria-hidden="true">
-            {HELIX.rungs.map((r) => (
-              <line key={r.x} x1={r.x} x2={r.x} y1={r.y1} y2={r.y2} stroke={r.c} strokeWidth="2" strokeLinecap="round" opacity=".85" />
-            ))}
-            <path d={HELIX.a} stroke="#5B2BB5" strokeWidth="2.4" fill="none" />
-            <path d={HELIX.b} stroke="#2B6FB5" strokeWidth="2.4" fill="none" />
-          </svg>
-        </div>
-        <div className="slide-label">
-          <span className="slide-name">talindrew</span>
-          <span className="slide-meta">DNA · RNA</span>
-        </div>
-      </div>
-      <a className="egg-link" href="https://www.talindrew.com/" target="_blank" rel="noopener noreferrer" onPointerDown={(e) => e.stopPropagation()}>
-        talindrew.com ↗
-      </a>
-    </div>
+    <svg className="helix" width={h.w} height="48" viewBox={`0 0 ${h.w} 48`} aria-hidden="true">
+      {h.rungs.map((r) => (
+        <line key={r.x} x1={r.x} x2={r.x} y1={r.y1} y2={r.y2} stroke={r.c} strokeWidth="2.2" strokeLinecap="round" opacity=".9" />
+      ))}
+      <path d={h.a} stroke="#7B4DFF" strokeWidth="2.6" fill="none" />
+      <path d={h.b} stroke="#1E88E5" strokeWidth="2.6" fill="none" />
+    </svg>
   )
 }
 
-// ─── vectordrop stats — thermal-printed receipt ────────────────────────────────
-// Torn edge on both ends: zigzag clip-path
-function torn(teeth: number, depth: number) {
-  const top: string[] = []
-  const bottom: string[] = []
-  for (let i = 0; i <= teeth * 2; i++) {
-    const x = ((i / (teeth * 2)) * 100).toFixed(2)
-    top.push(`${x}% ${i % 2 ? depth : 0}px`)
-    bottom.unshift(`${x}% calc(100% - ${i % 2 ? depth : 0}px)`)
-  }
-  return `polygon(${[...top, ...bottom].join(',')})`
+// flat cream-and-ink microscope, side view (after a mid-century poster illustration)
+function Microscope({ on }: { on: boolean }) {
+  const cream = '#EDE4D3', creamHi = '#F7F1E5', creamLo = '#D8CCB6', ink = '#1F2D33', steel = '#B9C6CA'
+  return (
+    <svg className={`scope${on ? ' on' : ''}`} width="132" height="158" viewBox="0 0 200 240" aria-hidden="true">
+      {/* base plate */}
+      <rect x="26" y="200" width="150" height="28" rx="3" fill={creamLo} />
+      <rect x="26" y="196" width="150" height="26" rx="3" fill={cream} />
+      <rect x="104" y="186" width="58" height="12" rx="2" fill={creamHi} />
+      {/* arm: one thick curve from the foot up to the head */}
+      <path d="M74 182 C26 150 26 86 82 66" fill="none" stroke={creamLo} strokeWidth="34" strokeLinecap="round" />
+      <path d="M72 180 C28 150 30 88 84 66" fill="none" stroke={cream} strokeWidth="28" strokeLinecap="round" />
+      {/* foot block */}
+      <path d="M56 198 L60 164 Q62 152 74 152 L90 152 Q100 152 101 164 L104 198 Z" fill={cream} />
+      <circle cx="80" cy="176" r="7.5" fill={ink} />
+      {/* mirror under the stage */}
+      <g transform="rotate(24 120 176)">
+        <ellipse cx="120" cy="176" rx="17" ry="7" fill={ink} />
+        <ellipse cx="120" cy="174" rx="13" ry="4.5" fill="#33454D" />
+      </g>
+      <line x1="104" y1="182" x2="114" y2="178" stroke={ink} strokeWidth="3" />
+      {/* stage + slide */}
+      <rect x="96" y="148" width="72" height="9" rx="1.5" fill={ink} />
+      <g className="scope-slide">
+        <rect x="112" y="143" width="40" height="5" rx="1" fill="#DDEFF2" stroke={steel} strokeWidth=".8" />
+        <circle cx="132" cy="145.5" r="1.8" fill={FIG.purple} />
+      </g>
+      <circle className="scope-glow" cx="132" cy="146" r="14" fill="#FFF3B0" />
+      {/* head: tilted tube, eyepiece and nosepiece with objectives */}
+      <g className="scope-head" transform="rotate(-24 112 84)">
+        <rect x="96" y="44" width="34" height="74" rx="3" fill={cream} />
+        <rect x="96" y="44" width="9" height="74" rx="3" fill={creamHi} />
+        <rect x="100" y="14" width="26" height="34" rx="3" fill={ink} />
+        <rect x="104" y="116" width="18" height="12" fill={ink} />
+        <path d="M94 128 L134 124 L130 142 L100 146 Z" fill={ink} />
+        <rect x="104" y="144" width="6" height="7" rx="1.5" fill={steel} />
+        <rect x="121" y="142" width="6" height="7" rx="1.5" fill={steel} />
+      </g>
+      {/* focus knobs on the arm */}
+      <circle cx="84" cy="72" r="13" fill={ink} />
+      <circle cx="84" cy="102" r="8" fill={ink} />
+    </svg>
+  )
 }
 
-const RECEIPT: [string, string][] = [
-  ['page views', '21,000'],
-  ['visitors', '5,000'],
-  ['paid customers', '7'],
-]
+function LabCorner() {
+  const [on, setOn] = useState(false)
 
-function Receipt() {
   return (
-    <div className="receipt-wrap" tabIndex={0} aria-label="vectordrop receipt: 21k page views, 5k visitors, 7 paid customers in the last 3 months">
-      <div className="receipt" style={{ clipPath: torn(14, 5) }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '.12em' }}>✦ VECTORDROP ✦</div>
-          <a className="rc-link" href="https://www.vectordrop.co.in/" target="_blank" rel="noopener noreferrer" onPointerDown={(e) => e.stopPropagation()}>
-            vectordrop.co.in ↗
-          </a>
+    <Egg x="calc(100% - 400px)" y="62%" rot={0} z={on ? 300 : 12} className={`pos-tal${on ? ' zoomed' : ''}`} side="left"
+      label={on ? 'talindrew microscope — showing a zoomed-in dna strand, press to close' : 'talindrew microscope — press to zoom in on dna'}
+      onTap={() => setOn((v) => !v)}
+      note={TALINDREW_NOTE}>
+      <div className="obj lab">
+        {/* zoomed-in view popping out of the eyepiece */}
+        <div className={`lens${on ? ' on' : ''}`} aria-hidden={!on}>
+          <div className="lens-view">
+            <Helix />
+            <span className="lens-mag">×1000</span>
+          </div>
         </div>
-        <div className="rc-rule" />
-        <div>LAST 3 MONTHS</div>
-        {RECEIPT.map(([k, v]) => (
-          <div key={k} className="rc-row"><span>{k}</span><span className="rc-dots" /><span>{v}</span></div>
-        ))}
-        <div className="rc-rule" />
-        <div className="rc-row" style={{ fontWeight: 700 }}><span>TOTAL</span><span className="rc-dots" /><span>7 happy users</span></div>
-        <div className="rc-rule" />
-        <div style={{ textAlign: 'center' }}>thanks for visiting ✦</div>
-        <svg width="100%" height="22" viewBox="0 0 120 22" preserveAspectRatio="none" style={{ display: 'block', marginTop: 6 }} aria-hidden="true">
-          {[2,1,3,1,1,2,1,3,2,1,1,2,3,1,2,1,1,3,1,2,2,1,3,1,1,2,1,2,3,1,1,2,1,3,1,2].reduce<{ x: number; els: React.ReactNode[] }>(
-            (acc, w, i) => {
-              if (i % 2 === 0) acc.els.push(<rect key={i} x={acc.x} y="0" width={w} height="22" fill="#2A2A2A" />)
-              acc.x += w + 0.6
-              return acc
-            },
-            { x: 4, els: [] },
-          ).els}
-        </svg>
+        <Microscope on={on} />
+        <a className="hand-link lab-name" href="https://www.talindrew.com/" target="_blank" rel="noopener noreferrer" onPointerDown={(e) => e.stopPropagation()}>
+          talindrew <LoopArrow />
+        </a>
       </div>
-      <span className="rc-stamp" aria-hidden="true">PAID ×7</span>
-    </div>
+    </Egg>
+  )
+}
+
+// ─── vectordrop: loose LEGO bricks that snap into a pixel flower (image → vector) ──
+const LEGO_COLORS: Record<string, string> = { P: '#EC4899', V: '#8B5CF6', Y: '#F5C518', G: '#84CC16' }
+const FLOWER = [
+  '..VV.VV..',
+  '.VPPVPPV.',
+  '.PPPYPPP.',
+  '.VPPPPPV.',
+  '..VV.VV..',
+  '....G....',
+  '.GG.G.GG.',
+  '..GGGGG..',
+]
+const CELL = 12
+const BRICKS = FLOWER.flatMap((row, r) =>
+  [...row].flatMap((ch, c) => (ch === '.' ? [] : [{ c, r, color: LEGO_COLORS[ch] }])),
+).map((b, i) => ({
+  ...b,
+  i,
+  // deterministic "loose pile" offsets so server and client agree
+  sx: ((i * 37) % 13) * 9 - 54,
+  sy: ((i * 53) % 7) * 7 - 6 + (b.r < 4 ? 26 : 0),
+  sr: ((i * 29) % 9) * 10 - 40,
+}))
+
+function LegoBuild({ built }: { built: boolean }) {
+  const cols = 14, rows = 10, ox = (cols - 9) / 2 * CELL, oy = 0.5 * CELL
+  return (
+    <svg className={`lego-svg${built ? ' built' : ''}`} width="172" height="128" viewBox={`0 0 ${cols * CELL + 4} ${rows * CELL + 10}`} aria-hidden="true">
+      {BRICKS.map((b) => (
+        <g
+          key={b.i}
+          className="lb"
+          style={{ '--sx': `${b.sx}px`, '--sy': `${b.sy}px`, '--sr': `${b.sr}deg`, '--d': b.i } as React.CSSProperties}
+        >
+          <rect x={2 + ox + b.c * CELL + 0.5} y={4 + oy + b.r * CELL + 0.5} width={CELL - 1} height={CELL - 1} rx="1.5" fill={b.color} />
+          <rect x={2 + ox + b.c * CELL + 0.5} y={4 + oy + b.r * CELL + CELL - 3} width={CELL - 1} height="2.5" rx="1" fill="#000" opacity=".22" />
+          <circle cx={2 + ox + b.c * CELL + CELL / 2} cy={4 + oy + b.r * CELL + CELL / 2} r="3.3" fill={b.color} stroke="#000" strokeOpacity=".2" strokeWidth="1" />
+          <circle cx={2 + ox + b.c * CELL + CELL / 2 - 1} cy={4 + oy + b.r * CELL + CELL / 2 - 1} r="1.2" fill="#fff" opacity=".45" />
+        </g>
+      ))}
+    </svg>
+  )
+}
+
+function VectordropCorner() {
+  const [built, setBuilt] = useState(false)
+  return (
+    <Egg x="6%" y="73%" rot={-3} z={built ? 300 : 14} className={`pos-stats${built ? ' built-open' : ''}`} side="right"
+      label={built ? 'vectordrop — lego bricks snapped into a flower, press to scatter them' : 'vectordrop — lego bricks, press to build'}
+      onTap={() => setBuilt((v) => !v)}
+      note={<>i built <u>vectordrop</u>:<br />image → vector ✦</>}>
+      <div className="obj lego-obj">
+        <LegoBuild built={built} />
+        <a className="hand-link" href="https://www.vectordrop.co.in/" target="_blank" rel="noopener noreferrer" onPointerDown={(e) => e.stopPropagation()}>
+          vectordrop <LoopArrow />
+        </a>
+      </div>
+    </Egg>
   )
 }
 
@@ -365,16 +628,25 @@ const WINS = [
     cls: 'win-a', rot: -2, src: '/recognition/image.png',
     alt: 'Dylan Field reposting Neelakshi’s Figma Makeathon post about Talindrew, a DNA/RNA visualiser built in Figma Make',
     note: <>Got reposted by<br />Dylan Field</>,
+    href: 'https://x.com/bluecoder2003/status/1964913736776614331?s=20',
   },
   {
     cls: 'win-b', rot: 2, src: '/recognition/image%20copy%202.png',
     alt: 'Contra post: “Neelakshi is goated”, next to her sound-visualiser project',
     note: <>Featured on<br />Contra</>,
+    href: 'https://x.com/bluecoder2003/status/2027777880747544953?s=20',
   },
   {
     cls: 'win-c', rot: -1.5, src: '/recognition/image%20copy.png',
     alt: 'FigBuild 2026 merch: t-shirt, notebook, enamel pin and Figma for Edu stickers',
     note: <>Got my<br />FigBuild merch</>,
+    href: 'https://x.com/bluecoder2003/status/2040424319550144982?s=20',
+  },
+  {
+    cls: 'win-d', rot: 1.5, src: '/recognition/airpods.png',
+    alt: 'Lilac AirPods Max on a blue MacBook — the prize for winning Contra’s HCB launch giveaway',
+    note: <>Won AirPods Max<br />from Contra</>,
+    href: 'https://lnkd.in/p/gwMf2_bS',
   },
 ]
 
@@ -395,13 +667,13 @@ function RecognitionWidget({ onOpen }: { onOpen: () => void }) {
   return (
     <button className="rc-widget" onClick={onOpen} aria-haspopup="dialog" aria-label="a little bragging — open recognition corner">
       <span className="rc-fan" aria-hidden="true">
-        {WINS.map((w, i) => (
+        {WINS.slice(0, 3).map((w, i) => (
           <span key={w.cls} className="rc-thumb" style={{ ['--i' as string]: i - 1 }}>
             <Image src={w.src} alt="" width={96} height={96} sizes="96px" />
           </span>
         ))}
       </span>
-      <span className="rc-w-label">a little bragging <span className="rc-arrow">↗</span></span>
+      <span className="rc-w-label">a little bragging <LoopArrow /></span>
     </button>
   )
 }
@@ -517,7 +789,7 @@ function RecognitionModal({ onClose }: { onClose: () => void }) {
           <FigmaMark size={30} />
           <div>
             <h2 id="recognition-title">recognition corner <span aria-hidden="true">✦</span></h2>
-            <p>a little bragging, as a treat — figma makeathon ’25, ’26 &amp; figbuild ’26</p>
+            <p>a little bragging, as a treat — figma makeathon ’25, ’26, figbuild ’26 &amp; contra</p>
           </div>
         </header>
         <p className="rc-swipe" aria-hidden="true">swipe →</p>
@@ -525,9 +797,9 @@ function RecognitionModal({ onClose }: { onClose: () => void }) {
           {WINS.map((w, i) => (
             <figure key={w.cls} className="rc-win" style={{ ['--rot' as string]: `${w.rot * 1.5}deg`, animationDelay: `${0.15 + i * 0.14}s` }}>
               <figcaption className="stamp-note">{w.note}</figcaption>
-              <div className="win-card">
+              <a className="win-card" href={w.href} target="_blank" rel="noopener noreferrer" aria-label={`${w.alt} — open the post`}>
                 <Image src={w.src} alt={w.alt} width={800} height={800} sizes="(max-width: 760px) 90vw, 340px" />
-              </div>
+              </a>
             </figure>
           ))}
         </div>
@@ -579,9 +851,17 @@ function Chip({ bg, color = '#111', shape, rot, children, style }: {
   )
 }
 
-function ConfigBadge() {
+function ConfigBadge({ on, onToggle }: { on: boolean; onToggle: () => void }) {
   return (
-    <div className="badge-wrap" tabIndex={0} aria-label="config 2026 badge">
+    <div
+      className="badge-wrap"
+      tabIndex={0}
+      role="button"
+      aria-pressed={on}
+      aria-label={on ? 'config 2026 badge — remove the config frame' : 'config 2026 badge — put a config frame around the page'}
+      onClick={onToggle}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onToggle() } }}
+    >
       {/* lanyard strap + clip */}
       <svg width="48" height="76" viewBox="0 0 48 76" style={{ display: 'block', margin: '0 auto' }} aria-hidden="true">
         <path d="M4 0 L44 0 L34 66 L14 66Z" fill="#0A0A0A" />
@@ -618,11 +898,39 @@ function ConfigBadge() {
           <Chip bg={BADGE.lilac} shape="wavy" rot={-2} style={{ left: -10, top: 118 }}>HERE 4 FUN</Chip>
           <Chip bg={BADGE.green} shape="wavy" rot={-6} style={{ left: 30, top: 114 }}>DESIGNER</Chip>
           <Chip bg={BADGE.blue} color="#fff" shape="wavy" rot={3} style={{ left: 66, top: 120 }}>DEVELOPER</Chip>
-          <Chip bg={BADGE.lime} shape="burst" rot={10} style={{ left: 104, top: 128 }}>SINGER</Chip>
+          <Chip bg={BADGE.lime} shape="burst" rot={10} style={{ left: 104, top: 128 }}>CREATIVE</Chip>
           <Chip bg={BADGE.green} shape="pill" rot={-6} style={{ left: 76, top: 158 }}>AMBIVERT</Chip>
         </div>
 
       </div>
+    </div>
+  )
+}
+
+// ─── Config frame: the badge's checkerboard + chips wrapped around the window ──
+// a new two-colour checker every time the frame goes on (all from the badge palette)
+const FRAME_PALETTES = [
+  [BADGE.orange, BADGE.lime],
+  [BADGE.blue, BADGE.lilac],
+  [BADGE.green, BADGE.lime],
+  ['#0A0A0A', BADGE.lime],
+  [BADGE.lilac, BADGE.orange],
+  [BADGE.blue, BADGE.green],
+]
+
+// colours come from --f1/--f2 on the window, shared with the badge's own checkerboard
+function ConfigFrame({ on }: { on: boolean }) {
+  return (
+    <div className={`cfg-frame${on ? ' on' : ''}`} aria-hidden="true">
+      <div className="cfg-checker" />
+      <span className="cfg-chip cfg-tl" style={{ '--i': 0 } as React.CSSProperties}>
+        <span className="cfg-word">Config</span><span className="cfg-year">2026</span>
+      </span>
+      <Chip bg={BADGE.lilac} shape="wavy" rot={-4} style={{ left: 'auto', right: 70, top: 4, '--i': 1 } as React.CSSProperties}>HERE 4 FUN</Chip>
+      <Chip bg={BADGE.blue} color="#fff" shape="wavy" rot={5} style={{ right: 8, bottom: 70, '--i': 2 } as React.CSSProperties}>DEVELOPER</Chip>
+      <Chip bg={BADGE.green} shape="wavy" rot={-6} style={{ left: '46%', bottom: 2, '--i': 3 } as React.CSSProperties}>DESIGNER</Chip>
+      <Chip bg={BADGE.lime} shape="burst" rot={10} style={{ left: 2, bottom: 26, '--i': 4 } as React.CSSProperties}>CREATIVE</Chip>
+      <Chip bg={BADGE.green} shape="pill" rot={-90} style={{ left: -18, top: '42%', '--i': 5 } as React.CSSProperties}>AMBIVERT</Chip>
     </div>
   )
 }
@@ -646,7 +954,9 @@ function useSize<T extends HTMLElement>() {
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const ro = new ResizeObserver(([e]) => setSize({ w: e.contentRect.width, h: e.contentRect.height }))
+    const measure = () => { if (el.offsetWidth) setSize({ w: el.offsetWidth, h: el.offsetHeight }) }
+    measure()
+    const ro = new ResizeObserver(measure)
     ro.observe(el)
     return () => ro.disconnect()
   }, [])
@@ -654,10 +964,172 @@ function useSize<T extends HTMLElement>() {
 }
 
 // ─── Menu bar icons ───────────────────────────────────────────────────────────
+// ─── Title garden: click the heading frame and vines, leaves and roses grow around it ──
+// (inspired by type-garden.vercel.app; drawn from scratch here)
+const GARDENS = [
+  { vine: '#2B4BFF', flower: '#FF2A12', swirl: '#FFC2B5' },
+  { vine: '#0ACF83', flower: '#A259FF', swirl: '#E6D4FF' },
+  { vine: '#1ABCFE', flower: '#FF7262', swirl: '#FFE0DA' },
+  { vine: '#1F2D33', flower: '#FFC943', swirl: '#FFF3C4' },
+]
+
+function rng(seed: number) {
+  let t = seed * 9301 + 49297
+  return () => { t = (t + 0x6d2b79f5) | 0; let r = Math.imul(t ^ (t >>> 15), 1 | t); r ^= r + Math.imul(r ^ (r >>> 7), 61 | r); return ((r ^ (r >>> 14)) >>> 0) / 4294967296 }
+}
+
+type Pt = { x: number; y: number }
+function smooth(pts: Pt[]) {
+  // catmull-rom → cubic beziers
+  let d = `M${pts[0].x.toFixed(1)} ${pts[0].y.toFixed(1)}`
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] ?? pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] ?? p2
+    const c1 = { x: p1.x + (p2.x - p0.x) / 6, y: p1.y + (p2.y - p0.y) / 6 }
+    const c2 = { x: p2.x - (p3.x - p1.x) / 6, y: p2.y - (p3.y - p1.y) / 6 }
+    d += `C${c1.x.toFixed(1)} ${c1.y.toFixed(1)} ${c2.x.toFixed(1)} ${c2.y.toFixed(1)} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`
+  }
+  return d
+}
+
+// the selection frame sits 14px / 10px outside the heading (see .sel)
+const FRAME_PAD = { x: 14, y: 10 }
+// while blooming the frame grows out a little and the vines follow the bigger frame
+const FRAME_GROW = 10
+
+// ivy on a picture frame: two diagonal corners sprout a vine along each adjacent edge,
+// with a little flower cluster on the corner; leaves shrink toward the growing tips
+function growGarden(seed: number, w: number, h: number) {
+  const r = rng(seed)
+  const sc = Math.min(1, Math.max(.72, h / 76)) // never too tiny on phones
+  const px = FRAME_PAD.x + FRAME_GROW, py = FRAME_PAD.y + FRAME_GROW
+  const x0 = -px, y0 = -py, x1 = w + px, y1 = h + py
+  const W = x1 - x0, H = y1 - y0
+  const vines: { d: string; delay: number; wdt: number }[] = []
+  const leaves: { x: number; y: number; a: number; s: number; delay: number }[] = []
+  const roses: { x: number; y: number; s: number; rot: number; delay: number }[] = []
+
+  // corners as (x, y, horizontal dir, vertical dir)
+  const TL = { x: x0, y: y0, hx: 1, vy: 1 }, TR = { x: x1, y: y0, hx: -1, vy: 1 }
+  const BL = { x: x0, y: y1, hx: 1, vy: -1 }, BR = { x: x1, y: y1, hx: -1, vy: -1 }
+  const pair = r() < 0.5 ? [TL, BR] : [TR, BL]
+
+  pair.forEach((c, ci) => {
+    const base = ci * 0.35
+    const arms = [
+      { len: W * (0.2 + r() * 0.12), along: (d: number) => ({ x: c.x + c.hx * d, y: c.y }), n: { x: 0, y: -c.vy }, ang: c.hx > 0 ? 0 : 180 },
+      { len: H * (0.65 + r() * 0.3), along: (d: number) => ({ x: c.x, y: c.y + c.vy * d }), n: { x: -c.hx, y: 0 }, ang: c.vy > 0 ? 90 : -90 },
+    ]
+    arms.forEach((arm, ai) => {
+      const p1 = (34 + r() * 14) * sc, p2 = (13 + r() * 6) * sc, ph1 = r() * 6, ph2 = r() * 6, amp = 3.2 * sc
+      const pts: Pt[] = []
+      const step = 3
+      const N = Math.floor(arm.len / step)
+      for (let i = 0; i <= N; i++) {
+        const d = i * step
+        const p = arm.along(d)
+        // irregular wander around the frame line (two mixed waves, not a zig-zag)
+        const o = (Math.sin(d / p1 + ph1) * 0.7 + Math.sin(d / p2 + ph2) * 0.3) * amp * Math.min(1, d / (10 * sc))
+        pts.push({ x: p.x + arm.n.x * o, y: p.y + arm.n.y * o })
+      }
+      // tip curls off the frame, outward
+      const last = pts[pts.length - 1]
+      const fwd = { x: Math.cos((arm.ang * Math.PI) / 180), y: Math.sin((arm.ang * Math.PI) / 180) }
+      for (let i = 1; i <= 5; i++) {
+        const t = i / 5
+        const rad = 6 * sc * (1 - t * 0.6)
+        const a = t * Math.PI * 1.4
+        pts.push({ x: last.x + fwd.x * Math.sin(a) * rad + arm.n.x * (1 - Math.cos(a)) * rad, y: last.y + fwd.y * Math.sin(a) * rad + arm.n.y * (1 - Math.cos(a)) * rad })
+      }
+      const delay = base + ai * 0.12
+      vines.push({ d: smooth(pts), delay, wdt: 2.1 })
+      // leaves: alternate sides, irregular spacing, shrinking toward the tip
+      let i = Math.round((6 + r() * 4) / step), side = r() < 0.5 ? 1 : -1
+      while (i < N - 2) {
+        const t = i / N
+        const tan = Math.atan2(pts[i + 1].y - pts[i - 1].y, pts[i + 1].x - pts[i - 1].x) * 180 / Math.PI
+        leaves.push({ x: pts[i].x, y: pts[i].y, a: tan + side * (38 + r() * 18), s: (0.66 - t * 0.32 + r() * 0.08) * sc, delay: delay + t * 1.1 })
+        side = -side
+        i += Math.round(((14 + r() * 10) * sc) / step)
+      }
+      // a bud just before the curl
+      if (r() < 0.7) roses.push({ x: last.x, y: last.y, s: 0.27 * sc, rot: r() * 360, delay: delay + 1.2 })
+    })
+    // flower cluster on the corner itself
+    const cl = [
+      { dx: 0, dy: 0, s: 0.6 },
+      { dx: c.hx * (11 + r() * 4), dy: -c.vy * (3 + r() * 3), s: 0.42 },
+      { dx: -c.hx * (2 + r() * 3), dy: c.vy * (12 + r() * 4), s: 0.36 },
+    ]
+    cl.forEach((f, fi) => roses.push({ x: c.x + f.dx * sc, y: c.y + f.dy * sc, s: f.s * sc, rot: r() * 360, delay: base + 0.55 + fi * 0.12 }))
+  })
+  return { vines, leaves, roses }
+}
+
+const LEAF = 'M0 0 C5 -6 14 -7 22 0 C14 7 5 6 0 0Z'
+const ROSE_EDGE = wavy(9, 0.12)
+function TitleGarden({ seed, w, h, withering }: { seed: number; w: number; h: number; withering: boolean }) {
+  const g = growGarden(seed, w, h)
+  const c = GARDENS[seed % GARDENS.length]
+  const P = 40
+  // on the way back everything plays in reverse: buds close first, vines retract to their corner last
+  const end = Math.max(...g.roses.map((f) => f.delay), ...g.leaves.map((l) => l.delay)) + 0.2
+  const t = (grow: number, back: number) => ({ animationDelay: `${(withering ? back : grow).toFixed(2)}s` })
+  return (
+    <svg className={`garden${withering ? ' wither' : ''}`} width={w + P * 2} height={h + P * 2} viewBox={`${-P} ${-P} ${w + P * 2} ${h + P * 2}`}
+      style={{
+        left: -P, top: -P,
+        // while retracting, the whole garden shrinks with the frame so the vines ride it back in
+        '--gsx': (w + FRAME_PAD.x * 2) / (w + (FRAME_PAD.x + FRAME_GROW) * 2),
+        '--gsy': (h + FRAME_PAD.y * 2) / (h + (FRAME_PAD.y + FRAME_GROW) * 2),
+      } as React.CSSProperties} aria-hidden="true">
+      {g.vines.map((v, i) => (
+        <path key={i} className="g-vine" d={v.d} pathLength={1} stroke={c.vine} strokeWidth={v.wdt} style={t(v.delay, Math.max(0, end - v.delay - 1.4) * 0.5)} />
+      ))}
+      {g.leaves.map((l, i) => (
+        <g key={i} transform={`translate(${l.x.toFixed(1)} ${l.y.toFixed(1)}) rotate(${l.a.toFixed(0)}) scale(${l.s.toFixed(2)})`}>
+          <g className="g-pop" style={t(l.delay, (end - l.delay) * 0.5)}>
+            <path d={LEAF} fill={c.vine} />
+          </g>
+        </g>
+      ))}
+      {g.roses.map((f, i) => (
+        <g key={i} transform={`translate(${f.x.toFixed(1)} ${f.y.toFixed(1)}) rotate(${f.rot.toFixed(0)}) scale(${f.s.toFixed(2)})`}>
+          <g className="g-pop g-rose" style={t(f.delay, (end - f.delay) * 0.5)}>
+            <foreignObject x="-17" y="-16" width="34" height="32">
+              <div style={{ width: '100%', height: '100%', background: c.flower, clipPath: ROSE_EDGE }} />
+            </foreignObject>
+            <path d="M0 0 c3 -1 4 3 1 5 c-5 2 -8 -3 -6 -7 c3 -6 12 -5 13 2 c1 7 -6 12 -12 9" fill="none" stroke={c.swirl} strokeWidth="1.6" strokeLinecap="round" />
+          </g>
+        </g>
+      ))}
+    </svg>
+  )
+}
+
 export default function CrispContent() {
   const [showWins, setShowWins] = useState(false)
   const closeWins = useCallback(() => setShowWins(false), [])
   const [titleRef, titleSize] = useSize<HTMLHeadingElement>()
+  const [garden, setGarden] = useState(0) // 0 = bare; each click grows a new garden seed
+  const [withering, setWithering] = useState(false)
+  const bloom = () => {
+    setWithering(false)
+    setGarden((g) => (g ? g + 1 : 1 + Math.floor(Math.random() * 1000)))
+  }
+  // grow → stay a few seconds → wither away (a click restarts it)
+  useEffect(() => {
+    if (!garden) return
+    const t1 = setTimeout(() => setWithering(true), 5200)
+    const t2 = setTimeout(() => { setGarden(0); setWithering(false) }, 7800) // after the retract finishes
+    return () => { clearTimeout(t1); clearTimeout(t2) }
+  }, [garden])
+  const [configFrame, setConfigFrame] = useState(false)
+  const [framePalette, setFramePalette] = useState(0)
+  const toggleFrame = () => {
+    // pick the next palette only when the frame comes back on, so it doesn't swap while closing
+    if (!configFrame) setFramePalette((n) => n + 1)
+    setConfigFrame((v) => !v)
+  }
   return (
     <>
       <script dangerouslySetInnerHTML={{ __html: `try{localStorage.setItem('portfolio-visited','true')}catch(e){}` }} />
@@ -665,15 +1137,43 @@ export default function CrispContent() {
       <style>{`
         :root { --gut: clamp(12px, 3.2vw, 56px); }
         .window { margin-top: max(var(--gut), env(safe-area-inset-top)) !important; margin-bottom: max(var(--gut), env(safe-area-inset-bottom)) !important; }
-        body { background: #3F8BDF; }
+        @property --f1 { syntax: '<color>'; inherits: true; initial-value: ${BADGE.orange}; }
+        @property --f2 { syntax: '<color>'; inherits: true; initial-value: ${BADGE.lime}; }
+        @property --sky-a { syntax: '<color>'; inherits: true; initial-value: #2C7AD6; }
+        @property --sky-b { syntax: '<color>'; inherits: true; initial-value: #4C96E5; }
+        @property --sky-c { syntax: '<color>'; inherits: true; initial-value: #7DB7EF; }
+        body { background: var(--sky-b); transition: --sky-b 1.6s ease; }
 
         /* sky */
-        .sky { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: linear-gradient(180deg, #2C7AD6 0%, #4C96E5 55%, #7DB7EF 100%); }
+        .sky { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: linear-gradient(180deg, var(--sky-a) 0%, var(--sky-b) 55%, var(--sky-c) 100%); transition: --sky-a 1.6s ease, --sky-b 1.6s ease, --sky-c 1.6s ease; }
         .cloud { position: absolute; top: -5%; bottom: -5%; left: 0; background-repeat: repeat; will-change: transform; }
         .cloud-a { width: calc(100% + 1600px); background-image: url(/crisp/clouds-a.webp); background-size: 1600px 800px; animation: drift-a 150s linear infinite; }
         .cloud-b { width: calc(100% + 1100px); background-image: url(/crisp/clouds-b.webp); background-size: 1100px 550px; background-position: 300px 120px; opacity: .7; animation: drift-b 240s linear infinite; }
         @keyframes drift-a { to { transform: translateX(-1600px); } }
         @keyframes drift-b { to { transform: translateX(-1100px); } }
+        .cloud { transition: filter 1.6s ease, opacity 1.6s ease; }
+
+        /* song scenery (shown via :root[data-song]) */
+        .scene { position: absolute; inset: 0; opacity: 0; transition: opacity 1.6s ease; pointer-events: none; }
+        :root[data-song="sunshine"] .scene-sunshine, :root[data-song="mystery"] .scene-mystery { opacity: 1; }
+
+        /* one big soft radial glow (no hard disc edge, no box-shadow ring) */
+        .morning-sun { position: absolute; top: -380px; right: -380px; width: 900px; height: 900px;
+          background: radial-gradient(circle closest-side,
+            #FFFEF6 0%, #FFFBE0 9%, #FFF2B0 14%, rgba(255,232,140,.75) 20%, rgba(255,226,130,.45) 32%,
+            rgba(255,236,170,.22) 50%, rgba(255,244,205,.08) 72%, rgba(255,248,220,0) 100%);
+          transform: translateY(60px) scale(.85); transition: transform 2.4s cubic-bezier(.2,.8,.3,1); }
+        .morning-rays { position: absolute; top: -560px; right: -560px; width: 1280px; height: 1280px; border-radius: 50%;
+          background: repeating-conic-gradient(from 0deg, rgba(255,248,215,.32) 0deg 3deg, rgba(255,248,215,0) 7deg 15deg);
+          filter: blur(10px); mix-blend-mode: screen;
+          -webkit-mask: radial-gradient(circle, transparent 9%, #000 16%, transparent 58%); mask: radial-gradient(circle, transparent 9%, #000 16%, transparent 58%);
+          animation: rays 60s linear infinite; }
+        @keyframes rays { to { transform: rotate(360deg); } }
+        :root[data-song="sunshine"] .morning-sun { transform: none; }
+        :root[data-song="sunshine"] .cloud { filter: brightness(1.12) saturate(1.1); }
+
+        .sunset-photo { background: url(/crisp/sky-mystery.webp) center 62% / cover no-repeat; transform: scale(1.06); transition: opacity 1.6s ease, transform 6s ease-out; }
+        :root[data-song="mystery"] .sunset-photo { transform: none; }
 
         .cta {
           display: inline-flex;
@@ -701,18 +1201,20 @@ export default function CrispContent() {
         }
         .cta:hover { box-shadow: inset 0 1px 0 #fff, 0 4px 14px rgba(0,0,0,0.12); }
         .cta:active { transform: scale(0.97); }
-        .cta:focus-visible, .egg-inner:focus-visible, .receipt-wrap:focus-visible, .badge-wrap:focus-visible {
+        .cta:focus-visible, .egg-inner:focus-visible, .badge-wrap:focus-visible {
           outline: 2px solid ${FIG.select}; outline-offset: 4px; border-radius: 8px;
         }
 
+        @keyframes kaoBob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-5px) rotate(2deg); } }
         .kao {
-          position: absolute;
+          display: block;
+          white-space: nowrap;
           font-size: 15px;
           color: #2A2A2A;
           font-family: ui-monospace, monospace;
           user-select: none;
-          pointer-events: none;
-          z-index: 5;
+          padding: 4px 6px;
+          animation: kaoBob 2.6s ease-in-out infinite;
         }
 
         /* ── Eggs ── */
@@ -779,39 +1281,81 @@ export default function CrispContent() {
         .egg-inner:hover .twirl, .egg-inner:focus .twirl { transform: rotate(-14deg) scale(1.04); }
 
 
-        .tape { transition: transform .45s cubic-bezier(.3,1.5,.5,1); }
-        .egg-inner:hover .tape, .egg-inner:focus .tape { transform: translate(6px, -46px) rotate(-8deg); }
+        /* record player */
+        .tt { display: block; overflow: visible; filter: drop-shadow(0 10px 14px rgba(40,10,10,.22)); }
+        .tt-record { transform-box: view-box; transform-origin: 88px 80px; transition: transform 1.2s cubic-bezier(.2,.8,.3,1); }
+        .egg-inner:hover .tt:not(.playing) .tt-record { transform: rotate(40deg); }
+        .tt.playing .tt-record { animation: ttSpin 1.8s linear infinite; }
+        @keyframes ttSpin { to { transform: rotate(360deg); } }
+        .tt-arm { transform-box: view-box; transform-origin: 188px 38px; transform: rotate(-24deg); transition: transform .7s cubic-bezier(.4,1.4,.5,1); }
+        .tt.playing .tt-arm { transform: rotate(0deg); }
+
+        .crate { position: absolute; right: -6px; top: calc(100% + 2px); display: flex; gap: 10px; pointer-events: none; }
+        .crate-open .crate { pointer-events: auto; }
+        .cd { position: relative; width: 64px; padding: 0; border: 0; background: none; cursor: pointer; font: inherit; opacity: 0; transform: translateY(46px) scale(.4) rotate(0); transition: opacity .25s, transform .45s cubic-bezier(.3,1.5,.5,1); transition-delay: calc((4 - var(--i)) * 40ms); }
+        .crate-open .cd { opacity: 1; transform: translateY(0) scale(1) rotate(var(--r)); transition-delay: calc(var(--i) * 55ms); }
+        .crate-open .cd:hover, .crate-open .cd:focus-visible { transform: translateY(-6px) scale(1.06) rotate(0); }
+        .cd:focus-visible { outline: none; }
+        .cd:focus-visible .cd-case { box-shadow: 0 0 0 2px ${FIG.select}, 0 8px 16px -6px rgba(0,0,0,.4); }
+        .cd-case { position: relative; display: block; width: 64px; height: 64px; border-radius: 3px; overflow: hidden; box-shadow: 0 8px 16px -6px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,255,255,.25); }
+        .cd-case::after { content: ''; position: absolute; inset: 0; background: linear-gradient(125deg, rgba(255,255,255,.45), transparent 38%); border-left: 5px solid rgba(255,255,255,.28); }
+        .cd-disc { position: absolute; top: 4px; left: 4px; width: 56px; height: 56px; border-radius: 50%; background: radial-gradient(circle, #fff 0 5px, #c9ccd2 6px 11px, transparent 12px), conic-gradient(from 20deg, #e8ebf0, #b8c4d6, #f4e6f0, #c9d6e8, #eef0f3, #d4c8e4, #e8ebf0); box-shadow: 0 2px 6px rgba(0,0,0,.25); transition: transform .4s cubic-bezier(.3,1.4,.5,1); }
+        .cd:hover .cd-disc, .cd:focus-visible .cd-disc, .cd.on .cd-disc { transform: translateY(-24px) rotate(90deg); }
+        .cd-title { display: block; margin-top: 3px; font-family: var(--font-hand), cursive; font-size: 15px; line-height: .95; color: ${FIG.ink}; text-align: center; }
+        .cd.on .cd-title::before { content: '♪ '; }
+        .crate-open .egg-note { opacity: 0 !important; }
 
         .pc-stack { position: relative; }
-        .pc-back { position: absolute; inset: 0; transform: rotate(7deg) translate(7px, -3px); transition: transform .5s cubic-bezier(.3,1.4,.5,1); }
-        .pc-front { position: relative; transition: transform .5s cubic-bezier(.3,1.4,.5,1); }
-        .egg-inner:hover .pc-front, .egg-inner:focus .pc-front { transform: translate(-34px, 8px) rotate(-10deg); }
-        .egg-inner:hover .pc-back, .egg-inner:focus .pc-back { transform: translate(38px, -10px) rotate(9deg); }
-        .pc-back .postcard { box-shadow: 0 6px 14px rgba(0,0,0,.12); }
-        .postcard { position: relative; background: #FBF8F1; padding: 5px 5px 18px; box-shadow: 0 1px 0 rgba(0,0,0,.04); }
-        .pc-photo { filter: saturate(.8) sepia(.12); transition: filter .5s, transform .8s cubic-bezier(.2,.9,.3,1); }
-        .egg-inner:hover .pc-photo, .egg-inner:focus .pc-photo { filter: none; transform: scale(1.08); }
+        .pc-back { position: absolute; inset: 0; transform: rotate(8deg) translate(10px, -4px); transition: transform .55s cubic-bezier(.3,1.4,.5,1); }
+        .pc-front { position: relative; transform: rotate(-2deg); transition: transform .55s cubic-bezier(.3,1.4,.5,1); }
+        .egg-inner:hover .pc-front, .egg-inner:focus .pc-front { transform: translate(-40px, 10px) rotate(-9deg); }
+        .egg-inner:hover .pc-back, .egg-inner:focus .pc-back { transform: translate(44px, -8px) rotate(8deg); }
+        .postcard { position: relative; width: 124px; padding: 8px 8px 0; background: #FDFBF6;
+          background-image: radial-gradient(rgba(0,0,0,.035) 1px, transparent 1px); background-size: 3px 3px;
+          box-shadow: 0 1px 1px rgba(0,0,0,.08), 0 8px 18px -8px rgba(40,30,10,.3); border-radius: 1.5px; }
+        .pc-back .postcard { box-shadow: 0 1px 1px rgba(0,0,0,.08), 0 6px 14px -6px rgba(40,30,10,.25); }
+        .pc-window { position: relative; width: 108px; height: 104px; overflow: hidden; background: #2A2A2A; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
+        .pc-window::after { content: ''; position: absolute; inset: 0; background: linear-gradient(130deg, rgba(255,255,255,.28), transparent 38%), radial-gradient(circle at 50% 50%, transparent 55%, rgba(0,0,0,.18)); pointer-events: none; }
+        .pc-caption { display: block; height: 26px; line-height: 26px; text-align: center; font-family: var(--font-hand), cursive; font-size: 15px; color: #3A3A3A; white-space: nowrap; }
+        .pc-tape { position: absolute; top: -8px; left: 50%; width: 46px; height: 15px; translate: -50% 0; rotate: -4deg; opacity: .85; z-index: 1;
+          clip-path: polygon(3% 0, 97% 4%, 100% 30%, 96% 55%, 100% 82%, 97% 100%, 2% 96%, 0 70%, 4% 45%, 0 18%);
+          background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.25) 0 3px, transparent 3px 7px) !important; }
+        .pc-back .pc-tape { rotate: 6deg; left: 62%; }
+        .pc-photo { filter: saturate(.85) sepia(.1) contrast(1.02); transition: filter .5s, transform .8s cubic-bezier(.2,.9,.3,1); }
+        .egg-inner:hover .pc-photo, .egg-inner:focus .pc-photo { filter: saturate(1.05); transform: scale(1.08); }
 
-        .slide {
-          position: relative; width: 204px; height: 64px; display: flex; align-items: center; gap: 8px; padding: 0 6px 0 10px;
-          border-radius: 3px; border: 1px solid rgba(150,180,190,.75);
-          background: linear-gradient(135deg, rgba(255,255,255,.82), rgba(214,232,238,.6));
-          box-shadow: inset 0 1px 0 rgba(255,255,255,.95), inset 0 -2px 0 rgba(120,150,160,.2);
-          overflow: hidden;
-        }
-        .slide::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.7) 40%, transparent 48%); pointer-events: none; transition: transform .8s; }
-        .egg-inner:hover .slide::after, .egg-inner:focus .slide::after { transform: translateX(60%); }
-        .slide-window { position: relative; width: 118px; height: 46px; overflow: hidden; border: 1px solid rgba(140,170,180,.55); background: radial-gradient(ellipse at center, rgba(162,89,255,.16), rgba(162,89,255,.03) 70%); }
-        .helix { display: block; margin-top: 2px; animation: helix 4s linear infinite; }
-        .egg-inner:hover .helix, .egg-inner:focus .helix { animation-duration: 1.1s; }
-        @keyframes helix { to { transform: translateX(-36px); } }
-        .slide-label { flex: 1; align-self: stretch; margin: 5px 0; display: flex; flex-direction: column; justify-content: center; text-align: left; padding-left: 6px;
-          background: repeating-linear-gradient(45deg, #EEEEEA 0 2px, #F6F6F2 2px 4px); border-radius: 1px; }
-        .slide-name { font-family: var(--font-hand), cursive; font-size: 17px; line-height: 1; color: #2A2A2A; font-weight: 700; }
-        .slide-meta { font-size: 8px; letter-spacing: .08em; color: #777; margin-top: 2px; }
-        .egg-link, .rc-link { color: #2F6BFF; text-decoration: none; border-bottom: 1px dashed rgba(47,107,255,.5); cursor: pointer; }
+        /* talindrew microscope */
+        .lab { display: flex; flex-direction: column; align-items: center; }
+        .scope { display: block; overflow: visible; }
+        .pos-tal .sticker { filter: drop-shadow(0 3px 4px rgba(20,40,50,.13)); } /* flat illustration: just a light contact shadow */
+        .scope-glow { opacity: 0; filter: blur(6px); transition: opacity .5s; }
+        .scope.on .scope-glow { opacity: .8; }
+        .scope-slide { transform-box: view-box; opacity: 0; transform: translateX(30px); transition: transform .5s cubic-bezier(.3,1.3,.5,1), opacity .3s; }
+        .scope.on .scope-slide { opacity: 1; transform: none; }
+        .scope-head { transition: translate .5s cubic-bezier(.3,1.4,.5,1); }
+        .scope.on .scope-head { translate: 0 3px; }
+        .egg-inner:hover .scope:not(.on) .scope-head, .egg-inner:focus .scope:not(.on) .scope-head { translate: 0 2px; }
+        .lab-name { margin-top: 4px; }
+        /* handwritten project names, same ink as "a little bragging" */
+        .hand-link { display: inline-block; margin-top: 4px; font-family: var(--font-hand), cursive; font-size: 18px; line-height: 1; color: ${FIG.ink}; text-decoration: none; transform: rotate(-2deg); transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
+        .hand-link:hover { transform: rotate(-4deg) scale(1.06); }
+        .zoomed .egg-note { opacity: 0 !important; } /* the lens takes over */
+
+        .helix { display: block; animation: helix 2.6s linear infinite; }
+        @keyframes helix { to { transform: translateX(-40px); } }
+
+        .lens { position: absolute; right: calc(100% - 26px); top: -40px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+          opacity: 0; transform: translate(50px, 30px) scale(.25); transform-origin: 100% 20%; pointer-events: none; transition: opacity .3s, transform .55s cubic-bezier(.3,1.4,.5,1); }
+        .lens.on { opacity: 1; transform: none; pointer-events: auto; }
+        .lens-view { position: relative; width: 168px; height: 168px; border-radius: 50%; overflow: hidden; display: grid; place-items: center;
+          background: radial-gradient(circle, #FBFDF7 0 34%, #E3EFEE 64%, #BFD6D8 100%); border: 8px solid #1F2D33;
+          box-shadow: 0 18px 32px -12px rgba(0,0,0,.45), inset 0 0 26px rgba(20,60,70,.35); }
+        .lens-view::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.55), transparent 32%); pointer-events: none; }
+        .lens-view .helix { scale: 1.9; }
+        .lens-mag { position: absolute; bottom: 16px; left: 50%; translate: -50% 0; font-size: 10px; letter-spacing: .08em; color: #1F2D33; opacity: .55; }
+        .egg-link { color: #2F6BFF; text-decoration: none; border-bottom: 1px dashed rgba(47,107,255,.5); cursor: pointer; }
         .egg-link { display: inline-block; margin-top: 8px; font-size: 12px; }
-        .egg-link:hover, .rc-link:hover { border-bottom-style: solid; }
+        .egg-link:hover { border-bottom-style: solid; }
 
 
         /* recognition widget — fanned stack of the three proof cards */
@@ -829,7 +1373,7 @@ export default function CrispContent() {
         .rc-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
         .rc-widget:hover .rc-thumb, .rc-widget:focus-visible .rc-thumb { transform: translateX(calc(var(--i) * 62px)) rotate(calc(var(--i) * 16deg)) translateY(calc(var(--i) * var(--i) * 10px - 8px)); }
         .rc-w-label { font-family: var(--font-hand), cursive; font-size: 18px; line-height: 1; color: ${FIG.ink}; transform: rotate(-2deg); transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
-        .rc-arrow { font-size: 13px; vertical-align: 2px; }
+        .rc-arrow { display: inline-block; vertical-align: 2px; margin-left: 2px; }
         .rc-widget:hover .rc-w-label { transform: rotate(-4deg) scale(1.06); }
 
         /* recognition popup */
@@ -850,9 +1394,11 @@ export default function CrispContent() {
         @keyframes spin { to { transform: rotate(360deg); } }
         .rc-head p { margin: 6px 0 0; font-size: 14px; color: #6B6B6B; }
         .rc-swipe { display: none; margin: 10px 18px 0; font-family: var(--font-hand), cursive; font-size: 18px; color: ${FIG.ink}; }
-        .rc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 32px; margin-top: 84px; }
+        .rc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 26px; margin-top: 84px; }
         .rc-win { position: relative; margin: 0; transform: rotate(var(--rot)); animation: winIn .7s cubic-bezier(.3,1.4,.5,1) both; transition: transform .35s cubic-bezier(.3,1.4,.5,1); }
         .rc-win:hover { transform: rotate(0) scale(1.04); z-index: 2; }
+        a.win-card { display: block; cursor: pointer; }
+        a.win-card:focus-visible { outline: 2px solid ${FIG.select}; outline-offset: 4px; }
         @keyframes winIn { from { opacity: 0; transform: translateY(-120px) rotate(-18deg) scale(.7); } }
         .rc-win .stamp-note { left: 10px; bottom: calc(100% - 12px); font-size: 21px; padding: 16px 22px; }
         .rc-win:hover .stamp-note { transform: rotate(-4deg) scale(1.05); }
@@ -888,28 +1434,36 @@ export default function CrispContent() {
           white-space: nowrap;
         }
 
-        /* receipt */
-        .receipt-wrap { position: relative; outline: none; filter: drop-shadow(0 10px 14px rgba(0,0,0,0.14)) drop-shadow(0 1px 2px rgba(0,0,0,0.1)); transition: transform .35s cubic-bezier(.3,1.5,.5,1); }
-        .receipt-wrap:hover, .receipt-wrap:focus { transform: translateY(-4px) rotate(1.5deg); }
-        .receipt {
-          width: 176px; padding: 16px 13px 14px;
-          background: linear-gradient(180deg, #FFFFFF 0%, #F7F6F1 100%);
-          font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 10px; line-height: 1.6; color: #2A2A2A;
-          animation: printOut 1.4s steps(18) .3s both;
+        /* vectordrop: loose lego bricks */
+        .lego-obj { display: flex; flex-direction: column; align-items: center; }
+        .lego-svg { display: block; overflow: visible; }
+        .pos-stats .sticker { filter: drop-shadow(0 4px 6px rgba(0,0,0,.18)); }
+        .lb { transform-box: fill-box; transform-origin: center; transform: translate(var(--sx), var(--sy)) rotate(var(--sr));
+          transition: transform .7s cubic-bezier(.3,1.35,.5,1); transition-delay: calc(var(--d) * 8ms); }
+        .lego-svg.built .lb { transform: none; transition-delay: calc(var(--d) * 22ms); }
+        .egg-inner:hover .lego-svg:not(.built) .lb, .egg-inner:focus .lego-svg:not(.built) .lb { transform: translate(var(--sx), calc(var(--sy) - 3px)) rotate(calc(var(--sr) + 6deg)); }
+        .built-open .egg-note { opacity: 0 !important; }
+
+        /* config frame (toggled by the badge) */
+        .cfg-frame { position: absolute; inset: 0; z-index: 90; pointer-events: none; }
+        .cfg-checker { position: absolute; inset: 0; border-radius: 22px; padding: 16px;
+          background: repeating-conic-gradient(var(--f1) 0 25%, var(--f2) 0 50%) 0 0 / 32px 32px;
+          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+          clip-path: inset(50% 50% 50% 50% round 22px); transition: clip-path .7s cubic-bezier(.6,0,.2,1); }
+        .cfg-frame.on .cfg-checker { clip-path: inset(0 0 0 0 round 22px); }
+        .cfg-frame .chip, .cfg-chip { font-size: 11px; opacity: 0; scale: .2; transition: opacity .2s, scale .45s cubic-bezier(.3,1.7,.5,1); transition-delay: 0s; }
+        .cfg-frame.on .chip, .cfg-frame.on .cfg-chip { opacity: 1; scale: 1; transition-delay: calc(.45s + var(--i) * 90ms); }
+        .cfg-chip { position: absolute; left: 30px; top: 4px; display: flex; align-items: center; rotate: -3deg; }
+        .cfg-word { background: #0A0A0A; color: #fff; font-size: 20px; padding: 2px 7px; letter-spacing: -.03em; }
+        .cfg-year { background: #0A0A0A; color: #fff; font-size: 20px; padding: 2px 10px; border-radius: 999px; letter-spacing: -.03em; }
+        @media (max-width: 760px) {
+          .cfg-checker { padding: 9px; background-size: 18px 18px; }
+          .cfg-frame .chip { font-size: 8px; }
+          .cfg-word, .cfg-year { font-size: 14px; }
+          .cfg-chip { left: auto; right: 14px; top: auto; bottom: 2px; }
+          .cfg-frame > .chip:nth-of-type(2), .cfg-frame > .chip:nth-of-type(3), .cfg-frame > .chip:nth-of-type(5) { display: none; } /* keep the edges clear on a small screen */
         }
-        @keyframes printOut { from { clip-path: inset(0 0 100% 0); } }
-        .rc-rule { border-top: 1.5px dashed #9A9A9A; margin: 6px 0; }
-        .rc-row { display: flex; align-items: baseline; gap: 4px; }
-        .rc-dots { flex: 1; border-bottom: 1px dotted #B4B4B4; transform: translateY(-3px); }
-        .rc-stamp {
-          position: absolute; right: 12px; bottom: 30px; padding: 3px 7px;
-          font: 700 15px/1 ui-monospace, Menlo, monospace; letter-spacing: .06em;
-          color: ${FIG.red}; border: 2.5px solid ${FIG.red}; border-radius: 4px;
-          mix-blend-mode: multiply; opacity: 0; transform: rotate(-14deg) scale(1.8);
-          transition: opacity .15s, transform .25s cubic-bezier(.3,1.6,.5,1);
-          pointer-events: none;
-        }
-        .receipt-wrap:hover .rc-stamp, .receipt-wrap:focus .rc-stamp { opacity: .85; transform: rotate(-14deg) scale(1); }
 
         /* config badge */
         .badge-wrap { outline: none; transform-origin: 50% 0; animation: swing 4s ease-in-out infinite; cursor: pointer; }
@@ -930,11 +1484,32 @@ export default function CrispContent() {
         @keyframes draw { to { stroke-dashoffset: 0; } }
         .checker {
           position: absolute; left: 0; right: 0; bottom: 0; height: 66px;
-          background: repeating-conic-gradient(${BADGE.orange} 0 25%, ${BADGE.lime} 0 50%) 0 0 / 52px 30px;
+          background: repeating-conic-gradient(var(--f1) 0 25%, var(--f2) 0 50%) 0 0 / 52px 30px;
+          transition: --f1 .6s ease, --f2 .6s ease;
         }
         .chip { font-size: 7.5px; letter-spacing: .05em; white-space: nowrap; line-height: 1; transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
 
         /* selection frame */
+        /* title garden */
+        .title-frame { cursor: pointer; outline: none; }
+        .title-frame h1 { position: relative; }
+        .garden { position: absolute; z-index: 2; overflow: visible; pointer-events: none; transition: opacity .4s, transform .45s ease-in; }
+        .garden { transform-origin: 50% 50%; }
+        .garden.wither { transform: scale(var(--gsx), var(--gsy)); transition: transform 1.6s cubic-bezier(.45,0,.4,1); }
+        .garden.wither .g-vine { stroke-dashoffset: 0; animation: gRetract 1.3s cubic-bezier(.5,0,.6,1) forwards; }
+        .garden.wither .g-pop { transform: scale(1); animation: gUnpop .35s cubic-bezier(.5,0,.8,.4) forwards; }
+        @keyframes gRetract { from { stroke-dashoffset: 0; } 92% { opacity: .9; } to { stroke-dashoffset: 1; opacity: 0; } }
+        @keyframes gUnpop { from { transform: scale(1); } to { transform: scale(0); } }
+        .g-vine { fill: none; opacity: .9; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: gGrow 1.4s cubic-bezier(.35,.1,.25,1) forwards; }
+        @keyframes gGrow { to { stroke-dashoffset: 0; } }
+        .g-pop { transform-box: fill-box; transform-origin: 0 50%; transform: scale(0); animation: gPop .45s cubic-bezier(.3,1.7,.5,1) forwards; }
+        .g-rose { transform-origin: center; }
+        @keyframes gPop { to { transform: scale(1); } }
+        .hint-tap { display: none; }
+        .sel-hint { position: absolute; right: -2px; top: -26px; font-family: var(--font-hand), cursive; font-size: 17px; color: ${FIG.ink}; white-space: nowrap; opacity: 0; transform: translateY(4px) rotate(-2deg); transition: opacity .25s, transform .25s; }
+        .title-frame:hover .sel-hint, .title-frame:focus-visible .sel-hint { opacity: 1; transform: rotate(-2deg); }
+        .title-frame .sel { transition: inset 1.6s cubic-bezier(.45,0,.4,1); } /* shrink back with the retracting vines */
+        .title-frame.grown .sel { transition: inset .45s cubic-bezier(.3,1.5,.5,1); inset: -${10 + FRAME_GROW}px -${14 + FRAME_GROW}px; }
         .sel { position: absolute; inset: -10px -14px; border: 1.5px solid ${FIG.select}; pointer-events: none; }
         .sel i { position: absolute; width: 8px; height: 8px; background: #fff; border: 1.5px solid ${FIG.select}; }
         .sel i:nth-child(1) { left: -5px; top: -5px; } .sel i:nth-child(2) { right: -5px; top: -5px; }
@@ -970,39 +1545,48 @@ export default function CrispContent() {
           .badge-name path { stroke-dashoffset: 0; }
         }
 
-        /* ── Mobile: compact one-fold ── */
-        .touch-hint { display: none; }
-
         /* ── Phones: a composed one-screen layout (items are scaled with the scale property, which Drag compensates for) ── */
         @media (max-width: 760px) {
           .hide-mobile { display: none !important; }
           .window { min-height: 600px !important; }
 
-          /* top band: badge hanging top-left, bragging widget top-right, mic tucked under it */
+          /* top band: badge hanging top-left, bragging widget top-right, jigglypuff centred under them */
           .pos-badge    { left: 16px !important; top: -6px !important; scale: .56; transform-origin: top left; }
-          .pos-rc       { left: auto !important; right: 6px; top: 14px !important; scale: .66; transform-origin: top right; }
-          .pos-mic      { left: auto !important; right: 26%; top: 17% !important; scale: .5; transform-origin: top left; }
+          .pos-rc       { left: auto !important; right: 6px; top: 14px !important; scale: .8; transform-origin: top right; }
+          .pos-mic      { left: 50% !important; margin-left: -48px; top: 13% !important; scale: .6; --k: .6; transform-origin: top center; } /* 96px wide, centred above the name */
 
           /* centre: name + CTAs */
           .center-text  { top: 41% !important; width: calc(100% - 28px) !important; }
           .title-huge   { font-size: clamp(32px, 9.4vw, 42px) !important; }
-          .center-text p:first-of-type { margin: 14px 0 16px !important; font-size: 15px !important; }
+          .sel-name { font-size: 9px; top: -17px; }
+          .sel-dim { display: none; } /* would sit on the tagline at this size */
+          .sel-hint { font-size: 14px; top: -21px; opacity: .85; transform: rotate(-2deg); }
+          .hint-click { display: none; } .hint-tap { display: inline; }
+          /* kaomoji tucked into the gaps of the phone layout */
+          .kao-pos .kao { font-size: 12px; }
+          .kao-1 { left: 7% !important; top: 22% !important; }
+          .kao-2 { left: 44% !important; top: 93% !important; }
+          .kao-3 { left: 40% !important; top: 56% !important; }
+          .kao-4 { left: auto !important; right: 7%; top: 19% !important; }
+          .center-text p:first-of-type { margin: 30px 0 16px !important; font-size: 15px !important; }
           .cta { font-size: 15px; padding: 11px 20px; min-height: 44px; touch-action: manipulation; }
-          .touch-hint { display: block; margin: 10px 0 0; font-family: var(--font-hand), cursive; font-size: 17px; color: ${FIG.ink}; }
 
           /* bottom collage */
-          .pos-stats    { left: 3% !important;  top: 59% !important; scale: .6;  transform-origin: top left; }
-          .pos-quill    { left: 35% !important; top: 61% !important; scale: .5;  transform-origin: top left; }
-          .pos-mountain { left: auto !important; right: 3%; top: 60% !important; scale: .83; transform-origin: top right; }
-          .pos-vinyl    { left: 34% !important; top: 77% !important; scale: .52; transform-origin: top left; }
-          .pos-tal      { left: auto !important; right: 2%; top: 80% !important; scale: .58; transform-origin: top right; }
+          .pos-stats    { left: 3% !important;  top: 61% !important; scale: .62; --k: .62; transform-origin: top left; }
+          .pos-quill    { left: 45% !important; top: 72% !important; scale: .5; --k: .5;  transform-origin: top left; }
+          .pos-mountain { left: auto !important; right: 8%; top: 60% !important; scale: .66; --k: .66; transform-origin: top right; }
+          .pos-vinyl    { left: 8% !important; top: 83% !important; scale: .46; --k: .46; transform-origin: top left; }
+          .pos-tal      { left: auto !important; right: 2%; top: 78% !important; scale: .56; --k: .56; transform-origin: top right; }
 
           /* tap notes: stack under the object, wrap, never run off-screen */
-          .egg-note { font-size: 22px; white-space: normal; width: max-content; max-width: 240px; text-align: center; background: #fff; padding: 8px 14px 10px; border-radius: 14px; box-shadow: 0 10px 24px -8px rgba(0,0,0,.28), 0 0 0 1px rgba(0,0,0,.04); }
+          /* every note renders at the same on-screen size: divide by the item's scale (--k) */
+          .egg-note { font-size: calc(15.5px / var(--k, 1)); white-space: normal; width: max-content; max-width: calc(170px / var(--k, 1)); text-align: center; background: #fff; padding: calc(5px / var(--k, 1)) calc(11px / var(--k, 1)) calc(7px / var(--k, 1)); border-radius: calc(11px / var(--k, 1)); box-shadow: 0 10px 24px -8px rgba(0,0,0,.28), 0 0 0 1px rgba(0,0,0,.04); }
           .egg-note-left, .egg-note-right { left: 50%; right: auto; top: calc(100% + 6px); transform: translate(-50%, -6px) rotate(-3deg); }
           .egg-inner:focus .egg-note-left, .egg-inner:focus .egg-note-right { transform: translate(-50%, 0) rotate(-3deg); }
-          .pos-tal .egg-note, .pos-mountain .egg-note, .pos-vinyl .egg-note { left: auto; right: 0; transform: rotate(-3deg); text-align: right; }
-          .pos-tal .egg-note-left, .pos-mountain .egg-note-top { top: auto; bottom: calc(100% + 6px); }
+          .pos-tal .egg-note, .pos-mountain .egg-note { left: auto; right: 0; transform: rotate(-3deg); text-align: right; }
+          .pos-vinyl .egg-note { left: 0; right: auto; transform: rotate(-3deg); text-align: left; }
+          .pos-tal .egg-note-left, .pos-mountain .egg-note-top, .pos-vinyl .egg-note-left { top: auto; bottom: calc(100% + 6px); }
+          .crate { right: auto; top: auto; left: 50%; bottom: calc(100% + 4px); display: flex; gap: 8px; transform: translateX(-50%); }
 
           /* popup: swipeable carousel instead of a long stack */
           .rc-overlay { padding: 12px; }
@@ -1021,35 +1605,47 @@ export default function CrispContent() {
 
         /* tall phones (iPhone 14/15/Pro Max, Pixels): fill the extra height with bigger objects */
         @media (max-width: 760px) and (min-height: 780px) {
-          .pos-stats    { top: 58% !important; scale: .7; }
-          .pos-quill    { top: 60% !important; left: 36% !important; scale: .56; }
-          .pos-mountain { top: 59% !important; scale: .97; }
-          .pos-vinyl    { top: 76% !important; scale: .62; left: 32% !important; }
-          .pos-tal      { top: 81% !important; scale: .66; }
-          .pos-mic      { top: 18% !important; scale: .56; }
+          .pos-stats    { top: 60% !important; scale: .7; --k: .7; }
+          .pos-quill    { top: 73% !important; left: 45% !important; scale: .56; --k: .56; }
+          .pos-mountain { top: 59% !important; scale: .76; --k: .76; }
+          .pos-vinyl    { top: 84.5% !important; left: 10% !important; scale: .5; --k: .5; }
+          .pos-tal      { top: 78% !important; scale: .62; --k: .62; }
+          .pos-mic      { top: 14% !important; scale: .68; --k: .68; }
         }
 
         /* very short phones (iPhone SE / landscape-ish): tighten the centre */
         @media (max-width: 760px) and (max-height: 700px) {
           .center-text { top: 40% !important; }
           .title-huge { font-size: clamp(30px, 9vw, 38px) !important; }
-          .touch-hint { display: none; }
-          .pos-vinyl { top: 78% !important; scale: .46; }
-          .pos-tal { top: 82% !important; scale: .52; }
-          .pos-mic { top: 14% !important; right: 30%; scale: .44; }
+          .pos-vinyl { top: 83% !important; scale: .42; --k: .42; }
+          .pos-tal { top: 76% !important; scale: .5; --k: .5; }
+          .pos-mic { top: 11% !important; scale: .54; --k: .54; }
+          .kao-1 { left: 8% !important; top: 77% !important; }
+          .kao-4 { display: none; } /* no free spot on a short screen */
         }
       `}</style>
 
       {/* ═══════ SKY with drifting clouds (fixed, behind everything) ═══════ */}
       <div className="sky" aria-hidden="true">
+        {/* pocketful of sunshine: bright morning sun */}
+        <div className="scene scene-sunshine">
+          <div className="morning-rays" />
+          <div className="morning-sun" />
+        </div>
         <div className="cloud cloud-b" />
         <div className="cloud cloud-a" />
+        {/* mystery of love: a soft pastel sunset photo (with its two birds) over the clouds */}
+        <div className="scene scene-mystery sunset-photo" />
       </div>
 
       {/* ═══════ DESKTOP CANVAS — a rounded window floating on the sky ═══════ */}
       <main
         className="window"
         style={{
+          ...(() => {
+            const [f1, f2] = FRAME_PALETTES[Math.max(0, framePalette - 1) % FRAME_PALETTES.length]
+            return { '--f1': f1, '--f2': f2 } as React.CSSProperties
+          })(),
           position: 'relative',
           zIndex: 1,
           height: 'calc(100svh - max(var(--gut), env(safe-area-inset-top)) - max(var(--gut), env(safe-area-inset-bottom)))',
@@ -1066,6 +1662,7 @@ export default function CrispContent() {
           color: '#0A0A0A',
         }}
       >
+        <ConfigFrame on={configFrame} />
         <div style={{ position: 'relative', height: '100%' }}>
 
           {/* ═══════ Multiplayer cursors ═══════ */}
@@ -1073,17 +1670,18 @@ export default function CrispContent() {
           <Cursor name="you?" color={FIG.green} className="cur-b hide-mobile" />
 
           {/* ═══════ KAOMOJI ═══════ */}
-          <span className="kao hide-mobile" style={{ top: '24%', left: '31%' }}>{`^ ω ^`}</span>
-          <span className="kao hide-mobile" style={{ top: '74%', right: '30%' }}>{`¯\\_(ツ)_/¯`}</span>
-          <span className="kao hide-mobile" style={{ top: '62%', left: '28%' }}>{`(¬_¬)`}</span>
-          <span className="kao hide-mobile" style={{ top: '52%', right: '22%' }}>{`{ ^-^ }`}</span>
+          {/* kaomoji: draggable like everything else */}
+          <Drag x="31%" y="24%" z={6} className="kao-pos kao-1"><Kao frames={['^ ω ^', '^ ▽ ^', '^ ω ^', '> ω <']} delay={0} /></Drag>
+          <Drag x="calc(67% - 110px)" y="88%" z={6} className="kao-pos kao-2"><Kao frames={['¯\\_(ツ)_/¯', '¯\\_(ツ)_/¯', '\\_(ツ)_/']} delay={0.6} /></Drag>
+          <Drag x="28%" y="62%" z={6} className="kao-pos kao-3"><Kao frames={['(¬_¬)', '(¬_¬ )', '( ¬_¬)', '(¬_¬)', '(-_-)']} delay={1.1} /></Drag>
+          <Drag x="calc(74% - 70px)" y="30%" z={6} className="kao-pos kao-4"><Kao frames={['{ ^-^ }', '{ ^o^ }', '{ ^-^ }', '{ -‿- }']} delay={1.7} /></Drag>
 
           {/* ═══════ LEFT ═══════ */}
 
           {/* Singing */}
-          <Egg x="17%" y="24%" rot={-6} className="pos-mic" side="bottom" label="microphone — about singing"
+          <Egg x="16%" y="24%" rot={-6} className="pos-mic" side="bottom" label="jigglypuff singing — about singing"
             note={<>i <u>sing</u>!<br />ask me for a song</>}>
-            <MicPhoto />
+            <SingingPuff />
           </Egg>
 
           {/* Quilling */}
@@ -1092,13 +1690,11 @@ export default function CrispContent() {
             <QuilledMinion />
           </Egg>
 
-          {/* vectordrop stats receipt */}
-          <Drag x="13%" y="56%" rot={-3} z={14} className="pos-stats">
-            <Receipt />
-          </Drag>
+          {/* vectordrop, in lego */}
+          <VectordropCorner />
 
           {/* Mountains */}
-          <Egg x="40%" y="78%" rot={-5} className="pos-mountain" side="top" label="mountain postcards — two of my photos"
+          <Egg x="30%" y="74%" rot={-5} className="pos-mountain" side="top" label="mountain postcards — two of my photos"
             note={<>happiest in the <u>mountains</u></>}>
             <MountainPostcard />
           </Egg>
@@ -1106,20 +1702,14 @@ export default function CrispContent() {
           {/* ═══════ RIGHT ═══════ */}
 
           {/* Music */}
-          <Egg x="calc(100% - 190px)" y="46%" rot={0} className="pos-vinyl" side="left" label="cassette walkman — music"
-            note={<>music on,<br /><u>always</u></>}>
-            <WalkmanPhoto />
-          </Egg>
+          <MusicCorner />
 
           {/* Talindrew */}
-          <Egg x="calc(100% - 330px)" y="76%" rot={-4} className="pos-tal" side="left" label="talindrew — microscope slide"
-            note={TALINDREW_NOTE}>
-            <MicroscopeSlide />
-          </Egg>
+          <LabCorner />
 
           {/* ═══════ Config badge hanging from the top edge ═══════ */}
           <div className="pos-badge" style={{ position: 'absolute', top: -6, left: 'calc(100% - 300px)', zIndex: 110 }}>
-            <ConfigBadge />
+            <ConfigBadge on={configFrame} onToggle={toggleFrame} />
           </div>
 
           {/* ═══════ CENTER SPINE ═══════ */}
@@ -1135,7 +1725,16 @@ export default function CrispContent() {
               zIndex: 100,
             }}
           >
-            <div style={{ position: 'relative', display: 'inline-block' }}>
+            <div
+              className={`title-frame${garden && !withering ? ' grown' : ''}`}
+              role="button"
+              tabIndex={0}
+              aria-label={garden ? 'heading garden — click to regrow' : 'heading — click to grow a garden'}
+              onClick={bloom}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); bloom() } }}
+              style={{ position: 'relative', display: 'inline-block' }}
+            >
+              {garden > 0 && titleSize && <TitleGarden key={garden} seed={garden} w={titleSize.w} h={titleSize.h} withering={withering} />}
               <h1
                 ref={titleRef}
                 className="title-huge"
@@ -1150,17 +1749,18 @@ export default function CrispContent() {
               >
                 bello! I&apos;m neelakshi
               </h1>
-              <div className="sel hide-mobile" aria-hidden="true">
+              <div className="sel" aria-hidden="true">
                 <i /><i /><i /><i />
                 <span className="sel-name"># hello-config</span>
+                {!garden && <span className="sel-hint"><span className="hint-click">click</span><span className="hint-tap">tap</span> to bloom ✿</span>}
                 {titleSize && (
-                  <span className="sel-dim">{Math.round(titleSize.w)} × {Math.round(titleSize.h)}</span>
+                  <span className="sel-dim">{Math.round(titleSize.w + (garden && !withering ? FRAME_GROW * 2 : 0))} × {Math.round(titleSize.h + (garden && !withering ? FRAME_GROW * 2 : 0))}</span>
                 )}
               </div>
             </div>
 
             <p style={{ fontSize: 'clamp(16px, 1.6vw, 22px)', color: '#1A1A1A', margin: '38px 0 22px', lineHeight: 1.3 }}>
-              a design engineer fluent in ai, design and the web
+              i design, build &amp; ship ~ with ai as my sidekick
             </p>
 
             <div style={{ display: 'flex', justifyContent: 'center', gap: 12, flexWrap: 'wrap' }}>
@@ -1178,7 +1778,6 @@ export default function CrispContent() {
               {' '}· prev{' '}
               <a href="https://cosx.ai" target="_blank" rel="noopener noreferrer" style={{ color: '#9A9A9A', textDecoration: 'none' }}>@cosx.ai</a>
             </p>
-            <p className="touch-hint">tap &amp; drag the little things ✦</p>
           </div>
 
           {/* Recognition corner widget */}
