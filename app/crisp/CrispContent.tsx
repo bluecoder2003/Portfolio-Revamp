@@ -29,6 +29,41 @@ function Kao({ frames, delay }: { frames: string[]; delay: number }) {
   return <span className="kao" style={{ animationDelay: `${-delay}s` }}>{frames[i]}</span>
 }
 
+// ─── Tiny UI sounds, synthesised with Web Audio (no files) ─────────────────────
+type Sfx = 'pick' | 'drop' | 'pop' | 'click' | 'chime' | 'zoom' | 'snap' | 'grow' | 'off'
+let audioCtx: AudioContext | null = null
+function tone(ctx: AudioContext, t: number, f0: number, f1: number, dur: number, vol: number, type: OscillatorType = 'sine') {
+  const o = ctx.createOscillator(), g = ctx.createGain()
+  o.type = type
+  o.frequency.setValueAtTime(f0, t)
+  o.frequency.exponentialRampToValueAtTime(f1, t + dur)
+  g.gain.setValueAtTime(0.0001, t)
+  g.gain.exponentialRampToValueAtTime(vol, t + 0.008)
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur)
+  o.connect(g).connect(ctx.destination)
+  o.start(t)
+  o.stop(t + dur + 0.02)
+}
+function sfx(kind: Sfx) {
+  try {
+    audioCtx ??= new AudioContext()
+    const ctx = audioCtx
+    if (ctx.state === 'suspended') ctx.resume()
+    const t = ctx.currentTime
+    switch (kind) {
+      case 'pick': return tone(ctx, t, 420, 640, 0.07, 0.05, 'triangle')          // lift off the canvas
+      case 'drop': return tone(ctx, t, 260, 150, 0.09, 0.07, 'triangle')         // set down
+      case 'pop': return tone(ctx, t, 520, 980, 0.08, 0.06)                       // generic tap
+      case 'click': tone(ctx, t, 1400, 900, 0.03, 0.05, 'square'); return tone(ctx, t + 0.05, 900, 700, 0.04, 0.03, 'square')
+      case 'off': return tone(ctx, t, 600, 260, 0.12, 0.05)
+      case 'chime': [784, 988, 1319].forEach((f, i) => tone(ctx, t + i * 0.07, f, f, 0.35, 0.045)); return
+      case 'zoom': return tone(ctx, t, 300, 1200, 0.22, 0.04, 'sine')
+      case 'snap': for (let i = 0; i < 6; i++) tone(ctx, t + i * 0.06, 1100 + i * 90, 700, 0.035, 0.05, 'square'); return
+      case 'grow': [523, 659, 784, 1047].forEach((f, i) => tone(ctx, t + i * 0.09, f, f * 1.01, 0.28, 0.035, 'triangle')); return
+    }
+  } catch { /* audio unavailable — stay silent */ }
+}
+
 // ─── Pointer-capture drag ─────────────────────────────────────────────────────
 function Drag({
   children, x, y, rot = 0, z = 10, className, onTap,
@@ -42,7 +77,7 @@ function Drag({
   onTap?: () => void // fired on pointer-up when the pointer barely moved (capture swallows child clicks)
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  const s = useRef({ drag: false, px: 0, py: 0, ox: 0, oy: 0, cx: 0, cy: 0, k: 1 })
+  const s = useRef({ drag: false, moved: false, px: 0, py: 0, ox: 0, oy: 0, cx: 0, cy: 0, k: 1 })
 
   return (
     <div
@@ -65,6 +100,7 @@ function Drag({
         el.setPointerCapture(e.pointerId)
         s.current = {
           drag: true,
+          moved: false,
           px: e.clientX, py: e.clientY,
           ox: s.current.cx, oy: s.current.cy,
           cx: s.current.cx, cy: s.current.cy,
@@ -79,11 +115,13 @@ function Drag({
         if (!st.drag || !ref.current) return
         st.cx = st.ox + (e.clientX - st.px) / st.k
         st.cy = st.oy + (e.clientY - st.py) / st.k
+        if (!st.moved && Math.hypot(st.cx - st.ox, st.cy - st.oy) >= 4) { st.moved = true; sfx('pick') }
         ref.current.style.transform = `translate(${st.cx}px,${st.cy}px) rotate(${rot}deg)`
       }}
       onPointerUp={() => {
         const st = s.current
-        if (st.drag && onTap && Math.hypot(st.cx - st.ox, st.cy - st.oy) < 4) onTap()
+        if (st.drag && st.moved) sfx('drop')
+        else if (st.drag) { if (onTap) onTap(); else sfx('pop') }
         st.drag = false
         if (ref.current) {
           ref.current.style.cursor = 'grab'
@@ -393,7 +431,7 @@ function MusicCorner() {
   return (
     <Egg x="calc(100% - 250px)" y="46%" rot={0} z={open ? 300 : 12} className={`pos-vinyl${open ? ' crate-open' : ''}`} side="left"
       label={playing && cd ? `record player — playing ${cd.title} by ${cd.artist}, press to stop` : 'record player — press to pick a cd'}
-      onTap={() => (playing ? stop() : setOpen((o) => !o))}
+      onTap={() => { sfx(playing ? 'off' : 'click'); if (playing) stop(); else setOpen((o) => !o) }}
       note={note}>
       <div ref={root} className="obj">
         <div className="crate" role="group" aria-label="cd stack" aria-hidden={!open}>
@@ -404,7 +442,7 @@ function MusicCorner() {
               style={{ '--i': i, '--r': `${(i - (CDS.length - 1) / 2) * 4}deg` } as React.CSSProperties}
               tabIndex={open ? 0 : -1}
               onPointerDown={(e) => e.stopPropagation()}
-              onClick={() => spin(c)}
+              onClick={() => { sfx('pop'); spin(c) }}
               aria-label={`play ${c.title} by ${c.artist}`}
             >
               <span className="cd-disc" />
@@ -468,7 +506,7 @@ function strand(w: number, period: number, amp: number, mid: number) {
     a += `${x ? 'L' : 'M'}${x} ${y(x, 1).toFixed(1)} `
     b += `${x ? 'L' : 'M'}${x} ${y(x, -1).toFixed(1)} `
   }
-  const colors = [FIG.purple, FIG.blue, FIG.green, FIG.orange]
+  const colors = ['#F9A8C9', '#9FD8F0', '#B6E39A', '#FFD27A'] // washi-tape pastels
   const rungs = Array.from({ length: Math.floor(w / 6) }, (_, i) => {
     const x = 3 + i * 6
     // rounded so server and client render identical numbers (avoids hydration mismatch)
@@ -483,10 +521,10 @@ function Helix() {
   return (
     <svg className="helix" width={h.w} height="48" viewBox={`0 0 ${h.w} 48`} aria-hidden="true">
       {h.rungs.map((r) => (
-        <line key={r.x} x1={r.x} x2={r.x} y1={r.y1} y2={r.y2} stroke={r.c} strokeWidth="2.2" strokeLinecap="round" opacity=".9" />
+        <line key={r.x} x1={r.x} x2={r.x} y1={r.y1} y2={r.y2} stroke={r.c} strokeWidth="2.4" strokeLinecap="round" opacity=".75" />
       ))}
-      <path d={h.a} stroke="#7B4DFF" strokeWidth="2.6" fill="none" />
-      <path d={h.b} stroke="#1E88E5" strokeWidth="2.6" fill="none" />
+      <path d={h.a} stroke={FIG.ink} strokeWidth="2.2" fill="none" strokeLinecap="round" />
+      <path d={h.b} stroke="#7B6CF0" strokeWidth="2.2" fill="none" strokeLinecap="round" />
     </svg>
   )
 }
@@ -542,14 +580,14 @@ function LabCorner() {
   return (
     <Egg x="calc(100% - 400px)" y="62%" rot={0} z={on ? 300 : 12} className={`pos-tal${on ? ' zoomed' : ''}`} side="left"
       label={on ? 'talindrew microscope — showing a zoomed-in dna strand, press to close' : 'talindrew microscope — press to zoom in on dna'}
-      onTap={() => setOn((v) => !v)}
+      onTap={() => { sfx(on ? 'off' : 'zoom'); setOn((v) => !v) }}
       note={TALINDREW_NOTE}>
       <div className="obj lab">
         {/* zoomed-in view popping out of the eyepiece */}
         <div className={`lens${on ? ' on' : ''}`} aria-hidden={!on}>
           <div className="lens-view">
             <Helix />
-            <span className="lens-mag">×1000</span>
+            <span className="lens-mag">dna, ×1000</span>
           </div>
         </div>
         <Microscope on={on} />
@@ -610,7 +648,7 @@ function VectordropCorner() {
   return (
     <Egg x="6%" y="73%" rot={-3} z={built ? 300 : 14} className={`pos-stats${built ? ' built-open' : ''}`} side="right"
       label={built ? 'vectordrop — lego bricks snapped into a flower, press to scatter them' : 'vectordrop — lego bricks, press to build'}
-      onTap={() => setBuilt((v) => !v)}
+      onTap={() => { sfx(built ? 'drop' : 'snap'); setBuilt((v) => !v) }}
       note={<>i built <u>vectordrop</u>:<br />image → vector ✦</>}>
       <div className="obj lego-obj">
         <LegoBuild built={built} />
@@ -1113,6 +1151,7 @@ export default function CrispContent() {
   const [garden, setGarden] = useState(0) // 0 = bare; each click grows a new garden seed
   const [withering, setWithering] = useState(false)
   const bloom = () => {
+    sfx('grow')
     setWithering(false)
     setGarden((g) => (g ? g + 1 : 1 + Math.floor(Math.random() * 1000)))
   }
@@ -1126,6 +1165,7 @@ export default function CrispContent() {
   const [configFrame, setConfigFrame] = useState(false)
   const [framePalette, setFramePalette] = useState(0)
   const toggleFrame = () => {
+    sfx(configFrame ? 'off' : 'chime')
     // pick the next palette only when the frame comes back on, so it doesn't swap while closing
     if (!configFrame) setFramePalette((n) => n + 1)
     setConfigFrame((v) => !v)
@@ -1347,12 +1387,14 @@ export default function CrispContent() {
         .lens { position: absolute; right: calc(100% - 26px); top: -40px; display: flex; flex-direction: column; align-items: center; gap: 8px;
           opacity: 0; transform: translate(50px, 30px) scale(.25); transform-origin: 100% 20%; pointer-events: none; transition: opacity .3s, transform .55s cubic-bezier(.3,1.4,.5,1); }
         .lens.on { opacity: 1; transform: none; pointer-events: auto; }
-        .lens-view { position: relative; width: 168px; height: 168px; border-radius: 50%; overflow: hidden; display: grid; place-items: center;
-          background: radial-gradient(circle, #FBFDF7 0 34%, #E3EFEE 64%, #BFD6D8 100%); border: 8px solid #1F2D33;
-          box-shadow: 0 18px 32px -12px rgba(0,0,0,.45), inset 0 0 26px rgba(20,60,70,.35); }
-        .lens-view::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.55), transparent 32%); pointer-events: none; }
-        .lens-view .helix { scale: 1.9; }
-        .lens-mag { position: absolute; bottom: 16px; left: 50%; translate: -50% 0; font-size: 10px; letter-spacing: .08em; color: #1F2D33; opacity: .55; }
+        /* magnified view: a cream paper disc with an ink ring, like the rest of the canvas */
+        .lens-view { position: relative; width: 128px; height: 128px; border-radius: 50%; overflow: hidden; display: grid; place-items: center;
+          background: #FDFBF6; background-image: radial-gradient(rgba(0,0,0,.05) 1px, transparent 1px); background-size: 6px 6px;
+          border: 4px solid #F1EADC; /* soft cream rim */
+          box-shadow: 0 0 0 1px rgba(31,45,51,.18), 0 12px 24px -12px rgba(40,30,10,.3), inset 0 0 0 1px rgba(31,45,51,.12), inset 0 0 18px rgba(237,228,211,.9); }
+        .lens-view::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 30% 24%, rgba(255,255,255,.7), transparent 26%); pointer-events: none; }
+        .lens-view .helix { scale: 1.4; rotate: -8deg; }
+        .lens-mag { position: absolute; bottom: 12px; left: 50%; translate: -50% 0; rotate: -3deg; font-family: var(--font-hand), cursive; font-size: 13px; line-height: 1; color: ${FIG.ink}; white-space: nowrap; }
         .egg-link { color: #2F6BFF; text-decoration: none; border-bottom: 1px dashed rgba(47,107,255,.5); cursor: pointer; }
         .egg-link { display: inline-block; margin-top: 8px; font-size: 12px; }
         .egg-link:hover { border-bottom-style: solid; }
@@ -1540,6 +1582,46 @@ export default function CrispContent() {
         .pin-av { flex: none; width: 24px; height: 24px; border-radius: 50%; background: ${FIG.purple}; color: #fff; font-size: 12px; display: grid; place-items: center; }
         .pin p { margin: 0; font-size: 12px; color: #222; white-space: nowrap; }
 
+        /* ── First load: sky → window → name → objects, each settling in softly ──
+           only opacity / translate / rotate / blur are animated (independent of the
+           transform, scale and position each element already uses), so nothing jumps */
+        .sky { animation: skyIn 1.2s ease-out both; }
+        @keyframes skyIn { from { opacity: 0; } }
+        .window { animation: windowIn 1.1s cubic-bezier(.16,1,.3,1) .1s both; }
+        @keyframes windowIn { from { opacity: 0; translate: 0 28px; filter: blur(6px); } to { opacity: 1; translate: 0 0; filter: none; } }
+
+        .center-text > * { animation: riseIn 1s cubic-bezier(.16,1,.3,1) both; }
+        .center-text > :nth-child(1) { animation-delay: .45s; }
+        .center-text > :nth-child(2) { animation-delay: .6s; }
+        .center-text > :nth-child(3) { animation-delay: .72s; }
+        .center-text > :nth-child(4) { animation-delay: .84s; }
+        @keyframes riseIn { from { opacity: 0; translate: 0 16px; filter: blur(8px); } to { opacity: 1; translate: 0 0; filter: none; } }
+        .center-text .sel { animation: selIn .6s cubic-bezier(.16,1,.3,1) .95s both; }
+        @keyframes selIn { from { opacity: 0; scale: .96; } to { opacity: 1; scale: 1; } }
+
+        .stage > :not(.center-text) { animation: dropIn 1.05s cubic-bezier(.2,1.25,.35,1) both; animation-delay: calc(.95s + var(--in, 10) * 85ms); }
+        @keyframes dropIn {
+          from { opacity: 0; translate: 0 26px; rotate: -5deg; filter: blur(10px); }
+          60% { opacity: 1; filter: blur(0); }
+          to { opacity: 1; translate: 0 0; rotate: 0deg; filter: none; }
+        }
+        .stage > .pos-badge { --in: 0; animation-name: badgeDrop; }
+        @keyframes badgeDrop { from { opacity: 0; translate: 0 -60px; } 70% { opacity: 1; } to { opacity: 1; translate: 0 0; } }
+        .stage > .pos-rc { --in: 1; }
+        .stage > .pos-mic { --in: 2; }
+        .stage > .pos-quill { --in: 3; }
+        .stage > .pos-stats { --in: 4; }
+        .stage > .pos-mountain { --in: 5; }
+        .stage > .pos-vinyl { --in: 6; }
+        .stage > .pos-tal { --in: 7; }
+        .stage > .kao-pos { --in: 9; }
+        .stage > .kao-2, .stage > .kao-4 { --in: 10; }
+        /* cursors and the comment pin keep their own loops; fade them in first */
+        .stage > .cur-a { animation: fadeIn .8s ease-out 2.1s both, curA 22s ease-in-out 2.1s infinite; }
+        .stage > .cur-b { animation: fadeIn .8s ease-out 2.3s both, curB 27s ease-in-out 2.3s infinite; }
+        .stage > .pin { --in: 12; }
+        @keyframes fadeIn { from { opacity: 0; } }
+
         @media (prefers-reduced-motion: reduce) {
           *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
           .badge-name path { stroke-dashoffset: 0; }
@@ -1582,7 +1664,7 @@ export default function CrispContent() {
           /* top band: badge hanging top-left, bragging widget top-right, jigglypuff centred under them */
           .pos-badge    { left: 16px !important; top: -6px !important; scale: .56; transform-origin: top left; }
           .pos-rc       { left: auto !important; right: 6px; top: 14px !important; scale: .8; transform-origin: top right; }
-          .pos-mic      { left: 50% !important; margin-left: -48px; top: 13% !important; scale: .6; --k: .6; transform-origin: top center; } /* 96px wide, centred above the name */
+          .pos-mic      { left: auto !important; right: 9%; top: 62% !important; scale: .6; --k: .6; transform-origin: top right; } /* lower right, where the mountain prints were */
 
           /* centre: name + CTAs */
           .center-text  { top: 41% !important; width: calc(100% - 28px) !important; }
@@ -1591,7 +1673,7 @@ export default function CrispContent() {
           .sel-dim { display: none; } /* would sit on the tagline at this size */
           .sel-hint { font-size: 14px; top: -21px; opacity: .85; transform: rotate(-2deg); }
           .hint-click { display: none; } .hint-tap { display: inline; }
-          .pos-mic, .pos-mountain { display: none !important; } /* phone only: jigglypuff + mountain prints stay on tablet/desktop */
+          .pos-mountain { display: none !important; } /* phone only: mountain prints stay on tablet/desktop */
           /* kaomoji tucked into the gaps of the phone layout */
           .kao-pos .kao { font-size: 12px; }
           .kao-1 { left: 7% !important; top: 22% !important; }
@@ -1640,18 +1722,19 @@ export default function CrispContent() {
           .pos-mountain { top: 59% !important; scale: .76; --k: .76; }
           .pos-vinyl    { top: 84.5% !important; left: 10% !important; scale: .5; --k: .5; }
           .pos-tal      { top: 78% !important; scale: .62; --k: .62; }
-          .pos-mic      { top: 14% !important; scale: .68; --k: .68; }
+          .pos-mic      { top: 62% !important; scale: .68; --k: .68; }
         }
 
         /* very short phones (iPhone SE / landscape-ish): tighten the centre */
         @media (max-width: 760px) and (max-height: 700px) {
-          .center-text { top: 40% !important; }
+          .center-text { top: 44% !important; }
           .title-huge { font-size: clamp(30px, 9vw, 38px) !important; }
           .pos-vinyl { top: 83% !important; scale: .42; --k: .42; }
           .pos-tal { top: 76% !important; scale: .5; --k: .5; }
-          .pos-mic { top: 11% !important; scale: .54; --k: .54; }
+          .pos-mic { top: 61% !important; scale: .54; --k: .54; }
           .kao-1 { left: 8% !important; top: 77% !important; }
           .kao-4 { display: none; } /* no free spot on a short screen */
+          .kao-3 { top: 60% !important; left: 46% !important; }
         }
       `}</style>
 
@@ -1693,7 +1776,7 @@ export default function CrispContent() {
         }}
       >
         <ConfigFrame on={configFrame} />
-        <div style={{ position: 'relative', height: '100%' }}>
+        <div className="stage" style={{ position: 'relative', height: '100%' }}>
 
           {/* ═══════ Multiplayer cursors ═══════ */}
           <Cursor name="neelakshi" color={FIG.purple} className="cur-a hide-mobile" />
@@ -1812,7 +1895,7 @@ export default function CrispContent() {
 
           {/* Recognition corner widget */}
           <div className="pos-rc" style={{ position: 'absolute', left: '36%', top: '5%', zIndex: 120 }}>
-            <RecognitionWidget onOpen={() => setShowWins(true)} />
+            <RecognitionWidget onOpen={() => { sfx('chime'); setShowWins(true) }} />
           </div>
 
           {/* FigJam comment pin */}
