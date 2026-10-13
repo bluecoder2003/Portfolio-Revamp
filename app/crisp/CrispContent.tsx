@@ -985,7 +985,7 @@ export default function CrispContent() {
 
           /* centre: name + CTAs */
           .center-text  { top: 41% !important; width: calc(100% - 28px) !important; }
-          .title-huge   { font-size: clamp(40px, 12.4vw, 56px) !important; }
+          .title-huge   { font-size: clamp(32px, 9.4vw, 42px) !important; }
           .center-text p:first-of-type { margin: 14px 0 16px !important; font-size: 15px !important; }
           .cta { font-size: 15px; padding: 11px 20px; min-height: 44px; touch-action: manipulation; }
           .touch-hint { display: block; margin: 10px 0 0; font-family: var(--font-hand), cursive; font-size: 17px; color: ${FIG.ink}; }
@@ -1032,7 +1032,7 @@ export default function CrispContent() {
         /* very short phones (iPhone SE / landscape-ish): tighten the centre */
         @media (max-width: 760px) and (max-height: 700px) {
           .center-text { top: 40% !important; }
-          .title-huge { font-size: clamp(38px, 11.5vw, 50px) !important; }
+          .title-huge { font-size: clamp(30px, 9vw, 38px) !important; }
           .touch-hint { display: none; }
           .pos-vinyl { top: 78% !important; scale: .46; }
           .pos-tal { top: 82% !important; scale: .52; }
@@ -1140,7 +1140,7 @@ export default function CrispContent() {
                 ref={titleRef}
                 className="title-huge"
                 style={{
-                  fontSize: 'clamp(44px, 9vw, 128px)',
+                  fontSize: 'clamp(34px, 5.6vw, 80px)',
                   lineHeight: 0.95,
                   fontWeight: 500,
                   letterSpacing: '-0.045em',
@@ -1148,7 +1148,7 @@ export default function CrispContent() {
                   whiteSpace: 'nowrap',
                 }}
               >
-                neelakshi das
+                bello! I&apos;m neelakshi
               </h1>
               <div className="sel hide-mobile" aria-hidden="true">
                 <i /><i /><i /><i />
