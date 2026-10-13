@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { GeistPixelSquare } from "geist/font/pixel";
+import { Caveat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Preloader from "@/components/custom/Preloader";
 import "./globals.css";
+
+// Handwriting face for /crisp. Declared here (not in the page) so its @font-face CSS is always shipped;
+// the file itself only downloads on pages that use var(--font-hand).
+const hand = Caveat({ subsets: ["latin"], weight: ["500", "700"], variable: "--font-hand", display: "swap" });
 
 export const metadata: Metadata = {
   title: {
@@ -73,7 +78,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={GeistPixelSquare.variable}>
+    <html lang="en" className={`${GeistPixelSquare.variable} ${hand.variable}`}>
       <head>
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
