@@ -1104,7 +1104,16 @@ function growGarden(seed: number, w: number, h: number) {
 }
 
 const LEAF = 'M0 0 C5 -6 14 -7 22 0 C14 7 5 6 0 0Z'
-const ROSE_EDGE = wavy(9, 0.12)
+// wavy-edged rose as a plain svg path (foreignObject + css clip-path doesn't render in ios safari)
+const ROSE_PATH = (() => {
+  let d = ''
+  for (let i = 0; i <= 72; i++) {
+    const t = (i / 72) * Math.PI * 2
+    const r = 1 - 0.12 + 0.12 * Math.sin(9 * t)
+    d += `${i ? 'L' : 'M'}${(17 * r * Math.cos(t)).toFixed(2)} ${(16 * r * Math.sin(t)).toFixed(2)}`
+  }
+  return d + 'Z'
+})()
 function TitleGarden({ seed, w, h, withering }: { seed: number; w: number; h: number; withering: boolean }) {
   const g = growGarden(seed, w, h)
   const c = GARDENS[seed % GARDENS.length]
@@ -1133,9 +1142,7 @@ function TitleGarden({ seed, w, h, withering }: { seed: number; w: number; h: nu
       {g.roses.map((f, i) => (
         <g key={i} transform={`translate(${f.x.toFixed(1)} ${f.y.toFixed(1)}) rotate(${f.rot.toFixed(0)}) scale(${f.s.toFixed(2)})`}>
           <g className="g-pop g-rose" style={t(f.delay, (end - f.delay) * 0.5)}>
-            <foreignObject x="-17" y="-16" width="34" height="32">
-              <div style={{ width: '100%', height: '100%', background: c.flower, clipPath: ROSE_EDGE }} />
-            </foreignObject>
+            <path d={ROSE_PATH} fill={c.flower} />
             <path d="M0 0 c3 -1 4 3 1 5 c-5 2 -8 -3 -6 -7 c3 -6 12 -5 13 2 c1 7 -6 12 -12 9" fill="none" stroke={c.swirl} strokeWidth="1.6" strokeLinecap="round" />
           </g>
         </g>
