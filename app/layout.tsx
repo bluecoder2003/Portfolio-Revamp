@@ -104,12 +104,7 @@ export default function RootLayout({
         {/* Resource hints for better caching */}
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
 
-        {/* Explicit OG Image Meta Tags (Fallback) */}
-        <meta property="og:image" content="https://dasneelakshi.com/og-image.png" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Neelakshi Das — Design Engineer" />
-        <meta name="twitter:image" content="https://dasneelakshi.com/og-image.png" />
+        {/* og/twitter image tags come from `metadata` (and per-page overrides, e.g. /crisp) */}
       </head>
       <body className="antialiased">
         <script
